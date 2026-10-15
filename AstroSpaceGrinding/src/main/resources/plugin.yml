@@ -1,0 +1,11 @@
+main: me.astropvp.astrospacegrinding.AstroSpaceGrindingPlugin
+name: AstroSpaceGrinding
+author: AstroPvP
+version: 1.0
+depend: [AstroSpawners]
+commands:
+  space:
+    description: /space
+  adminspace:
+    description: /adminspace
+    aliases: [aspace]

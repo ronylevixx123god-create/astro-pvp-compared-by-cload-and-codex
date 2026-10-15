@@ -1,0 +1,27 @@
+messages:
+  invalid-event-name: '&cInvalid event name'
+  events-help-message:
+    - '&7-- &aAstro Events &7--'
+    - '&astart &7<event> &8- &7starts an event'
+    - '&astop &7<event> &8- &7stops an event'
+    - '&alist &8- &7list of events'
+  parkour-help-message:
+    - '&7-- &aAstro Events &7--'
+    - '&aparkour join &8- &7teleport to the starting point'
+    - '&aparkour leave &8- &7leave the parkour event'
+  sumo-help-message:
+    - '&7-- &aAstro Events &7--'
+    - '&asumo join &8- &7teleport to the starting point'
+    - '&asumo leave &8- &7leave the sumo event'
+  event:
+    player-joined: '&6{player} &7Joined the {game} Event &8(&6{amount}&7/&6{max}&8)'
+    player-left: '&6{player} &7Left the {game} Event &8(&6{amount}&7/&6{max}&8)'
+    inventory-empty: '&8(&c!&8) &7You have to empty your inventory before joining
+      this event'
+    not-participant: '&8(&c!&8) &7You aren''t currently participating in this {game}
+      event'
+    full: '&8(&c!&8) &7The {game} event is currently full'
+    already-in-progress: '&8(&c!&8) &7The {game} event is already in progress'
+    not-started: '&8(&c!&8) &7The {game} event has not yet started'
+    list-header: '&8(&a!&8) &7Minigame List'
+    list-format: '&a* &7{event}'

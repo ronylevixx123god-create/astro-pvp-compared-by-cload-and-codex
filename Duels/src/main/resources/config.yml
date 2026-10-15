@@ -1,0 +1,13 @@
+sql:
+  hostname:
+  username: root
+  password:
+  database: duels
+Arenas:
+  test:
+    Icon: GRASS
+    Region: test
+    Description: 'The test description cause swag'
+    Spawns:
+      - 'world:-199:95:155'
+      - 'world:-199:95:151'

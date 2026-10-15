@@ -1,0 +1,9 @@
+name: NebulaShop
+main: net.astropvp.christmas.NebulaShop
+version: 1.0
+depend:
+  - Commons
+  - CosmicPvPUtils
+  - StorageUtil
+commands:
+  nebula:

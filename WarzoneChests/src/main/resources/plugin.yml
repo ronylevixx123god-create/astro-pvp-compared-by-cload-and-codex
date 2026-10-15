@@ -1,0 +1,5 @@
+name: AstroWarzoneChests
+main: net.crankedpvp.warzonechests.WarzoneChestsPlugin
+version: 1.0
+depend:
+  - StorageUtil

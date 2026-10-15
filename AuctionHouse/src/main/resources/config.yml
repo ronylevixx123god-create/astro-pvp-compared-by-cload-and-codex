@@ -1,0 +1,69 @@
+############################################
+# Your database information should go here.#
+############################################
+sql:
+  host: '127.0.0.1'
+  port: '3306'
+  database: 'database'
+  user: 'user'
+  pass: 'password'
+
+auction:
+  #Listing price is the price it costs to list one item on the auction house.
+  listingPrice: 1000
+  #Listing hours is the amount of hours a listing is active before being automatically cancelled and expired.
+  listingMinutes: 15
+  #Unclaimed hours is the amount of hours a cancelled or expired listing can remain unretrieved for before being removed from the database.
+  unclaimedHours: 24
+  #Disallow users in creative mode from listing me.astropvp.cratekeys.items.
+  preventCreativeSale: true
+
+menuText:
+  menuName: 'Auction House'
+  itemsYoureSelling:
+    name: '&e&lYour Auctions'
+    lore:
+      - '&7Click here to view all of the items you'
+      - '&7are currently selling on the auction.'
+      - ''
+      - '&e&l%selling% Item(s)'
+  collectExpired:
+    name: '&e&lCollection Bin'
+    lore:
+      - '&7Click here to view and collect all of the'
+      - '&7items you have cancelled or have expired.'
+      - ''
+      - '&e&l%expired% Item(s)'
+  previous:
+    name: '&e&l<- Previous Page'
+    lore:
+      - '&7View the previous page of auctions.'
+  refresh:
+    name: '&6&lRefresh Auctions'
+    lore:
+      - '&7Click to refresh the currently'
+      - '&7available auction listings.'
+  next:
+    name: '&e&lNext Page ->'
+    lore:
+      - '&7View the next page of auctions.'
+  howToSell:
+    name: '&e&lHow to Sell'
+    lore:
+      - '&7To list an item on the auction house, just hold'
+      - '&7the item in your hand and type &e/ah sell <price>&7.'
+  bookButton:
+    name: '&e&lGuide'
+    lore:
+      - '&7This is the auction house, here you can'
+      - '&7list items for sale, and purchase items'
+      - '&7that others have listed for sale.'
+      - ''
+      - '&7The auction is also a great way to make'
+      - '&7money by selling farmable items other'
+      - '&7players may be interested in buying.'
+      - ''
+      - '&7All listings last for a max of &e15 minutes'
+      - '&7unsold items are sent to your collection bin.'
+      - ''
+      - '&7For more help, use &e/ah help!'

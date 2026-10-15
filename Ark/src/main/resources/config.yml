@@ -1,0 +1,1011 @@
+# Enable or disable different modules of Arkkit.
+patches:
+  # Disables spigot's built in async method catcher.
+  async_spigot: true
+
+  # Enables monster spawner entity stacking.
+  async_monsters: false
+
+  # Blocks many common dupe exploits, adds /scanchests if ArkhamPickaxes+ArkhamBags enabled.
+  anti_dupe: true
+
+  # Monitors and corrects memory leaks and catches crash issues, also automatically reboots servers with unstoppable crashes.
+  anti_crash: true
+
+  near_legacy: true
+  # Automatically reboots servers with >9H uptime and <17TPS
+  anti_lag: true
+
+  # Prevents resource leakage when using per-player scoreboards.
+  anti_scoreboard_leak: false
+
+  # Loot can only be picked up by the killer of the entity for a few seconds.
+  anti_loot_steal: false
+
+  # Enables compilex's inhouse built anti-cheating suite.
+  anti_hack: false
+
+  better_trade: true
+
+  # Prevents known minecart dupes.
+  anti_minecart: false
+
+  # Anti Macro anti-cheat captcha checker
+  anti_macro: false
+
+  # Scans and removes excessive tile entities.
+  anti_tile_entity_lag: false
+
+  # Fixes block glitching and jumping.
+  anti_block_glitch: false
+
+  # Enables /arktoken and /token command to set and get EToken values.
+  arkham_tokens: false
+
+  # Prevents god apples from being crafted.
+  anti_god_apple_craft: false
+
+  # Localized redstone throttling to prevent user-made lag machines and infinite loops.
+  anti_redstone_lag: true
+
+  # Prevents non-OP'd players in survival from having the "invisibility" potion effect.
+  anti_invisibility: false
+
+  # Prevent annoying spam bots.
+  anti_spam_bot: false
+
+  # Prevents destruction of entities and blocks that have an me.astropvp.cratekeys.inventory actively being viewed, Fixes a dupe exploit on Factions.
+  anti_inventory_hijack: true
+
+  # Adds a number of custom aliases/hooks and me.astropvp.cratekeys.net.astropvp.armorsets.commands for ArkhamNetwork such as /sidekick and /powers.
+  arkham_commands: false
+
+  # Global cross-server alert system. Supports LilyPad only.
+  alert_system: false
+
+  # Enables /tnt - Automatically crafts all tnt ingredients in me.astropvp.cratekeys.inventory.
+  auto_craft_tnt: false
+
+  # Reboots servers after 12h of uptime.
+  auto_reboot: true
+
+  # Automatically respawns dead players.
+  auto_respawn: false
+
+  # Activates /clearlagg-like task that removes all entities on a set interval.
+  auto_entity_clear: false
+
+  # Custom /balance command
+  balance: false
+
+  # Enables compilex's optimized version of /baltop
+  balance_top: false
+
+  # Disables BanManager duplicate IP nagging.
+  ban_manager_plus: false
+
+  # Enables boss bar alert system.
+  bar_announcer: false
+
+  # Prevents placement of boats due to possible dupe exploits.
+  boat_blocker: false
+
+  # Enables/ /bump to deal self damage in non-enemy areas.
+  bump: false
+
+  # Disables all incremental I/O saving, only saves on server shutdown, costs RAM, saves (massive) CPU.
+  bulk_saving: false
+
+  # Disables buycraft auto updating
+  buycraft_security: true
+
+  # Unload all chunks on disable
+  safe_shutdown: true
+
+  # Advanced GC system for minecraft chunks. Greatly reduces RAM usage and CPU from tick iterations.
+  chunk_gc: true
+
+  # Enables chat bubbles over player's heads with the arkkit.chatbubble permission!
+  chat_bubbles: false
+
+  # Enables a chat limiter with configurable delays between chat messages, and a custom VIP delay and permission node.
+  chat_limiter: false
+
+  # Enables a dynamic word filtering system via /censor.
+  chat_filter: true
+
+  # Adds compilex /clearinventory with confirmation.
+  clear_inventory_confirm: false
+
+  # Removes entities in chunks when they are loaded.
+  chunk_load_flush: false
+
+  # Adds Christmas themed trinkets to the gamemode!
+  christmas: false
+
+  # Allows for dynamic command blocking / unblocking.
+  command_blocker: true
+
+  # Kills players who logout while within 10s of combat in pvp-enabled area.
+  combat_log: false
+
+  # Enables per-player command cooldown functionality through command-cooldowns.yml!
+  command_cooldowns: false
+
+  # Customize the otherwise bland essential's /broadcast prefix.
+  custom_broadcast: false
+
+  # Enables /cmotd command along with a custom, configurable, delayed MOTD.
+  custom_motd: false
+
+  # Enables /createtitle and /addcreatetitle me.astropvp.cratekeys.net.astropvp.armorsets.commands to purchase and create custom player titles.
+  create_title: false
+
+  # Multiplies vanilla xp drops by specified amount, default 2x.
+  double_xp: false
+
+  # Enables the ability to get drinks and get drunk, woo!
+  drinks: false
+
+  # Enables /deathpoint (/back alternative) that allows players to return to previous location of death.
+  deathpoint: false
+
+  # Prevents droppers from dispensing me.astropvp.cratekeys.items, stopping throwable item dupe exploit on Factions.
+  dropper_blocker: false
+
+  # Enables /setmaxplayers to set the server slots dynamically.
+  dynamic_max_players: false
+
+  # Enables a number of different easter only events.
+  easter: false
+
+  # Removes entities that are heading towards unloaded chunks. Saves RAM, CPU from tick iterations.
+  entity_cleaner: false
+
+  # Enables sale of non eula compliant perks via soft currency.
+  eula: false
+
+  # Enables enderpearl cooldowns
+  enderpearl_cooldown: false
+
+  # Disables EnchantmentAPI anvil and enchantment table mechanics.
+  enchantment_anvil_fix: false
+
+  # Enables per-warp /aliase me.astropvp.cratekeys.net.astropvp.armorsets.commands. So /warp test will become /test, useful in prison server configurations.
+  essentials_warp_aliases: false
+
+  # Enables /addhomes to add extra essentials /homes to players.
+  essentials_add_homes: false
+
+  # Enables a /warp me.astropvp.cratekeys.inventory menu. Warps to be displayed can be configurred.
+  essentials_warp_ui: false
+
+  # Enables ability to use /xpbottle to withdraw vanilla levels into exp bottles.
+  exp_bottles: false
+
+  # Prevents teleportation to enemy faction claims.
+  faction_teleport_sanity: false
+
+  # Send players back to lobbies when a server shuts down. Supports LilyPad only.
+  fallback_servers: false
+
+  # Enables /fill which automatically fills dispensers with TNT from me.astropvp.cratekeys.inventory.
+  fill_command: false
+
+  # Enables a bunch of silly modifications for Rob/Preston end of season 3.
+  final_battle: false
+
+  # Enables /forcespawn <radius>, sending all players around executor to world's /spawn. Great for moderation.
+  force_spawn: true
+
+  # Enables Item ID tracking.
+  item_id: false
+
+  # Enables moderation tools for the hacker hub.
+  hacker_hub: false
+
+  # Enables some goofy 4th of July celebrations
+  july_freedom: false
+
+  # Enables player net.astropvp.gambling me.astropvp.cratekeys.net.astropvp.armorsets.commands such as /roll.
+  gamble: false
+
+  # Makes creative gamemode persist between worlds.
+  global_gamemode: false
+
+  # Enables /giveall command for server giveaways, permission and OP restricted.
+  give_all: false
+
+  # Enables /hitme command to deal self inflicted damage.
+  hit_me: false
+
+  # Enables right-click-to-equip mechanic for armor.
+  hotbar_armor_swap: false
+
+  # Enables /hub command that teleports users to a random fallback-server.
+  hub_command: false
+
+  # Hides vanilla player join, quit, and death messages.
+  hide_stream: true
+
+  # Hides specific lore and item attributes via ProtocolLib.
+  hide_lore: false
+
+  # Enables all perks for 'the_joker' permission group on ArkhamNetwork.
+  joker_perks: false
+
+  # Enables golden apple sickness.
+  golden_apple_sickness: true
+
+  # Enables /senditem command and ability to link me.astropvp.cratekeys.items in chat by typing [ITEM]. Requires permission node, itemlinking.senditem.
+  item_linking: false
+
+  # Adds capability for sponges to absorb lava.
+  lava_sponge: false
+
+  # Throttles water flow when no players are around or if an impossible amount of events occur in a short period of time.
+  tick_ratelimit: true
+
+  # Prevents players in survival mode from flying above y:256
+  max_fly_height: false
+
+  # Enables ability to claim mcmmo credit vouchers.
+  mcmmo_credits: false
+
+  # Enables reboot sanity for minigame servers that don't properly reboot at the end of their games.
+  minigame_reboot_sanity: false
+
+  # Enables enchanted buckets with multiple uses.
+  more_buckets: false
+
+  # Enables mystery mob spawner item and sell signs.
+  mystery_mob_spawner: false
+
+  # Fixes exploit with &username= spoofing
+  name_sanity: false
+
+  # Prevents players from building above nether, and creating portals in nether.
+  nether_glitch_fix: false
+
+  # Enables New Year specifical special me.astropvp.cratekeys.items.
+  new_years: false
+
+  # Automatically despawns monsters in pvp disabled regions when hit.
+  no_safezone_mobs: false
+
+  # Prevents users from losing item being held on cursor on me.astropvp.cratekeys.inventory close.
+  no_cursor_drop: false
+
+  # Fixes WorldGuard's lava-flow flag.
+  no_lava_flow_region: false
+
+  # Disables block physics updates caused by exploding creepers.
+  no_explosion_physics: false
+
+  # Disable lava flow globally.
+  no_lava_flow: false
+
+  # Disables water protection for mobspawners.
+  no_water_prot_spawners: false
+
+  # Prevents users from enchanting books on enchantment tables.
+  no_enchantment_table_books: false
+
+  # Disables mcMMO's unarmed ability to disarm.
+  no_mcmmo_disarm: false
+
+  # Disables mcMMO level caps without allow them to become more powerful past presets.
+  no_mcmmo_limits: false
+
+  # Prevents server from ever enabling whitelist.
+  no_whitelist: false
+
+  # Enables bugfixes for ObsidianDestroyer module.
+  obsidian_destroyer_fixes: false
+
+  # Prevents users from using potions with a stack size > 1.
+  potion_stack_limiter: false
+
+  # Removes pickaxes with impossible enchantment levels on them.
+  pickaxe_sanity: false
+
+  # Enables ability to get player heads from PvP. Default chance is 5%.
+  player_heads: false
+
+  # Enables parkour region functionality.
+  parkour_region: false
+
+  # Enables display of seasonal planet victory prefixes.
+  seasonal_prefixes: false
+
+  # Enables /suicide command
+  suicide: false
+
+  # A very safe patch that fixes a slew of known bugs in 3rd party plugins.
+  # a.) Fixes double spaces caused by EssentialsChat.
+  # b.) Fixes me.astropvp.cratekeys.inventory exploit with UltimateParticles.
+  plugin_fixes: true
+
+  # Nerfs vanilla potion behavior to prevent crazy OP effects like STR III.
+  potion_fix: false
+
+  # Fixes a number of known bugs in PlotMe. Such as trapped chest protection not working.
+  plotme_patches: false
+
+  # Prevents players from obtaining the server's plugin list through means such as /pl /plugin /? /help:, etc.
+  plugin_hider: true
+
+  # Prevents disguises and pets from being present for non-OP in PvP enabled WG regions.
+  pvp_rules: true
+
+  # Enables marriage and /marry for players on local server.
+  marriage: false
+
+  # Prevents explosions and sand stacking above y:255
+  max_height_logic: false
+
+  # Enables cross-server /message, /reply, and /find. Supports LilyPad only.
+  network_events: false
+
+  # Teleports users stuck in nether portal to spawn.
+  nether_portal_trap: false
+
+  # Removes half of all vanilla nether spawners.
+  nerf_nether_spawners: false
+
+  # Custom /near command
+  near: false
+
+  # Disables book signing.
+  no_book_sign: false
+
+  # Replaces all cave spiders with normal spiders as they spawn.
+  no_cave_spiders: false
+
+  # Clips wings of players who engage in PvP or PvE combat for 10s.
+  no_combat_flying: false
+
+  # Hijacks bukkit's "Login Queue" functionality, which can often cause netty overloads and selector rebuilds.
+  no_login_queue: false
+
+  # Disables fire and firespread from server tick(), saves CPU.
+  no_fire_ticking: true
+
+  # Disables players from riding horses to prevent vanilla noclipping.
+  no_horse_ride: false
+
+  # Disables mobGriefing gamerule on all worlds to prevent 1.8 dupe with hostile mob item pickup.
+  no_mobgriefing: true
+
+  # Disables all mcMMO EXP gains from monster slaying.
+  no_mob_mcmmo: false
+
+  # Disables natural mob spawning from server tick(), saves CPU.
+  no_natural_mobs: false
+
+  # Prevents new chunks from generating in worlds specified in no_new_chunks.worlds section of configuration.
+  no_new_chunks: false
+
+  # Disables LilyEssentials's spammy LilySpy functionality on local server.
+  no_lily_spy: true
+
+  # Disables item transfers to and from hoppers.
+  no_hoppers: false
+
+  # Disable vanilla villager trading mechanic in gamemode.
+  no_villager_trading: true
+
+  # Prevents void damage, replaces broken y:0 bedrock.
+  no_void_damage: false
+
+  # Enables enforcement of automatically op'ing and de'oping players with(out) * or *.* permission node on login.
+  op_permission: true
+
+  # Enables /shop and ability to create player-owned shops.
+  player_shops: false
+
+  # Display player health under player's names.
+  player_health: true
+
+  # Clear potion effects whenever a player goes between a pvp and non-pvp WG flagged area.
+  pvp_potion_effects: false
+
+  # Improved default spigot language messages to be more informative, allows for custom store_url and global_prefix to be configured into the improved messages.
+  spigot_branding: false
+
+  # Charges players $ for mining spawners.
+  spawner_fee: false
+
+  # Treasure wars mcmmo credits
+  skill_gems: false
+
+  # Enables /shop to teleport to server shop location.
+  shop_command: false
+
+  # Enables special party login me.astropvp.outpost.listener.
+  party: false
+
+  # Adds limitations to amount of stackable physics me.astropvp.cratekeys.items.
+  sand_stack_limiter: false
+
+  # Prevents /tpaccept exploitation into enemy faction bases.
+  smarter_essentials: false
+
+  # Toggles spigot debug boolean.
+  spigot_debug: true
+
+  # Enables /raidshop
+  raid_shop: false
+
+  # Enables an array of specifically named NPC interaction events to give prizes to players.
+  reward_npc: false
+
+  # Deletes empty tile entities (chests) as chunks load to decrease CPU tick iterations.
+  tile_entity_cleaner: false
+
+  # Enables TreasureWar's version of /tnt
+  tw_auto_craft_tnt: false
+
+  # Enables /teams and the ability for players to create parties.
+  teams: false
+
+  # Enables slot taper, slowly increases max slots to prevent network thread dieing from spam join.
+  taper_slots: false
+
+  # Enables custom [TAB] list headers and footers.
+  tab_list: false
+
+  # Enables dynamic adjustment of spigot's maxTntPerTntTick setting in spigot.yml.
+  tnt_limiter: false
+
+  # Adds random Thanksgiving Turkey spawns.
+  thanksgiving: false
+
+  # Enables /trade and ability to trade me.astropvp.cratekeys.items with other players through GUI.
+  trading: false
+
+  # Enables TP warmup times based on player EXP levels.
+  tp_warmup: false
+
+  # Enables valentine day specific features.
+  valentines_day: false
+
+  # Enables voting rewards and tracking.
+  voting: false
+
+  # Enables some VIP youtuber me.astropvp.cratekeys.net.astropvp.armorsets.commands.
+  youtubers: false
+
+  # Enables showcase expander me.astropvp.cratekeys.items.
+  showcase_expander: false
+
+  # Disables weather events on all worlds on local server.
+  no_weather: false
+
+  # Allows all players to destroy double plants on left click.
+  no_tall_grass: false
+
+  # Disables teleportation events while in a vehicle.
+  no_vehicle_teleport: false
+
+  # Enables /redeem mcmmo functionality.
+  redeem_mcmmo: false
+
+  # Prevents arrows from bouncing and hitting the shooter.
+  no_arrow_bounce: true
+
+  # Enables /wilderness - Teleports caster to random location in Faction wilderness.
+  wilderness_command: false
+
+  # Optimizes per-world tick iteration CPU cost. Growth, Tracking, etc.
+  # Essentials injects a customized spigot.yml into server memory.
+  world_tick_optimizer: false
+
+  # Enables /forums and /report website hotlinks.
+  website_links: false
+
+  # Enables /syncaccount capability to sync minecraft accounts to forum accounts.
+  xenforo_sync_account: false
+
+  # Automatically removes, resets, and bans users with impossible exp values.
+  xp_sanity: true
+
+  # Directly adds XP to the player who killed the monster.
+  xp_direct_deposit: true
+
+  # Enables dropping XP on death in bottle form.
+  xp_loss: false
+
+  # Enables /xptop and /oenderchest
+  ypperin: false
+
+  # Charge players for claiming chunks near warzones.
+  warzone_claims: false
+
+  # Enables /withdrawmcmmo ability to withdraw raw mcmmo xp.
+  withdraw_mcmmo: false
+
+  # Enables an array of WorldBorder fixes, incl. proper piston handling.
+  world_border_fixes: false
+  # Enables /home net.astropvp.armorsets.gui that allows for customizable home icons.
+  home_gui: false
+  # Enables /f warp net.astropvp.armorsets.gui that allows for customizable warp icons.
+  warp_gui: false
+  # Enables /pv net.astropvp.armorsets.gui that allows for customizable vault icons and names.
+  vault_gui: false
+  #Detect extremely obvious anti knockback hacks by checking their height after receiving a packet.
+  antikb_detection: false
+  #Schematic updater, *** set ftp.host and settings in schematicCreds.yml ***
+  schematic_updater: false
+  #Extra mute functions for ips and factions.
+  extra_mutes: false
+  no_dupe_exploit: true
+
+  # Enables combining of raw materials/ores with /combine.
+  condense_command: false
+
+  # Enables dynamic rewards from staying mobile in main warzone.
+  warzone_money: false
+
+  # Enables reward system for players on Cosmic Client.
+  cosmic_client_helper: false
+
+  # Blocks a bunch of misc. exploits.
+  anti_exploit: false
+language:
+  tab_list:
+    header: '&b&lCosmic&d&lPvP'
+    footer: '&b&ncosmicpvp.com'
+  custom_broadcast:
+    prefix: '&8[&e&lA&b&lN&8]&r&a'
+  spigot_branding:
+    global_prefix: '&8[&b&lCosmic&d&lPvP&8]'
+    store_url: buy.astropvp.net
+  fallback_servers:
+    kick_message: '&a&lYou are being redirected to a lobby, please wait...'
+    server_restarting_alert: '&c&l(!) &cThis server instance is currently restarting!'
+  player_shops:
+    currency: 'Cash'
+  network_private_messages:
+    message-sent: '&e[&b{server}&e] &7[&bme &7-> &e{player}&7] &f{message}'
+    message-from: '&e[&b{server}&e] &7[&e{player} &7-> &bme&7] &f{message}'
+  item_linking:
+    chat_keyword: '[ITEM]'
+    senditem_format: '&8[[TITLE]&8] [PREFIX][NAME]&f: [COLOR][MESSAGE]'
+  kit_viewer:
+    kit_inventory_name: 'Kits'
+  vote:
+    voting_messages:
+      - ' '
+      - '&e&l(!) &eVote once daily at each of these links to earn &b&nE-Tokens!'
+      - '   &e&l1.&e http://bit.ly/arkhamnetworkvote1'
+      - '   &b&l2.&b http://bit.ly/arkhamnetworkvote2'
+      - '   &e&l3.&e http://bit.ly/arkhamnetworkvote3'
+      - '   &b&l4.&b http://bit.ly/arkhamnetworkvote4'
+      - '   &e&l5.&e http://bit.ly/arkhamnetworkvote5'
+      - '   &b&l6.&b http://bit.ly/arkhamnetworkvote6'
+      - '&e&lMonthly Votes: &b&l[VOTES]'
+      - ' '
+  xenforo_sync_account:
+    api_key: ''
+    api_url: 'http://www.arkhamnetwork.org/community/'
+settings:
+  blockValue:
+    HOPPER: 20000
+    BEACON: 150000
+
+  end_grinding:
+    mobSpawns:
+      CUSTOM:
+        - world_end,150.4671,37,-8.3745:-94.8612$15.0076
+        - world_end,-54.5982,45,145.4505:215.3389$32.7076
+      CREEPER:
+        - world_end,181.1866,46,197.7997:85.8882$8.1076
+        - world_end,-53.9097,46,-69.0749:266.6355$2.85
+
+  itemID:
+    next_iid: 0
+    blacklist_iid: [ ]
+
+  cosmicClientHelper:
+    extraXPMod: 1.0
+
+  autoRespawn:
+    respawnDelaySeconds: 5
+
+  antiCrash:
+    entityScan: false
+
+  autoEntityClear:
+    enabled: true
+    clearEverySeconds: 900
+    clearOptions:
+      monsters: true
+      animals: true
+      waterCreatures: true
+      ambientCreatures: true
+      emptyBoats: true
+      emptyMinecarts: true
+      fallingBlocks: true
+      experienceOrbs: true
+      droppedItems: true
+      snowball: true
+      fireball: true
+      ender-signal: true
+      dontRemoveItems:
+        # Diamond Armor
+        - 310
+        - 311
+        - 312
+        - 313
+        # Diamond Tools
+        - 276
+        - 277
+        - 278
+        - 279
+        - 293
+        # Monster spawners
+        - 52
+        # Magmacream (rank quest)
+        - 378
+        # Emerald
+        - 388
+        # Diamond (gkit)
+        - 264
+        # Monster eggs
+        - 383
+        # Redstone torch
+        - 76
+        # Torch
+        - 50
+        # Bones
+        - 352
+        # Paper
+        - 339
+    warningIntervals:
+      - 30
+    warningMessage:
+      - ''
+      - '&d&l *** &bALL &nENTITIES&b WILL BE CLEARED IN &b&l30s &d&l***'
+      - ''
+    clearMessage:
+      - ''
+      - ' &d&l*** &bALL &nENTITIES&b HAVE BEEN CLEARED &d&l***'
+      - ''
+    forceClearCommands:
+      - '/lagg clear'
+      - '/lag clear'
+      - '/arkhamutils clear'
+      - '/utilsclear'
+    forceClearCommandPermission: 'arkkit.lag.clear'
+
+
+  taperSlots:
+    maxSlots: 425
+
+  enderpearlCooldown:
+    cooldown: 10000
+    arenaCooldown: 30000
+    kothCooldown: 15000
+
+  sand_stack_limiter:
+    maxStackSize: 25
+
+  raid_shop:
+    TNT: 45
+    SAND: 1.5
+    WATER_BUCKET: 250
+    WEB: 20
+    DISPENSER: 410
+    PISTON_BASE: 98
+    REDSTONE: 8.25
+    DIODE: 42.5
+    STONE_BUTTON: 2.5
+
+  auto_craft_tnt:
+    sandPrice: 3.05
+
+  anti_macro:
+    minXp: 5000
+    maxXp: 10000
+    handSells: 15
+    captchaTime: 15
+
+  double_xp:
+    xpMod: 2.0
+
+  # The base spawner fee to mine each type of mobspawner.
+  spawner_fee:
+    spawnerFee: true
+    creeper: 39000
+    skeleton: 11500
+    spider: 9500
+    zombie: 11500
+    enderman: 39000
+    cave_spider: 9000
+    pig: 6500
+    sheep: 6500
+    cow: 16250
+    chicken: 6500
+    wolf: 9750
+    iron_golem: 200000
+    blaze: 39000
+    pig_zombie: 39000
+    magma_cube: 500000
+    ghast: 500000
+    mushroom_cow: 500000
+
+  # Max # of same messages that can be sent per messageUses.clear() interval.
+  anti_spam_bot:
+    maxMessageUsesPerScan: 3
+    messageUsesClearTicks: 40
+
+  # The num. of redstone events that can occur in a chunk every 10 seconds.
+  redstone_event_threshold: 500
+
+  shop_command:
+    shop-location: 0,0,0
+
+  wilderness:
+    x-center: 0
+    z-center: 0
+    max-range: 10000
+    min-range: 1000
+    # Worlds where wilderness is enabled, it is recomended not to enable wilderness within the nether / end
+    whitelisted-worlds: [ world ]
+    # Blocks that you do not want the player to teleport on when using wilderness
+    disabled-blocks: [ STATIONARY_LAVA, STATIONARY_WATER, WATER, LAVA, CACTUS ]
+
+  # % of normal EXP to drop from mobs and blocks.
+  nerf_exp_drops:
+    expRate: 0.25
+
+  # Block flow per tick limits how many blockFlowEvents will be processed per chunk per tick.
+  tick-ratelimit:
+    block-flow-per-tick: 1000
+    refreshing_chunks: true
+    require_player_nearby: false
+    limitFlow: false
+    monitorFlow: false
+    limitHopperIn: true
+    limitHopperOut: true
+    limitCreatureSpawn: true
+
+  # Maximum number of pistons allowed to be moving per chunk.	 
+  max_pistons_per_chunk: 50
+
+  # If no broadcast_servers are specified, it will default to all servers it can find on the Lily-Connect daemon.
+  alert_system:
+    broadcast_servers: [ ]
+
+  bar_announcer:
+    delayTicks: 20
+    announcements:
+      - 'language.bar_announcer.msg1'
+      - 'language.bar_announcer.msg2'
+
+  christmas:
+    present_chest_location: world,0,0,0:0$0
+
+  async_monsters:
+    stackIG: true
+
+  combat_log:
+    block_enderpearls: false
+    block_heal: false
+    combat_duration: 8000
+    spawnNPC: true
+
+  voting:
+    log_votes: false
+    reward_votes: false
+    vote_commands:
+      - 'say Thanks [PLAYER] for voting!'
+
+  fallback_servers:
+    - 'hub1'
+    - 'hub2'
+    - 'hub3'
+    - 'hub4'
+    - 'hub5'
+    - 'hub6'
+    - 'hub7'
+    - 'hub8'
+    - 'hub9'
+    - 'hub10'
+    - 'hub11'
+    - 'hub12'
+    - 'hub13'
+    - 'hub14'
+    - 'hub15'
+
+  blocked_commands:
+    - 'me'
+    - 'baltop'
+
+  # List all warps you want displayed in the /warp me.astropvp.cratekeys.inventory UI with the following format:
+  # - essentials_warp_name=MATERIAL_NAME
+  # The warp will only display in the menu if defined here and the player has the appropriate permission.
+  essentials_warp_ui: [ ]
+
+  # The "delay" values are seconds between messages.
+  # "vip_delay" applies to users with permission "chatlimiter.vip"
+  chat_limiter:
+    default_delay: 3
+    vip_delay: 1
+
+  item_linking:
+    hijack_chat: false
+
+  no_new_chunks:
+    worlds:
+      - 'world'
+
+  tnt_limiter:
+    max_tnt_per_tick: 400
+
+  anti_hack:
+    # Used in Anti Phase, Enderpearl Patches and Dismount Patches
+    hollow-materials:
+      - ACACIA_STAIRS
+      - ACTIVATOR_RAIL
+      - AIR
+      - ANVIL
+      - BEACON
+      - BED_BLOCK
+      - BIRCH_WOOD_STAIRS
+      - BREWING_STAND
+      - BRICK_STAIRS
+      - BROWN_MUSHROOM
+      - CACTUS
+      - CARPET
+      - CARROT
+      - CAULDRON
+      - CHEST
+      - CROPS
+      - COBBLE_WALL
+      - COBBLESTONE_STAIRS
+      - COCOA
+      - DARK_OAK_STAIRS
+      - DAYLIGHT_DETECTOR
+      - DEAD_BUSH
+      - DETECTOR_RAIL
+      - DIODE_BLOCK_OFF
+      - DIODE_BLOCK_ON
+      - DOUBLE_PLANT
+      - DOUBLE_STEP
+      - DRAGON_EGG
+      - ENCHANTMENT_TABLE
+      - ENDER_CHEST
+      - ENDER_PORTAL
+      - ENDER_PORTAL_FRAME
+      - FENCE
+      - FENCE_GATE
+      - FIRE
+      - FLOWER_POT
+      - GOLD_PLATE
+      - HOPPER
+      - IRON_DOOR_BLOCK
+      - IRON_FENCE
+      - IRON_PLATE
+      - JUNGLE_WOOD_STAIRS
+      - LADDER
+      - LAVA
+      - LEVER
+      - LONG_GRASS
+      - MELON_STEM
+      - NETHER_BRICK_STAIRS
+      - NETHER_FENCE
+      - NETHER_WARTS
+      - PISTON_BASE
+      - PISTON_EXTENSION
+      - PISTON_MOVING_PIECE
+      - PISTON_STICKY_BASE
+      - POTATO
+      - POWERED_RAIL
+      - PUMPKIN_STEM
+      - QUARTZ_STAIRS
+      - RAILS
+      - RED_MUSHROOM
+      - RED_ROSE
+      - REDSTONE_COMPARATOR_OFF
+      - REDSTONE_COMPARATOR_ON
+      - REDSTONE_TORCH_OFF
+      - REDSTONE_TORCH_ON
+      - REDSTONE_WIRE
+      - SANDSTONE_STAIRS
+      - SAPLING
+      - SEEDS
+      - SIGN_POST
+      - SKULL
+      - SMOOTH_STAIRS
+      - SNOW
+      - SOUL_SAND
+      - SPRUCE_WOOD_STAIRS
+      - STAINED_GLASS_PANE
+      - STATIONARY_LAVA
+      - STATIONARY_WATER
+      - STEP
+      - STONE_BUTTON
+      - STONE_PLATE
+      - SUGAR_CANE_BLOCK
+      - THIN_GLASS
+      - TORCH
+      - TRAP_DOOR
+      - TRAPPED_CHEST
+      - TRIPWIRE
+      - TRIPWIRE_HOOK
+      - VINE
+      - WALL_SIGN
+      - WATER
+      - WATER_LILY
+      - WEB
+      - WOOD_BUTTON
+      - WOOD_DOUBLE_STEP
+      - WOOD_PLATE
+      - WOOD_STAIRS
+      - WOOD_STEP
+      - WOODEN_DOOR
+      - YELLOW_FLOWER
+
+  chat_filter:
+    block_chat_until_move: true
+    no_duplicates: true
+    remove_chat_colors: true
+    bad_words:
+      - 'fuck'
+      - 'shit'
+      - 'bitch'
+      - 'fag'
+      - 'slut'
+      - 'whore'
+      - 'nigger'
+      - 'faggot'
+      - 'cock'
+      - 'dick'
+      - 'vagina'
+      - 'penis'
+      - 'pussy'
+      - 'clitoris'
+      - 'anal'
+      - 'anus'
+      - 'arse'
+      - 'asshole'
+      - 'bastard'
+      - 'beaner'
+      - 'bish'
+      - 'boner'
+      - 'chink'
+      - 'chode'
+      - 'clit'
+      - 'cum'
+      - 'ddos'
+      - 'dike'
+      - 'dyke'
+      - 'ejaculate'
+      - 'eula'
+      - 'genitalia'
+      - 'horny'
+      - 'jizz'
+      - 'lesbian'
+      - 'lesbo'
+      - 'mandingo'
+      - 'masturbate'
+      - 'nigga'
+      - 'niggar'
+      - 'piss'
+      - 'skank'
+      - 'smegma'
+      - 'testicle'
+      - 'testis'
+      - 'twat'
+      - 'wank'
+      - 'douche'
+      - 'blowjob'
+      - 'cunt'
+      - 'orgasm'
+      - 'masturbation'
+      - 'scrotom'
+      - 'semen'
+      - 'ejaculation'
+      - 'fapp'

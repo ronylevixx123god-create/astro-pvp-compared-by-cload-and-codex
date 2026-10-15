@@ -1,0 +1,9 @@
+name: AstroWildPvP
+main: com.cosmicpvp.cosmicwildpvp.WildPvPPlugin
+author: Bryside
+version: 1.0
+commands:
+  wildpvp:
+    usage: /<command>
+    description: wild the pvp ing.
+    aliases: [pvp]

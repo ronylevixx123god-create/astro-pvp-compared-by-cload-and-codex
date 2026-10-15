@@ -1,0 +1,7 @@
+Tournament:
+  WaitingRoom:
+    Location: world,-100.0,80.0,-100.0
+  Arenas:
+    Pingu Snowdome:
+      PlayerOneSpawnPoint: tournament_world,-270.0,80.0,-122.0
+      PlayerTwoSpawnPoint: tournament_world,-365.0,80.0,-122.0

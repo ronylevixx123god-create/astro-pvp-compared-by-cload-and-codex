@@ -1,0 +1,9 @@
+name: AstroItemSkins
+main: me.astropvp.astropvpskins.AstroItemSkinsPlugin
+version: 1.0
+depend: [CosmicSkyCustomItems]
+commands:
+  itemskin:
+    aliases: [skin, skins, itemskins]
+  multiskin:
+  removeskin:

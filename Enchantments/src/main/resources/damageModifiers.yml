@@ -1,0 +1,17 @@
+#Here you can edit values to edit the ingame damage, use /enchreload to reload the file!
+
+#Rage
+rageComboCap: 5
+rageMultiplier: 0.70
+
+#Heroic Cactus
+heroicCactusChance: 0.3
+
+#Heroic Tank
+heroicTankNegation: 0.45
+
+#Heroic Valor
+heroicValorNegation: 0.5
+
+#Heroic Armored
+heroicArmoredNegation: 0.12

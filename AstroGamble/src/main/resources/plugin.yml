@@ -1,0 +1,8 @@
+name: AstroGambling
+main: net.astropvp.gambling.GamblingPlugin
+version: ${git.total.commit.count}.0
+description: "§fCommit ID: §a${git.commit.id.abbrev}"
+depend:
+  - CosmicPvPUtils
+  - StorageUtil
+commands:

@@ -1,0 +1,67 @@
+minigame:
+  countdown-message: '&8(&4!&8) &7Parkour event starts in &4{time}'
+  checkpoint-reached-message: '&8(&4!&8) &7You have reached checkpoint &a#{number}'
+  win-message: '&8(&4!&8) &4{player}&4 has won the parkour event in &4{time}'
+  parkour-time-message: '&8(&a!&8) &7Parkour time: &a{time}'
+  parkour-confirm-leave-message: '&7Click to &a&lCONFIRM &7you would like to leave'
+  min-players: 1
+  max-players: 16
+  countdown-time: 60
+  world: events_world
+  checkpoints:
+    '1':
+      x: 126.0
+      y: 33.0
+      z: 812.0
+      yaw: 90.0
+      pitch: 0.0
+    '2':
+      x: 48.0
+      y: 37.0
+      z: 781.0
+      yaw: 120.0
+      pitch: 0.0
+    '3':
+      x: 74.0
+      y: 58.0
+      z: 702.0
+      yaw: -160.0
+      pitch: 0.0
+    '4':
+      x: 160.0
+      y: 73.0
+      z: 738.0
+      yaw: 0.0
+      pitch: 0.0
+    '5':
+      x: 94.0
+      y: 82.0
+      z: 789.0
+      yaw: 130.0
+      pitch: 0.0
+  spawn-location:
+    x: 168.5
+    y: 18.0
+    z: 755.5
+    yaw: 48.0
+    pitch: 0.0
+  end-location:
+    x: 126.0
+    y: 119.0
+    z: 767.0
+  rewards:
+    - 'give {player} stone 1'
+    - 'eco give {player} 10'
+  items:
+    checkpoint-item:
+      type: GOLD_PLATE
+      name: '&aTeleport to Last Checkpoint'
+      lore:
+        - ''
+        - '&7&oClick this to be sent to your, &7&omost recent checkpoint'
+    leave-item:
+      type: BARRIER
+      name: '&aLeave Parkour Event'
+      lore:
+        - ''
+        - '&7&oClick this to be sent to, &7&othe server spawn'

@@ -1,0 +1,34 @@
+name: Arkkit
+main: org.arkhamnetwork.Arkkit.Arkkit
+version: 1.0
+depend: [ WorldGuard ]
+softdepend: [ Citizens, mcMMO, CosmicPvPUtils, CosmicArmorSets, CosmicSkyCustomItems ]
+commands:
+  arkhamreload:
+    description: Reload ArkhamNetworkAI Configuration.
+    usage: /<command>
+    aliases: [ arkreload, areload ]
+  arkregister:
+    description: Register a specific patch.
+    usage: /<command>
+    aliases: [ arkload, aload ]
+  arkunregister:
+    description: Unregister a specific patch.
+    usage: /<command>
+    aliases: [ arkunload, aunload ]
+  arklist:
+    description: List currently running patches.
+    usage: /<command>
+    aliases: [ arkstatus, astatus ]
+  arkconfig:
+    description: Set configuration options.
+    usage: /<command>
+    aliases: [ arkset, aconfig ]
+  arkreboot:
+    description: Gracefully reboot the local server.
+    usage: /<command>
+    aliases: [ areboot, arkstop, arkrestart ]
+  arkdebug:
+    description: Gracefully suck my dick.
+    usage: /<command>
+    aliases: [ arkconaxgames ]

@@ -1,0 +1,5 @@
+name: ChatGames
+main: net.astropvp.chatgames.ChatGamesPlugin
+version: 1.0
+depend:
+  - Kotlin

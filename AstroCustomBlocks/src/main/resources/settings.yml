@@ -1,0 +1,5 @@
+grinderKeyChance: 2.5
+godlyKeyChance: 0.5
+expPer: 25
+autoGrinderActivationPrice: 5000000
+maxCustomBlocksPerTypeFactionPerPerson: 9

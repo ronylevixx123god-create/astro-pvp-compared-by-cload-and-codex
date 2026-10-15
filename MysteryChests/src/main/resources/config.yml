@@ -1,0 +1,24 @@
+lootbox-addedlore:
+  - ''
+  - '&7&nRight-Click&r &7(in your hand) to receive'
+  - '&7all these items below that are in this bundle.'
+  - ''
+lootbox-randomloot-lore:
+  - '&f&lRandom Loot (&7%amount% Items&f&l)'
+lootbox-bonusloot-lore:
+  - '&f&lBonus Loot (&7%amount% Items&f&l)'
+lootbox-line-prefix: '&f&l * '
+
+lootbox-cutoff: 30 # how many items before it will print out the cutoff message
+lootbox-cutoff-lore:
+  - '&f&l * More inside...'
+
+lootbox-announcement:
+  - '&a&l(&f&l!&a&l) &f&l%player% &ahas just opened the %lootbox%&a and has received'
+
+rarities: # FORMAT = ID|DISPLAYNAME|PERCENTAGE|DEFAULT
+  - 'common|&f&lCOMMON|10.0|true'
+  - 'uncommon|&a&lUNCOMMON|5.0|false'
+  - 'rare|&9&lRARE|3.0|false'
+  - 'epic|&5&lEPIC|1.0|false'
+  - 'legendary|&6&lLEGENDARY|0.5|false'

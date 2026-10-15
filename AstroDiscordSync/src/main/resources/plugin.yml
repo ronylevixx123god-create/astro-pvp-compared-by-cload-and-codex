@@ -1,0 +1,3 @@
+name: AstroDiscordSync
+main: me.astropvp.discordsync.DiscordSyncPlugin
+version: 1.0-SNAPSHOT

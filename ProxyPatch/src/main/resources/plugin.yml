@@ -1,0 +1,4 @@
+name: ProxyPatch
+main: me.astropvp.proxypach.ProxyPatch
+version: 1.0
+commands:

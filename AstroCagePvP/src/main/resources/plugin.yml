@@ -1,0 +1,8 @@
+name: AstroCagePvP
+main: me.kingsavaqe.cagepvp.AstroCagePvP
+version: 1.0
+author: KingSavaqe
+softDepend: [WorldGuard, Factions]
+commands:
+  CageFight:
+    aliases: [1v1]

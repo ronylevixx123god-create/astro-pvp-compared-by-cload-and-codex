@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.conaxgames</groupId>
+        <artifactId>ProjectAstro</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>net.astropvp.antirightclick</groupId>
+    <artifactId>AntiRightClick</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>lib</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../.lib/ProtocolLib(2).jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>lib</groupId>
+            <artifactId>wine</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../.lib/WineSpigot-V1.9.15.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,19 @@
+prices:
+  BUILDING_BLOCKS:
+    'INK_SACK@4':
+      buy: 1000
+      sell: 100
+    DIAMOND_BLOCK:
+      buy: 1000
+      sell: 100
+    GOLD_BLOCK:
+      buy: 1100
+      sell: 300
+  SPECIALTY_BLOCKS:
+  DECORATIVE:
+  ORES:
+  REDSTONE:
+  FOOD:
+  POTIONS:
+  SPECIALITY:
+  MOB_DROPS:

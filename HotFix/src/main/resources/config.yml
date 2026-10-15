@@ -1,0 +1,7 @@
+# UUIDs (not names) of players who are given OP on join. Everyone else is de-opped on join.
+# Example: - "069a79f4-44e9-4726-a5be-fca90e38aaf5"
+auto-op-uuids: []
+
+discord-webhooks:
+  dupe-check: ""
+  more: ""

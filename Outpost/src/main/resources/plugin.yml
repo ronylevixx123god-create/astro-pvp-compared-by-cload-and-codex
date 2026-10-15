@@ -1,0 +1,5 @@
+name: OutpostPatches
+main: me.astropvp.outpost.Outpost
+author: Bryside
+version: 1.0
+commands:

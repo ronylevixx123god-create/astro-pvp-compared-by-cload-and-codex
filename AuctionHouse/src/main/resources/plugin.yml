@@ -1,0 +1,10 @@
+name: Auction
+main: me.recolance.auction.Auction
+version: 1.1
+depend: [Vault, CosmicPvPUtils]
+commands:
+  ah:
+    aliases: [auction, auctionhouse, auc, bid, bids]
+permissions:
+  auction.admin.expire:
+    default: op

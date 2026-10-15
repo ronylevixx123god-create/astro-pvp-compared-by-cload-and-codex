@@ -1,0 +1,11 @@
+name: CosmicFactionBanners
+version: 1.0
+main: me.ifamasssxd.cosmicfactionbanners.CosmicFactionBanners
+depend: [CosmicPvPUtils, Factions, CosmicSkyCustomItems]
+commands:
+  fbanner:
+    description: Faction banner.
+  frecall:
+    description: recall command.
+  fsetbanner:
+    description: Set banner command

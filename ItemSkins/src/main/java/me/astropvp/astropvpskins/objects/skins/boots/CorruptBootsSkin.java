@@ -1,0 +1,27 @@
+package me.astropvp.astropvpskins.objects.skins.boots;
+
+import com.cosmicpvp.cosmicutils.utils.WorldGuardUtils;
+import com.rit.sucy.EnchantmentAPI;
+import me.astropvp.astropvpskins.enums.SkinType;
+import me.astropvp.astropvpskins.objects.ItemSkin;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
+
+public class CorruptBootsSkin extends ItemSkin {
+
+    public void onEquip(Player player) {
+
+        String regionName = WorldGuardUtils.getRegionName(player.getLocation());
+        if (regionName.contains("parkour") && !regionName.contains("enchants"))
+            return;
+        EnchantmentAPI.getEnchantment("Gears").applyEquipEffect(player, 4);
+    }
+
+
+
+    //TODO: ONUPDATE HERE ^^^
+
+    public void onUnequip(Player player) {
+        EnchantmentAPI.getEnchantment("Gears").applyUnequipEffect(player, 4);
+    }
+}

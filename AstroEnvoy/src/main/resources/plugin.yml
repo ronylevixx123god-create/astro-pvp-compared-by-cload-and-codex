@@ -1,0 +1,8 @@
+name: AstroEnvoys
+main: me.kingsavaqe.astroenvoy.EnvoyPlugin
+version: ${git.total.commit.count}.0
+description: "§fCommit ID: §a${git.commit.id.abbrev}"
+website: https://crankedpvp.net/
+depend:
+  - CosmicPvPUtils
+

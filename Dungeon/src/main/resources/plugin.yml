@@ -1,0 +1,29 @@
+name: CosmicDungeons
+main: com.compilex.CosmicDungeons.CosmicDungeonsPlugin
+version: 1.0
+depend: [CosmicSkyCustomItems]
+softdepend: [Vault, WorldGuard, WorldEdit]
+load: postworld
+author: MattHawkk
+commands:
+  dungeon:
+    description: Dungeon management command.
+    usage: /<command>
+    aliases: [dungeons]
+  dungeonmaster:
+    description: Open dungeon master UI
+    usage: /<command>
+    aliases: [dm]
+  objective:
+    description: Display current dungeon objective.
+    usage: /<command>
+    aliases: [obj]
+  adungeon:
+    description: Admin command.
+    usage: /<command>
+    aliases: [adungeons]
+  answer:
+    description: math room command
+  cosmicdungeonlootboxes:
+    description: refresh all lootboxes
+  dungeongive:

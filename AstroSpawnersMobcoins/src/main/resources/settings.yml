@@ -1,0 +1,10 @@
+legKeyChancePercent: 1
+astroKeyChancePercent: 13
+godlyKeyChancePercent: 0.1
+baseXp: 150
+max-spawner-stack: 5000000
+showGrindParticles: true
+mobcoinChance: 15
+mobcoinAmount: 1
+treasureChance: 0.02
+allow-full-inv-grinding: true

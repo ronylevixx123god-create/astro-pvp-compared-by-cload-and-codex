@@ -1,0 +1,4 @@
+main: me.astropvp.itemflip.AstroItemFlipPlugin
+name: AstroItemFlip
+version: 1.0
+depend: [CosmicPvPUtils]

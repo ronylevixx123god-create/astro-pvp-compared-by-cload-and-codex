@@ -1,0 +1,31 @@
+ultraSetDamageIncrease: 15
+ultraSetDamageDecrease: 15
+
+championSetDamageIncrease: 10
+championSetDamageDecrease: 10
+
+appoloSetDamageIncrease: 15
+appoloSetDamageDecrease: 15
+
+lunaSetDamageIncrease: 15
+lunaSetDamageDecrease: 15
+
+astroSetDamageIncrease: 10
+astroSetDamageDecrease: 10
+
+ancientSetDamageIncrease: 6.5
+ancientSetDamageDecrease: 6.
+
+spookySetDamageIncrease: 15
+spookySetDamageDecrease: 15
+
+omniSetDamageIncrease: 15
+omniSetDamageDecrease: 15
+
+heroicDamageDecrease: 15
+heroicWeaponDamageIncrease: 15
+
+prot5Reduction: 4.5
+prot6Reduction: 7.5
+
+crystalsLadderDamageDifference: 5

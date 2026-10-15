@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.conaxgames</groupId>
+    <artifactId>EnchantmentsAPI</artifactId>
+    <version>0.1</version>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <build>
+        <defaultGoal>clean install</defaultGoal>
+        <finalName>EnchantmentsAPI</finalName>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>ess-repo</id>
+            <url>https://ci.ender.zone/plugin/repository/everything/</url>
+        </repository>
+        <repository>
+            <id>paper-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <repository>
+            <id>sk89q-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- ConaxGames Repos -->
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>server</artifactId>
+            <version>1.8.8-R0.2-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.ess3</groupId>
+            <artifactId>EssentialsX</artifactId>
+            <version>2.17.2</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- New Cosmic Repos -->
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>Factions</artifactId>
+            <version>0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>local.com.conaxgames</groupId>
+            <artifactId>SpaceChests</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CosmicSpaceChests.jar</systemPath>
+        </dependency>
+
+        <!-- System Repos -->
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>mcmmo</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/mcMMO.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>arkkit</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Arkkit.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>Factions</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Factions-0.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>Enchants</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Enchantments.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>guard</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/WorldGuard.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>core</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/AstroCore.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>masks</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CosmicMasks.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>

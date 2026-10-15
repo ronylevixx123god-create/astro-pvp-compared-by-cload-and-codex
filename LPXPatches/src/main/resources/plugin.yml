@@ -1,0 +1,7 @@
+name: LPXPatches
+main: me.sav.lpxpatches.LPXPatchesPlugin
+version: ${git.total.commit.count}.0
+description: "§fCommit ID: §a${git.commit.id.abbrev}"
+website: https://astropvp.net/
+depend:
+  - CosmicPvPUtils

@@ -1,0 +1,25 @@
+name: CosmicMysteryChest
+version: 1.0-SNAPSHOT
+main: me.ifamasssxd.cosmicmysterychest.CosmicMysteryChest
+depend: [ CosmicPvPUtils, Arkkit, StorageUtil ]
+softdepend: [ CosmicSkyCustomItems ]
+commands:
+  mysterychest:
+    description: Mystery Chest command
+    aliases: [ mc, lootbox, elootbox ]
+  lbtoggle:
+    description: Lootbox Anmiation Toggle
+    aliases: [ togglelb, lootboxtoggle, am ]
+  cosmiccrate:
+    description: Root command.
+    usage: /<command>
+    aliases: [ ccrate, cc ]
+  givecc:
+    description: Give a CC item to player.
+    usage: /<command>
+  givehalflootbox:
+    description: Gives a half lootbox
+    aliases: [halflootbox]
+  lbfilter:
+    description: filter loot
+    aliases: [lootboxfilter, lootfilter, filterlootbox, filterloot]

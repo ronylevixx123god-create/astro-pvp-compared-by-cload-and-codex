@@ -1,0 +1,11 @@
+name: AstroSlotBot
+version: 1.0-SNAPSHOT
+author: Bryside
+main: me.ily2bb.slotbot.SlotBotPlugin
+api-version: 1.7.10
+commands:
+  slot:
+    description: /slot
+    aliases: [ bot, slotbot, slots]
+  addskin:
+    description: /addskin

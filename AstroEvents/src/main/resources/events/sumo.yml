@@ -1,0 +1,28 @@
+minigame:
+  countdown-message: '&8(&4!&8) &7Sumo event starts in &4{time}'
+  win-message: '&8(&4!&8) &4{player}&4 has won the sumo event'
+  min-players: 2
+  max-players: 16
+  countdown-time: 60
+  world: events_world
+  spawn-location:
+    x: 0.5
+    y: 100.0
+    z: 0.5
+    yaw: 48.0
+    pitch: 0.0
+  fight-location-one:
+    x: 0.5
+    y: 100.0
+    z: 0.5
+    yaw: 48.0
+    pitch: 0.0
+  fight-location-two:
+    x: 0.5
+    y: 100.0
+    z: 0.5
+    yaw: 48.0
+    pitch: 0.0
+  rewards:
+    - 'give {player} stone 1'
+    - 'eco give {player} 10'

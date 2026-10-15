@@ -1,0 +1,6 @@
+main: com.bryside.astroattributes.DragonRunesPlugin
+name: AstroAttributes
+version: 1.0
+commands:
+  titan:
+    description: /titan

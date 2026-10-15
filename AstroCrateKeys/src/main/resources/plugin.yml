@@ -1,0 +1,17 @@
+main: me.astropvp.cratekeys.AstroCrateKeysPlugin
+name: AstroCrateKeys
+author: AstroPvP
+version: 1.0
+depend: [CosmicPvPUtils]
+commands:
+  givecratekey:
+    description: /givecratekey
+  givecratevoucher:
+    description: /givecratevoucher
+  givecrate:
+    description: /givecrate
+  adminchestcrate:
+    description: /adminchestcrate
+    aliases: [acrate]
+  keycrate:
+    description: /keycrate

@@ -1,0 +1,5 @@
+sql:
+  username: root
+  password: ''
+  database: showcases
+  hostname: ''

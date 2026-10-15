@@ -1,0 +1,12 @@
+main: net.astropvp.showcasegui.ShowcaseGUI
+name: AstroShowcase
+version: 1.0
+commands:
+  showcase:
+    description: Showcase command.
+  editshowcase:
+    description: Edit the showcase for the player.
+  saveshowcase:
+    description: Save the showcase.
+  mergeshowcase:
+    description: Merge showcases from another table.

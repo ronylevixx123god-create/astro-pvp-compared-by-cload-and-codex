@@ -1,0 +1,161 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.CC
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.FactionUtils
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.PlayerUtil
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.TimeUtils
+ *  com.google.common.collect.Lists
+ *  com.massivecraft.factions.Faction
+ *  org.bukkit.Bukkit
+ *  org.bukkit.configuration.ConfigurationSection
+ *  org.bukkit.configuration.file.FileConfiguration
+ *  org.bukkit.entity.Player
+ *  org.bukkit.inventory.ItemStack
+ */
+package com.compilex.CosmicDungeons.dungeons.libs;
+
+import com.compilex.CosmicDungeons.CosmicDungeonsPlugin;
+import com.compilex.CosmicDungeons.DungeonsRewardsAPI;
+import com.compilex.CosmicDungeons.dungeons.libs.Dungeon;
+import com.compilex.CosmicDungeons.dungeons.libs.DungeonType;
+import com.compilex.CosmicDungeons.struct.DungeonDebuff;
+import com.cosmicpvp.cosmicutils.utils.CC;
+import com.cosmicpvp.cosmicutils.utils.FactionUtils;
+import com.cosmicpvp.cosmicutils.utils.PlayerUtil;
+import com.cosmicpvp.cosmicutils.utils.TimeUtils;
+import com.google.common.collect.Lists;
+import com.massivecraft.factions.Faction;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
+public class TopHeroicDungeonTime {
+    private long timeCompleted;
+    private int secondsCompletedIn;
+    private List<String> factionsWhoCompleted = Lists.newArrayList();
+    private List<String> dungeonDebuffs = Lists.newArrayList();
+    private DungeonType dungeonType;
+    private int completeCount;
+
+    public void setFactionsWhoCompleted(List<String> factionsWhoCompleted) {
+        this.factionsWhoCompleted = factionsWhoCompleted;
+    }
+
+    public void setTimeCompleted(long timeCompleted) {
+        this.timeCompleted = timeCompleted;
+    }
+
+    public void setSecondsCompletedIn(int secondsCompletedIn) {
+        this.secondsCompletedIn = secondsCompletedIn;
+    }
+
+    public void setDungeonType(DungeonType dungeonType) {
+        this.dungeonType = dungeonType;
+    }
+
+    public void setCompleteCount(int completeCount) {
+        this.completeCount = completeCount;
+    }
+
+    public List<String> getFactionsWhoCompleted() {
+        return this.factionsWhoCompleted;
+    }
+
+    public long getTimeCompleted() {
+        return this.timeCompleted;
+    }
+
+    public int getSecondsCompletedIn() {
+        return this.secondsCompletedIn;
+    }
+
+    public DungeonType getDungeonType() {
+        return this.dungeonType;
+    }
+
+    public int getCompleteCount() {
+        return this.completeCount;
+    }
+
+    public List<String> getDungeonDebuffs() {
+        return this.dungeonDebuffs;
+    }
+
+    public TopHeroicDungeonTime(DungeonType type, ConfigurationSection section) {
+        if (section == null) {
+            return;
+        }
+        this.dungeonType = type;
+        this.timeCompleted = section.getLong(type.name() + ".timestamp", 0L);
+        this.secondsCompletedIn = section.getInt(type.name() + ".fastest-time", 0);
+        this.factionsWhoCompleted = (List<String>) section.getList(type.name() + ".factions", (List)Lists.newArrayList());
+        this.completeCount = section.getInt(type.name() + ".times-completed", 0);
+        this.dungeonDebuffs = (List<String>) section.getList(type.name() + ".debuffs", (List)Lists.newArrayList());
+    }
+
+    public void clear() {
+        this.timeCompleted = 0L;
+        this.secondsCompletedIn = 0;
+        this.completeCount = 0;
+        this.factionsWhoCompleted = Lists.newArrayList();
+        this.dungeonDebuffs = Lists.newArrayList();
+    }
+
+    public void checkLatestTime(int seconds, Dungeon dungeon, List<Player> players, Set<UUID> whoCouldReceiveLoot) {
+        int requiredToBeat = (int)Math.floor((double)this.secondsCompletedIn * 0.98);
+        if (this.secondsCompletedIn == 0 || seconds <= requiredToBeat) {
+            CosmicDungeonsPlugin.get().getLogger().info("Required to beat: " + requiredToBeat + " previouslyCompleted: " + this.secondsCompletedIn + " new: " + seconds);
+            if (this.secondsCompletedIn == 0) {
+                Bukkit.broadcastMessage((String)(CC.GoldB + "(!) " + CC.Gold + "Their team has set the time for fastest heroic dungeon completion: " + CC.GoldU + TimeUtils.formatSeconds((long)seconds)));
+            } else {
+                Bukkit.broadcastMessage((String)(CC.GoldB + "(!) " + CC.Gold + "They have beat the previous fastest heroic completion time of: " + CC.GoldU + TimeUtils.formatSeconds((long)this.secondsCompletedIn) + CC.Gold + "!"));
+            }
+            Bukkit.broadcastMessage((String)(CC.Gold + " They received a bonus Dungeon Lootbag!"));
+            players.forEach(pl -> {
+                if (!whoCouldReceiveLoot.contains(pl.getUniqueId())) {
+                    pl.sendMessage(CC.RedB + "(!) " + CC.Red + "You qualified for a bonus Dungeon Lootbag because of setting a new runtime record, but you already received this dungeon loot recently!");
+                } else {
+                    PlayerUtil.giveOrDropProtectedItem((Player)pl, (ItemStack)DungeonsRewardsAPI.getHeroicDungeonLootbag(pl, dungeon), (int)-1, null, (String)"Your inventory was full, dropped on the ground!");
+                }
+            });
+            this.dungeonDebuffs = dungeon.getRandomDungeonDebuffs().stream().map(DungeonDebuff::getName).collect(Collectors.toList());
+            this.secondsCompletedIn = seconds;
+            this.timeCompleted = System.currentTimeMillis();
+            this.factionsWhoCompleted = Lists.newArrayList();
+            players.forEach(pl -> {
+                Faction fac = FactionUtils.getFaction((Player)pl, (boolean)false);
+                if (fac == null || !fac.isNormal() || this.factionsWhoCompleted.contains(fac.getTag())) {
+                    return;
+                }
+                this.factionsWhoCompleted.add(fac.getTag());
+            });
+            ++this.completeCount;
+            this.saveData();
+            return;
+        }
+        ++this.completeCount;
+        this.saveData();
+    }
+
+    public void saveData() {
+        this.save(CosmicDungeonsPlugin.get().getConfig());
+        CosmicDungeonsPlugin.get().saveConfig();
+    }
+
+    public void save(FileConfiguration config) {
+        config.set("top-heroic-times." + this.dungeonType.name() + ".timestamp", (Object)this.timeCompleted);
+        config.set("top-heroic-times." + this.dungeonType.name() + ".fastest-time", (Object)this.secondsCompletedIn);
+        config.set("top-heroic-times." + this.dungeonType.name() + ".factions", this.factionsWhoCompleted);
+        config.set("top-heroic-times." + this.dungeonType.name() + ".times-completed", (Object)this.completeCount);
+        config.set("top-heroic-times." + this.dungeonType.name() + ".debuffs", this.dungeonDebuffs);
+    }
+}
+

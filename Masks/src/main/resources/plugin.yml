@@ -1,0 +1,10 @@
+name: CosmicMasks
+version: 1.1
+main: me.ifamasssxd.cosmicmasks.CosmicMasks
+depend: [ProtocolLib, CosmicPvPUtils]
+softdepend: [Arkkit, Enchantments]
+author: astropvp
+commands:
+  mask:
+    description: Mask command.
+    aliases: [cmask, masks]

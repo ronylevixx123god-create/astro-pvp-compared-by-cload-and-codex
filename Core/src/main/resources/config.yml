@@ -1,0 +1,134 @@
+bless:
+  msg: '&e&l** &e&lBLESSED &e&l**'
+  cooldownMessage: '&7[&a&lAstro&e&lPvP&7] &c/bless is still on cooldown'
+
+heal:
+  msg: '&6&l** &6&lHEALED &6&l**'
+  cooldownMessage: '&7[&6&lAstro&f&lPvP&7] &c/heal is still on cooldown'
+
+broadcast:
+  enabled: true
+  commands:
+    - '/bc'
+    - '/broadcast'
+  message:
+    - ' '
+    - '&6&lAstro&f&lPvP &8| &f%broadcast%'
+    - ' '
+
+# KILL TRACKER
+soulMultiplier: 5
+
+# JACKPOT
+tax: 0.10
+drawTime: 14400
+
+# ITEMFILTER
+items:
+  - 'DIAMOND_CHESTPLATE'
+  - 'DIAMOND_LEGGINGS'
+  - 'DIAMOND_BOOTS'
+  - 'DIAMOND_HELMET'
+  - 'DIAMOND_SWORD'
+  - 'DIAMOND_AXE'
+  - 'BOW'
+  - 'ARROW'
+  - 'REDSTONE'
+  - 'INK_SACK:4'
+  - 'OBSIDIAN'
+  - 'DISPENSER'
+  - 'HOPPER'
+  - 'DROPPER'
+  - 'CACTUS'
+  - 'SUGAR_CANE'
+  - 'SOUL_SAND'
+  - 'GLOWSTONE'
+  - 'DIODE'
+
+# HEROIC ENVOY
+#4 hours in seconds
+spawnTimeInSeconds: 14400
+#Seconds of extra delay to spawn the chest. (5 Mins = 300)
+randomDelay: 1800
+
+# COINFLIP
+resetStats: false
+alertAmount: 1000000
+
+# BACKPACK ADDONS
+blocked:
+  - FURNACE
+  - CHEST
+  - TRAPPED_CHEST
+  - BEACON
+  - DISPENSER
+  - DROPPER
+  - HOPPER
+  - WORKBENCH
+  - ENCHANTMENT_TABLE
+  - ENDER_CHEST
+  - ANVIL
+  - BED_BLOCK
+  - FENCE_GATE
+  - SPRUCE_FENCE_GATE
+  - BIRCH_FENCE_GATE
+  - ACACIA_FENCE_GATE
+  - JUNGLE_FENCE_GATE
+  - DARK_OAK_FENCE_GATE
+  - IRON_DOOR_BLOCK
+  - WOODEN_DOOR
+  - SPRUCE_DOOR
+  - BIRCH_DOOR
+  - JUNGLE_DOOR
+  - ACACIA_DOOR
+  - DARK_OAK_DOOR
+  - WOOD_BUTTON
+  - STONE_BUTTON
+  - TRAP_DOOR
+  - IRON_TRAPDOOR
+  - DIODE_BLOCK_OFF
+  - DIODE_BLOCK_ON
+  - REDSTONE_COMPARATOR_OFF
+  - REDSTONE_COMPARATOR_ON
+  - FENCE
+  - SPRUCE_FENCE
+  - BIRCH_FENCE
+  - JUNGLE_FENCE
+  - DARK_OAK_FENCE
+  - ACACIA_FENCE
+  - NETHER_FENCE
+  - BREWING_STAND
+  - CAULDRON
+  - SIGN_POST
+  - WALL_SIGN
+  - SIGN
+  - LEVER
+  - BLACK_SHULKER_BOX
+  - BLUE_SHULKER_BOX
+  - BROWN_SHULKER_BOX
+  - CYAN_SHULKER_BOX
+  - GRAY_SHULKER_BOX
+  - GREEN_SHULKER_BOX
+  - LIGHT_BLUE_SHULKER_BOX
+  - LIME_SHULKER_BOX
+  - MAGENTA_SHULKER_BOX
+  - ORANGE_SHULKER_BOX
+  - PINK_SHULKER_BOX
+  - PURPLE_SHULKER_BOX
+  - RED_SHULKER_BOX
+  - SILVER_SHULKER_BOX
+  - WHITE_SHULKER_BOX
+  - YELLOW_SHULKER_BOX
+  - DAYLIGHT_DETECTOR_INVERTED
+  - DAYLIGHT_DETECTOR
+
+players-trailers:
+  - ''
+
+discord-webhooks:
+  gifts: ""
+  dupe-check: ""
+  more: ""
+  galaxy-rank: ""
+
+youtube-api-key: ""

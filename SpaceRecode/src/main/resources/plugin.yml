@@ -1,0 +1,7 @@
+name: SpaceRecode
+main: net.astropvp.space.SpacePlugin
+version: 1.0
+author: Zyptrik
+depend:
+  - CosmicPvPUtils
+  - StorageUtil

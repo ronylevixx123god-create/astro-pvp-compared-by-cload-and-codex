@@ -1,0 +1,17 @@
+name: CosmicSpaceChests
+main: com.cosmicpvp.CosmicSpaceChests.CosmicSpaceChestsPlugin
+version: 1.0
+softdepend: [Factions,EnchantmentAPI,Enchantments,WorldGuard,WorldEdit,CompilexPermissions]
+commands:
+  fdp:
+    description: Root command.
+    usage: /<command>
+  givedp:
+    description: Gives drop package to player.
+    usage: /<command>
+  envoy:
+    description: Envoy tool me.astropvp.cratekeys.net.astropvp.armorsets.commands.
+    usage: /<command>
+  flare:
+    description: Gives space flares to player.
+    usage: /<command>

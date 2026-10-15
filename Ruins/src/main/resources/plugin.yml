@@ -1,0 +1,8 @@
+name: AstroRuins
+main: org.demonicpvp.demonicruins.DemonicRuins
+version: 1.0
+load: POSTWORLD
+softdepend: [CosmicBosses]
+commands:
+  ruins:
+    description: ruins core

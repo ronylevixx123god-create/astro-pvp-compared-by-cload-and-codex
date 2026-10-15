@@ -1,0 +1,8 @@
+main: net.astropvp.damagehandler.AstroDamageHandler
+name: AstroDamageHandler
+author: AstroPvP
+version: 1.0
+depend: [CosmicPvPUtils]
+commands:
+  debugdamage:
+    description: /debugdamage

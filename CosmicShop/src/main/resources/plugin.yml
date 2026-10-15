@@ -1,0 +1,14 @@
+version: 1.0
+name: CosmicGUIShop
+main: me.ifamasssxd.cosmicguishop.CosmicGUIShop
+softdepend: [ Essentials ]
+depend: [ Vault ]
+commands:
+  cosmicshop:
+    description: Shop command.
+    aliases: [ shop, cshop, shops ]
+  banknote:
+    description: Banknote command.
+    aliases: [ banknote, withdraw, bnote ]
+  xpshop:
+    description: XPShop command.

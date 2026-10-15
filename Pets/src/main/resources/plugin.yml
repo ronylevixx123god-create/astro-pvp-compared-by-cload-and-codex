@@ -1,0 +1,9 @@
+name: CosmicSkyInventoryPets
+version: cosmicpvp-1.0-SNAPSHOT
+main: me.ifamasssxd.cosmicsky.inventorypets.CosmicSkyInventoryPets
+softdepend: [Enchantments]
+depend: [CosmicPvPUtils, CosmicSkyCustomItems, Factions]
+commands:
+  pet:
+    description: Pet command.
+    aliases: [pets]

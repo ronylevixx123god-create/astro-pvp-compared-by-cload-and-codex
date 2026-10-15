@@ -1,0 +1,77 @@
+BORDER_TIMER: 10
+ADMIN_RELOADING: '&3&l(!) &7Reloading configs now...'
+ADMIN_RELOADED: '&3&l(!) &7Reloaded configs and other cool stuff. Took &3%took%ms&7.'
+CANT_PVP: '&d&lArcade &8➥ &7You cannot attack &d{victim} &7because they/you are in
+  a different arcade match!'
+MATCH_STARTED_KILLER: '&d&lArcade &8➥ &7You have started an arcade match against &d{victim}&7!'
+MATCH_STARTED_VICTIM: '&d&lArcade &8➥ &d{killer} &7has started an arcade match against
+  you!'
+MATCH_ENDED: '&d&lArcade &8➥ &7Your arcade match has ended!'
+MATCH_KILLED: '&d&lArcade &8➥ &7You have killed &d{victim} &7during an arcade match!'
+MATCH_STARTED_BROADCAST: '&d&lArcade &8➥ &d{player1} &7started an arcade match against
+  &d{player2}'
+MATCH_KILLED_BROADCAST: '&d&lArcade &8➥ &d{killer} &7has killed &b{killed} &7in an
+  arcade match! (&f&o/arcade&7)'
+GRACE_PERIOD: '&d&lArcade &8➥ &7You cannot pvp while on arcade grace period, wait
+  &f{time}&7!'
+GRACE_PERIOD_OTHER: '&d&lArcade &8➥ &d{victim} &7is still on arcade grace period for
+  &f{time}&7!'
+TELEPORT_NO_SET: '&d&lArcade &8➥ &7You need to wear an armor set to enter the arcade
+  warp!'
+BLACKLISTED_COMMAND: '&d&lArcade &8➥ &7You are not allowed to type this command at
+  warp arcade!'
+BORDER_STARTED: '&d&lArcade &8➥ &7You can no longer enter the &asafezone&7 for &c10s&7!'
+BORDER_EXPIRED: '&d&lArcade &8➥ &7You can now enter the &asafezone&7 again!'
+WHITELISTED_COMMANDS:
+  - pv
+  - bless
+  - apply
+  - fix
+  - f who
+  - f claim
+  - f enemy
+  - f promote
+  - f kick
+  - f create
+  - pot
+  - pots
+  - shop
+  - f join
+  - f list
+  - f announce
+  - f invite
+  - f deinvite
+  - pin
+  - f demote
+  - f unclaim
+  - spawn
+  - warp desert
+  - warp nether
+  - null
+  - trade
+  - arcade
+  - warp arcade
+  - warp spawn
+  - f mod
+  - f c f
+  - f c p
+  - f c a
+  - f c t
+  - f sethome
+  - f chat
+  - f alt
+  - f perm
+  - msg
+  - r
+  - ft
+  - filter
+  - invsee
+  - near
+  - staffchat
+  - sc
+  - near
+  - enear
+ENABLED_MESSAGE:
+  - ""
+CLOSED_MESSAGE:
+  - ""

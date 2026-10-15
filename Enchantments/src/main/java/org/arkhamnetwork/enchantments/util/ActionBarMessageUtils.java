@@ -1,0 +1,30 @@
+package org.arkhamnetwork.enchantments.util;
+
+import net.minecraft.server.v1_8_R3.IChatBaseComponent;
+import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
+import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+
+import java.util.Iterator;
+
+public class ActionBarMessageUtils {
+    public ActionBarMessageUtils() {
+    }
+
+    public static void sendMessage(Player p, String message) {
+        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + message.replace("&", "§") + "\"}"), (byte)2);
+        ((CraftPlayer)p).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    public static void broadcastMessage(String message) {
+        PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + message.replace("&", "§") + "\"}"), (byte)2);
+        Iterator var2 = Bukkit.getServer().getOnlinePlayers().iterator();
+
+        while(var2.hasNext()) {
+            Player p = (Player)var2.next();
+            ((CraftPlayer)p).getHandle().playerConnection.sendPacket(packet);
+        }
+
+    }
+}

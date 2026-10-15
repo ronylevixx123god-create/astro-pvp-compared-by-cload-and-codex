@@ -1,0 +1,23 @@
+name: AstroArmorSets
+main: net.astropvp.armorsets.AstroArmorSets
+version: 1.0
+depend: [CosmicPvPUtils, CosmicSkyCustomItems, NBTAPI, Enchantments, EnchantmentAPI]
+commands:
+  heroicarmor:
+    description: command
+    aliases: [ 'giveheroicarmor' ]
+  heroicupgrade:
+    description: command
+    aliases: ['giveheroicupgrade', 'heroicupgrades']
+  givearmorset:
+    description: command
+  debugarmorsets:
+    description: Debug armorsets
+    aliases: ['debugarmor', 'debugarmorset']
+  armorsets:
+    description: Open the Armor Sets GUI
+    aliases: ['armorgui', 'setsgui', 'armorset', 'set', 'sets']
+  aarmorset:
+    aliases: ['aarmorset', 'aset', 'asets' ]
+
+  heroicfix:

@@ -1,0 +1,8 @@
+disabled-blocks:
+  - STATIONARY_LAVA
+  - STATIONARY_WATER
+  - WATER
+  - LAVA
+  - CACTUS
+minCrystals: 4
+maxCrystals: 8

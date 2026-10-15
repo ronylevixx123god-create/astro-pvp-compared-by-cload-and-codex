@@ -1,0 +1,8 @@
+name: CosmicDisguises
+version: 1.0
+main: me.ifamasssxd.cosmicdisguises.CosmicDisguises
+depend: [LibsDisguises]
+softdepend: [CompilexPermissions]
+commands:
+  disguises:
+    description: Cosmic Disguises command.

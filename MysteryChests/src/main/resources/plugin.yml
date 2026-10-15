@@ -1,0 +1,4 @@
+name: AstroLootboxes
+version: 1.0-SNAPSHOT
+main: net.astropvp.lootboxes.AstroLootboxes
+depend: [ CosmicPvPUtils, StorageUtil ]

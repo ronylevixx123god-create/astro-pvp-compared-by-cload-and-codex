@@ -1,0 +1,4 @@
+main: net.astropvp.customblocks.CustomBlocks
+name: AstroCustomBlocks
+version: 1.0
+depend: [Multiverse-Core, StorageUtil, CosmicPvPUtils, Factions]

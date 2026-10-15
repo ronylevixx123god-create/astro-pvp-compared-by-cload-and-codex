@@ -1,0 +1,20 @@
+name: CosmicGlobalKits
+main: me.cosmicpvp.CosmicGlobalKits.CosmicGlobalKits
+version: 1.0
+depend: [CosmicSkyCustomItems,CosmicPvPUtils]
+softdepend: [Vault, Essentials, WorldGuard, WorldEdit, CompilexPermissions]
+commands:
+  gkit:
+    description: Global kit menu.
+    usage: /<command>
+    aliases: [gkits, globalkit, globalkits, cosmickits, ckits, ckit]
+  fallenhero:
+    description: Fallen hero root command.
+    usage: /<command>
+    aliases: [fhero, fh]
+  mkit:
+    description: Mastery kit command.
+    aliases: [mkits]
+  vkit:
+    description: Evolution kit command.
+    aliases: [evkit]

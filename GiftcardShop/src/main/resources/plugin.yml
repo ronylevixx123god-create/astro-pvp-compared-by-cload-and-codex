@@ -1,0 +1,9 @@
+name: AstroGiftCardPlugin
+main: net.astropvp.giftcardshop.GiftcardShopPlugin
+version: 1.0
+commands:
+  creategiftcard:
+    aliases: [ creategc ]
+  giftcards:
+    aliases: [giftcard]
+  resetgiftcards:

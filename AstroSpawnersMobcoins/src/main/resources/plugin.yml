@@ -1,0 +1,37 @@
+main: me.astropvp.astrospawners.AstroSpawners
+name: AstroSpawners
+version: 1.0
+depend: [Multiverse-Core, StorageUtil, CosmicMysteryChest]
+
+commands:
+  splitspawners:
+    description: /splitspawners
+    aliases: [splitspawner]
+  givespawner:
+    description: /givespawner
+    aliases: [givespawners]
+  clearmobs:
+    description: Removes all mobs and hasmap
+  checkmobs:
+    description: Check amount of mobs in hasmap
+  stopspawnersplace:
+    description: stop placing spawners
+    aliases: [stopspawners, stopspawnerplace]
+  savemobcoins:
+    description: Save mobcoi,s
+    aliases: [savemc, smc]
+  factionstop:
+    description: /factionstop
+    aliases: [ftop, ftopp]
+  adminfactionstop:
+    description: /adminfactionstop
+    aliases: [aftop]
+  clearafk:
+    description: /clearafk
+    aliases: [ clearafkgrinders ]
+  savespawners:
+  stackspawners:
+    aliases: [stacks, stackspawner, fixspawners, spawnerstack, spawnerstacks]
+  aspawner:
+    aliases:
+      - aspawners

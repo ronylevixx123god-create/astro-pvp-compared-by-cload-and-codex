@@ -1,0 +1,40 @@
+dungeons:
+  dungeon_yijki_a:
+    name: '&5&l&nAbandoned Spaceship'
+    description:
+      - ''
+      - '&5&lDIFFICULTY'
+      - '&6&lGodly+'
+      - ''
+      - '&5&lLORE'
+      - '&7A distress signal was received from'
+      - '&7an Intergalactic mining outpost a few'
+      - '&7days ago in one of the most remote sectors'
+      - '&7of the Cosmoverse.'
+      - ''
+      - '&7You are being dispatched as part'
+      - '&7of an elite team to respond to the'
+      - '&7signal, neutralize any hostiles, and collect'
+      - '&7the Cosmonaut Ship master log files.'
+      - ''
+      - '&7... something about this mission does NOT feel right.'
+  dungeon_yijki_b:
+    name: '&4&l&nDestroyed Outpost'
+    description:
+      - ''
+      - '&c&lDIFFICULTY'
+      - '&6&lGodly++'
+      - ''
+      - '&c&lLORE'
+      - ''
+      - '&7... something about this mission does NOT feel right.'
+holiday:
+  dailyPortals: false
+  portalBlockA: ''
+  portalBlockB: ''
+top-times:
+  ABANDONED_SHIP:
+    fastest-time: 0
+    time-beat: 0
+    times-completed: 0
+    factions:

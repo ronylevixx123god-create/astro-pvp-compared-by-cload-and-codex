@@ -1,0 +1,8 @@
+name: AstroWildPvP
+main: com.astropvp.wildpvp.AstroWildPvP
+version: 1.0-DEV
+commands:
+  wildpvp:
+    usage: /<command>
+    description: WildPvP command.
+    aliases: [pvp]

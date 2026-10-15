@@ -1,0 +1,9 @@
+name: CosmicPvPUtils
+version: 1.0
+main: com.cosmicpvp.cosmicutils.CosmicUtils
+depend: [ WorldGuard ]
+softdepend: [ Essentials, Factions, CompilexPermissions, Vault, ProtocolLib ]
+commands:
+  cosmicdebug:
+    description: debug.
+    aliases: [ debugging ]

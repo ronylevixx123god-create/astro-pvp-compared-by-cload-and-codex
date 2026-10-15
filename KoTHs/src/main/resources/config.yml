@@ -1,0 +1,131 @@
+world: world_koth
+playerSpawn: world_koth,-48,33,-119:0$0
+kothCenter: world_koth,-2,24,5:0$0
+
+mainoutposts:
+  trainee:
+    world: cosmic-station-1
+    defenderSpawn: cosmic-station-1,3.7286,118.0208,6.3551:-267.451$4.2
+    attackerSpawn: cosmic-station-1,-138.3278,100.446,28.9333:-179.3998$17.55
+    controllingFaction: ''
+    capTime: 0
+  hero:
+    world: cosmic-station-2
+    defenderSpawn: cosmic-station-2,-8.1504,78.739,-7.1024:3.3003$-1.5
+    attackerSpawn: cosmic-station-2,14.8076,63.885,152.3787:90.4502$10.65
+    controllingFaction: ''
+    capTime: 0
+  cosmonaut:
+    world: cosmic-station-3
+    attackerSpawn: cosmic-station-3,-143.4412,176.9232,19.847:179.9999$7.5
+    defenderSpawn: cosmic-station-3,10.9671,178.1116,-2.5211:92.1005$-3
+    controllingFaction: ''
+    capTime: 0
+  vanilla:
+    world: cosmic-station-vanilla
+    attackerSpawn: cosmic-station-vanilla,-49.1821,129.2964,90.5069:-179.8501$0.75
+    defenderSpawn: cosmic-station-vanilla,76.8542,148.7803,69.4878:269.6998$9.9
+    controllingFaction: ''
+    capTime: 0
+
+#
+#            CC.GreenB + "* " + CC.White + "Reduced claim purchase costs",
+#            CC.GreenB + "* " + CC.White + "Reduced Bard cooldowns by " + CC.Green + "1.5s",
+#            CC.GreenB + "* " + CC.White + "Reduced deathbans by " + CC.Green + "25%",
+#            CC.GreenB + "* " + CC.White + "Reduced saturation loss by " + CC.Green + "50%",
+#            CC.GreenB + "* " + CC.White + "Increased smelting by " + CC.Green + "100%"
+
+outpost-name: Stronghold
+spawn-type: delay
+vanilla: false
+type: cosmic
+messages:
+  spawn-chest: '&6&lFaction Point Spawns %s'
+  spawn-chest-menu: Strongholds
+  cmd-header: '&b&l*** CosmicPvP: &5&lStrongholds &b&l***'
+perks:
+  infernal:
+    vanilla:
+      - '&c&l* &a1.75&a&lx &fVanilla EXP'
+      - '&c&l* &a1.75&a&lx &fmcMMO EXP'
+      - '&c&l* &a1.5&a&lx &fMobs from Spawners'
+      - '&c&l* &a&l$&a10,000&f /f money every &a5m'
+      - '&c&l* &fReduced saturation loss by &a50%'
+    cosmic:
+      - '&c&l* &fFly everywhere regardless of rank'
+      - '&c&l* &fNo Key requirement to enter dungeons'
+      - '&c&l* &a10%&f /enchanter discount'
+      - '&c&l* &fNo &a/ah&f Tax'
+  courtyard:
+    hcf:
+      - Mob spawning in claims increase by &a1.5x
+      - Reduced claim purchase costs
+      - Reduced Bard cooldowns by &a1.5s
+      - Reduced deathbans by &a25%
+      - Reduced saturation loss by &a100%
+      - Increased smelting by &a100%
+    cosmic:
+      - '&c&l* &fFly everywhere regardless of rank'
+      - '&c&l* &fNo Key requirement to enter dungeons (24hrs of cap)'
+      - '&c&l* &a10%&f /enchanter discount'
+      - '&c&l* &fNo &a/ah &fTax'
+      - '&c&l* &f+15% DMG to players in heroic armor'
+  frozen:
+    vanilla:
+      - '&b&l* &a1.25&a&lx &fVanilla EXP'
+      - '&b&l* &a1.25&a&lx &fmcMMO EXP'
+      - '&b&l* &a2&a&lx &fMobs from Spawners'
+      - '&b&l* &fReduced Bard cooldowns by 1.5 seconds'
+      - '&b&l* &fPassive Fire Resistance'
+    cosmic:
+      - '&b&l* &fFaction Point multiplier'
+      - '&b&l* &f/stronghold sell'
+      - '&b&l* &fNo Coin Flip Tax'
+      - '&b&l* &a+10%&f bonus /jackpot tickets'
+  great_hall:
+    hcf:
+      - Increased EXP drops in claims
+      - Reduced DTR Freeze
+      - Faster DTR Regen
+      - Reduced Enderpearl cooldown by &b1.5s
+      - Passive Fire Resistance
+      - Increased brewing speed by &b25%
+    cosmic:
+      - '&b&l* &a20% &fFaction Point multiplier'
+      - '&b&l* &f/stronghold sell'
+      - '&b&l* &fNo Coin Flip Tax'
+      - '&b&l* &a+10%&f bonus /jackpot tickets'
+      - '&b&l* &a10%&f Chance to negate Holy White Scrolls'
+  space:
+    hcf:
+      - Increased EXP drops in claims
+      - Reduced DTR Freeze
+      - Faster DTR Regen
+      - Reduced Enderpearl cooldown by &b1.5s
+      - Passive Fire Resistance
+      - Increased brewing speed by &b25%
+    cosmic:
+      - '&d&l* &a20% &fFaction Point multiplier'
+      - '&d&l* &f/stronghold sell'
+      - '&d&l* &fNo Coin Flip Tax'
+      - '&d&l* &a+10%&f bonus /jackpot tickets'
+      - '&d&l* &a10%&f Chance to negate Holy White Scrolls'
+outposts:
+  courtyard:
+    displayName: '&c&lInfernal Stronghold'
+    regionName: infernalcap
+    blockRegionName: infernal
+    lastCapturedTime: 1522653396278
+    location: world:1930:72:1931:0.0:0.0
+    capturePercent: 0.0
+    lastTrophySpawned: 0
+  great_hall:
+    displayName: '&b&lFrozen Stronghold'
+    regionName: frozen_outpost
+    blockRegionName: frozen_blocks
+    lastCapturedTime: 1600288129608
+    location: world:-3070:66:-3070:0.0:0.0
+    capturePercent: 0.0
+    lastTrophySpawned: 0
+last-spawned-chest: 1604930056074
+last-outpost: great_hall

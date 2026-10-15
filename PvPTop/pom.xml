@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.conaxgames</groupId>
+        <artifactId>ProjectAstro</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <groupId>net.crankedpvp.pvptop</groupId>
+    <artifactId>PvPTop</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.astropvp</groupId>
+            <artifactId>utils</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../.lib/CosmicPvPUtils.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.astropvp</groupId>
+            <artifactId>StorageUtilsShaded</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../StorageUtil/target/StorageUtil-0.1-shaded.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.astropvp</groupId>
+            <artifactId>fkore</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../.lib/FactionsKore-1.3.62.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.astropvp</groupId>
+            <artifactId>wine</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../.lib/WineSpigot-V1.9.15.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>factionss</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../.lib/Factions(1).jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.conaxgames</groupId>
+            <artifactId>ccverif</artifactId>
+            <version>0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../.lib/CCVerify-1.0.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+</project>

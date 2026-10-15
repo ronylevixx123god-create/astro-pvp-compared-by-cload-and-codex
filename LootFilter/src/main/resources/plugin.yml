@@ -1,0 +1,6 @@
+name: AstroLootFilter
+version: ${project.version}
+main: net.astropvp.lootfilter.AstroLootFilterPlugin
+authors: [AstroPvP]
+description: AstroCore
+depend: [CosmicPvPUtils, StorageUtil, AstroSlotBot]

@@ -1,0 +1,35 @@
+enabled: true
+
+INVALID_ADMIN_ITEM: "&c&l(!)&c Invalid admin item name."
+USE_STACKED_ADMIN_ITEM: "&3&lAdmin Items &8➥ &7You cannot use stacked admin items."
+ADMIN_COMMAND_HELP:
+  - "&8--- &3Astro &fAdminItems &8---"
+  - "&3/cai &fitem &7<adminItem> [player]"
+
+
+ADMIN_RELOADING: "&3&l(!) &7Reloading configs now..."
+ADMIN_RELOADED: "&3&l(!) &7Reloaded configs and other cool stuff. Took &3%took%ms&7."
+
+ADMIN_ITEM_ABILITY_COOLDOWN: "&3&lAdmin Items &8➥ &7You cannot use this ability for another &f%time&7."
+
+TRAP_BLOCKER_CANNOT_INTERACT: "&c&lTRAP BLOCKER:&c You cannot do this while being trap blocked!"
+TRAP_BLOCKER_ENEMY_ON_COOLDOWN: "&c&lTRAP BLOCKER:&c %enemy% is still on trap blocker cooldown for %time%!"
+TRAP_BLOCKED_BY: "&c&lTRAP BLOCKER:&c You have been trap blocked by &7%enemy%&c for &7%time%&c. &cWhile trap blocked you can no longer build, break blocks or open doors."
+TRAP_BLOCKED: "&c&lTRAP BLOCKER:&c You have trap blocked &7%amount% &cenemies: &7%blockedList%&c."
+TRAP_BLOCKER_NO_NEARBY: "&c&lTRAP BLOCKER:&c No valid targets have been found!"
+TRAP_BLOCKER_ENDED: "&c&lTRAP BLOCKER:&c You are no longer trap blocked!"
+
+TIME_TRAVEL_DIED: "&5&lTIME TRAVELER:&5 Since you died you will no longer be teleported to your previous location."
+TIME_TRAVEL_TIME: "&5&lTIME TRAVELER:&5 You will teleported back to your previous location in &7%time% seconds&5."
+TIME_TRAVEL_USED: "&5&lTIME TRAVELER:&5 You have used a time traveler, you will be teleported back in &7%time% seconds&5."
+TIME_TRAVEL_ENDED: "&5&lTIME TRAVELER:&5 You have been teleported back to your previous location!"
+
+GRAPPLED_ENEMY: "&b&lGRAPPLING HOOK:&b You have grappled &7%enemy% &btowards you!"
+GRAPPLED_BY_PLAYER: "&b&lGRAPPLING HOOK:&b You have been grappled towards %player%&b!"
+GRAPPLED: "&b&lGRAPPLING HOOK: &bYou have grappled away!"
+
+SWITCHERED: "&d&lSWITCHER BALL: &dYou have switched positions with &7%shot%!"
+SWITCHERED_BY_PLAYER: "&d&lSWITCHER BALL: &dYou have been hit with a switcher ball by &7%player%&d!"
+SWITCHER_HIT_NONE: "&d&lSWITCHER BALL: &dYou didn't hit a player while using the switcher ball!"
+
+

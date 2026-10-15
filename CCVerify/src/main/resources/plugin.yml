@@ -1,0 +1,36 @@
+name: CCVerify
+author: Bryside
+version: 1.0
+main: com.astropvp.cc.CCVerify
+depend:
+  - ProtocolLib
+  - BuycraftX
+  - Factions
+permissions:
+  ccverify.voice.lock:
+    default: false
+    description: 'Lock voice chat'
+  ccverify.voice.global:
+    default: false
+    description: 'Speak globally'
+  ccverify.voice.faction:
+    default: true
+    description: 'Speak to your own faction'
+  ccverify.voice.proximity:
+    default: true
+    description: 'Speak to those near you'
+  ccverify.apollo:
+    default: false
+    description: 'Show the apollo header'
+  ccverify.popup.use:
+    default: false
+    description: 'Send popups to all or one player'
+commands:
+  voicechat:
+    aliases: [vc]
+  popup:
+    aliases: [pp]
+    permission: ccverify.popup.use
+  ccreload:
+    permission: ccverify.reload
+  cccheck:

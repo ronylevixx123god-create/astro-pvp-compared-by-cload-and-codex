@@ -1,0 +1,7 @@
+ADMIN_RELOADING: "&a&lEnvoy &8➥ &7Reloading configs now..."
+ADMIN_RELOADED: "&a&lEnvoy &8➥ &7Reloaded configs and other cool stuff. Took &d%took%ms&7."
+ENVOY_STARTED:
+  - ""
+  - "&6&l*** &e&lAN ENVOY EVENT HAS JUST STARTED &6&l***"
+  - "&7&o(( A total of &f&n{chests}&r &7&ohave been spawned around the /spawn warzone! ))"
+  - ""

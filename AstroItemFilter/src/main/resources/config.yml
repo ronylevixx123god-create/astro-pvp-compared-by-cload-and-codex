@@ -1,0 +1,122 @@
+settings:
+  filtered-items-line: '&e&lFiltered Items (&f{0}&e&l)'
+  filtered-list-format: '&e&l* &f{1}'
+  Will:
+    ItemName: '&a{2}'
+    ItemLore:
+      - '&a&lWILL &7be picked up'
+      - '&7when item filter is &nenabled.'
+  WillNot:
+    ItemName: '&c{2}'
+    ItemLore:
+      - '&c&lWILL NOT &7be picked up'
+      - '&7when item filter is &nenabled.'
+  main-inventory:
+    title: 'Item Filter Categories'
+    size: 1
+    settings:
+      # This is the sound effect when a player withdraws a banknote.
+      # Note: Please use a valid sound effect for the version of minecraft.
+      # Servers Running 1.9 & Above: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+      # Servers Running 1.7 or 1.8: http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html
+      category-open:
+        enable: false
+        sound-effect: 'ENDERMAN_TELEPORT'
+        sound-volume: 3
+        sound-pitch: 1
+      # This is the sound effect when a player withdraws a banknote.
+      # Note: Please use a valid sound effect for the version of minecraft.
+      # Servers Running 1.9 & Above: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+      # Servers Running 1.7 or 1.8: http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html
+      category-close:
+        enable: false
+        sound-effect: 'ENDERDRAGON_WINGS'
+        sound-volume: 3
+        sound-pitch: 1
+      # This is the sound effect when a player withdraws a banknote.
+      # Note: Please use a valid sound effect for the version of minecraft.
+      # Servers Running 1.9 & Above: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html
+      # Servers Running 1.7 or 1.8: http://docs.codelanx.com/Bukkit/1.8/org/bukkit/Sound.html
+      filter-item-select:
+        enable: false
+        sound-effect: 'ANVIL_USE'
+        sound-volume: 3
+        sound-pitch: 1
+      spacers:
+        enable: true
+        id: STAINED_GLASS_PANE:15
+        name: ' '
+        lore: []
+        glow: false
+    items:
+      Equipment:
+        id: DIAMOND_CHESTPLATE
+        name: '&6&lEquipment'
+        slot: 1
+        enable: true
+      Potion:
+        id: POTION
+        name: '&6&lPotion Supplies'
+        slot: 2
+        enable: true
+      Raiding:
+        id: REDSTONE
+        name: '&6&lRaiding'
+        slot: 3
+        enable: true
+      Food:
+        id: BREAD
+        name: '&6&lFood'
+        slot: 5
+        enable: true
+      Specialty:
+        id: 52
+        name: '&6&lSpecialty'
+        slot: 6
+        enable: true
+      Ores:
+        id: DIAMOND_ORE
+        name: '&6&lOres'
+        slot: 7
+        enable: true
+  equipment-inventory:
+    title: 'Item Filter: Equipment'
+  potion-inventory:
+    title: 'Item Filter: Potion Supplies'
+  raiding-inventory:
+    title: 'Item Filter: Raiding'
+  food-inventory:
+    title: 'Item Filter: Food'
+  specialty-inventory:
+    title: 'Item Filter: Specialty'
+  ores-inventory:
+    title: 'Item Filter: Ores'
+messages:
+  item-filter-no-permission:
+    - '&cYou don''t have permission for that command!'
+  item-filter-reload:
+    - '&a&lItemFilter &ahas successfully reloaded!'
+  item-filter-reset-self:
+    - '&aYou have successfully reset your ItemFilter!'
+  item-filter-reset-other:
+    - '&aYou have successfully reset {player}''s ItemFilter!'
+  item-filter-target-not-found:
+    - '&c&n{player}&c has never joined this server before!'
+  item-filter-usage:
+    - ''
+    - '&c&lItem Filter Commands'
+    - '&f/filter toggle'
+    - '&7Toggle item pickup filter.'
+    - ''
+    - '&f/filter edit'
+    - '&7Edit items you pickup while the item filter is enabled.'
+    - ''
+  item-filter-enable:
+    - ''
+    - '&a&l(!) Item Filter &nEnabled'
+    - '&7Use &n/filter edit&7 to edit the items you will pickup.'
+    - ''
+  item-filter-disable:
+    - ''
+    - '&c&l(!) Item Filter &nDisabled'
+    - ''

@@ -1,0 +1,308 @@
+Commands:
+  WildPvP:
+    Leave:
+      Match:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou are not in a &6&nWildPvP&r &ematch."
+      CombatTag:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eleave a &6&nWildPvP&r &ematch while combat tagged."
+      Left:
+        Player:
+          Participant:
+            Message: "&6Astro&fPvP &8- &eYou have &c&lLEFT &ethe &6&nWildPvP&r &ematch with the player &7%player&e."
+          Alone:
+            Message: "&6Astro&fPvP &8- &eYou have &c&lENDED &eyour &6&nWildPvP&r &ematch."
+        Participant:
+          Message: "&6Astro&fPvP &8- &7%player &ehas &c&lLEFT &ethe &6&nWildPvP&r &ematch."
+        Title:
+          Title: "&6&nWildPvP"
+          SubTitle: "&cMatch Ended!"
+      Teleported:
+        Message: "&6Astro&fPvP &8- &7&oYou have been teleported to your last location."
+WildPvP:
+  EntityExplosion:
+    Enable: false
+  Match:
+    Broadcast: true
+    Title: true
+    ItemPickupBlacklist:
+      - "POTION"
+    BlockInteractBlacklist:
+      - "CHEST"
+      - "ANVIL"
+      - "BEACON"
+      - "ENCHANTMENT_TABLE"
+      - "ENDER_CHEST"
+      - "FURNACE"
+      - "HOPPER"
+      - "TRAPPED_CHEST"
+  Queued:
+    PlayersNearby:
+      Radius: 30
+  Join:
+    Commands:
+      - "spawn %player"
+  Joined:
+    Creator:
+      Message: "&6Astro&fPvP &8- &7%player &ehas &a&lJOINED &eyour &6&nWildPvP&r &ematch."
+      Title:
+        Title: "&6&nWildPvP"
+        SubTitle: "&a%player Joined"
+    Joiner:
+      Message: "&6Astro&fPvP &8- &eYou have &a&lJOINED &ethe player &7%player's &6&nWildPvP&r &ematch."
+  Countdown:
+    Versus:
+      Title:
+        Title: "&6&nWildPvP"
+        SubTitle: "&a%creator v %joined"
+    Grace:
+      Ending:
+        Message: "&6Astro&fPvP &8- &8[&6WildPvP &7| &e%versus&8] &dGrace Ending in %countdowns..."
+        Title:
+          Title: "&6&nWildPvP"
+          SubTitle: "&dGrace Ending in %countdowns..."
+      Ended:
+        Message: "&6Astro&fPvP &8- &8[&6WildPvP &7| &e%versus&8] &dGrace Ended!"
+        Title:
+          Title: "&6&nWildPvP"
+          SubTitle: "&dGrace Ended!"
+Immune:
+  Countdown:
+    Started:
+      Message: "&6Astro&fPvP &8- &eYou will receive &b&lIMMUNITY &efor &d20 Seconds&e."
+    Ending:
+      Message: "&6Astro&fPvP &8- &8[&6WildPvP&8] &dImmunity Ending in %countdowns..."
+      Title:
+        Title: "&b&nIMMUNE"
+        SubTitle: "&dEnding in %countdowns..."
+    Ended:
+      Message: "&6Astro&fPvP &8- &8[&6WildPvP&8] &cYou are no longer &4&lIMMUNE&c."
+      Title:
+        Title: "&b&nIMMUNE"
+        SubTitle: "&cImmunity Ended!"
+Listeners:
+  Inventory:
+    Matches:
+      Immune:
+        Create:
+          Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ecreate a &6&nWildPvP&r &ematch while immune."
+        Join:
+          Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ejoin a &6&nWildPvP&r &ematch while immune."
+      CombatTag:
+        Create:
+          Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ecreate a &6&nWildPvP&r &ematch while combat tagged."
+        Join:
+          Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ejoin a &6&nWildPvP&r &ematch while combat tagged."
+      Region:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ecreate a &6&nWildPvP&r &ematch while in a region."
+      Wilderness:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ecreate a &6&nWildPvP&r &ematch because you must be in the &2&nWilderness&e."
+      Chunk:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ecreate a &6&nWildPvP&r &ematch in a chunk that has a &6&nWildPvP&r &ematch."
+      Queued:
+        Player:
+          Message: "&6Astro&fPvP &8- &aInfo&8: &eYou have &b&lQUEUED &ea &6&nWildPvP&r &ematch."
+          Title:
+            Title: "&6&nWildPvP"
+            SubTitle: "&aQueued..."
+        Broadcast:
+          Message: "&6Astro&fPvP &8- &7%player &ehas &b&lQUEUED &ea &6&nWildPvP&r &ematch."
+      Available:
+        Message: "&6Astro&fPvP &8- &cError&8: &eThat &6&nWildPvP&r &ematch is no longer available."
+      Already:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou are already in a &6&nWildPvP&r &ematch."
+      Started:
+        Message: "&6Astro&fPvP &8- &cError&8: &eThat &6&nWildPvP&r &ematch has already started."
+      Players:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ecreate a &6&nWildPvP&r &ematch while there's a player in the chunk."
+  Damage:
+    Immune:
+      Immune:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &edamage players while &b&lIMMUNE &eafter a &6&nWildPvP&r &ematch."
+      Player:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &edamage that player while they're &b&lIMMUNE &eafter a &6&nWildPvP&r &ematch."
+    Match:
+      Participant:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &edamage players while in a &6&nWildPvP&r &ematch."
+      Player:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &edamage that player while they're in a &6&nWildPvP&r &ematch."
+    Grace:
+      Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &edamage that player until &d&nGrace Period&r &ehas ended."
+  Command:
+    AllowedCommands:
+      - "heal"
+      - "feed"
+      - "eat"
+      - "near"
+      - "fix"
+      - "fixall"
+      - "repair"
+      - "repairall"
+      - "bless"
+      - "enderchest"
+      - "echest"
+      - "ec"
+      - "playervault"
+      - "playervaults"
+      - "pv"
+      - "shop"
+      - "factions"
+      - "f"
+      - "msgtoggle"
+      - "msg"
+      - "w"
+      - "m"
+      - "t"
+      - "pm"
+      - "tell"
+      - "whisper"
+      - "reply"
+      - "r"
+      - "paytoggle"
+      - "trash"
+      - "bin"
+      - "dispose"
+      - "disposal"
+      - "invsee"
+    Match:
+      Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eperform that command while in a &6&nWildPvP&r &ematch."
+  Move:
+    Chunk:
+      Participant:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ego outside of the chunk while in a &6&nWildPvP&r &ematch."
+      Match:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eenter that chunk while there's a &6&nWildPvP&r &ematch."
+  Teleport:
+    Match:
+      Participant:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eteleport while in a &6&nWildPvP&r &ematch."
+      Match:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eteleport to that location while there's a &6&nWildPvP&r &ematch."
+  Join:
+    Teleported:
+      Message: "&6Astro&fPvP &8- &eYou have been &b&lTELEPORTED &eto the spawn point because there was a &6&nWildPvP&r &ematch at the chunk you were at."
+  Quit:
+    Won:
+      Message: "&6Astro&fPvP &8- &eYou &a&lWON &ethe &6&nWildPvP&r &ematch against the player &7%player&e."
+      Title:
+        Title: "&6&nWildPvP"
+        SubTitle: "&a&lWINNER!"
+    Broadcast:
+      Message: "&6Astro&fPvP &8- &7%winner &ehas &c&lDEFEATED &ethe player &7%loser &ein a &6&nWildPvP&r &ematch."
+    Left:
+      Message: "&6Astro&fPvP &8- &7%player &ehas left the &6&nWildPvP&r &ematch."
+      Title:
+        Title: "&6&nWildPvP"
+        SubTitle: "&cMatch Ended!"
+    Teleported:
+      Message: "&6Astro&fPvP &8- &7&oYou have been teleported to your last location."
+  Death:
+    Alone:
+      Message: "&6Astro&fPvP &8- &eYour &6&nWildPvP&r &ematch has been &c&lREMOVED&e."
+    Won:
+      Message: "&6Astro&fPvP &8- &eYou &a&lWON &ethe &6&nWildPvP&r &ematch against the player &7%player&e."
+      Title:
+        Title: "&6&nWildPvP"
+        SubTitle: "&a&lWINNER!"
+    Lost:
+      Message: "&6Astro&fPvP &8- &eYou &c&lLOST &ethe &6&nWildPvP&r &ematch against the player &7%player&e."
+      Title:
+        Title: "&6&nWildPvP"
+        SubTitle: "&c&lLOSER!"
+    Broadcast:
+      Message: "&6Astro&fPvP &8- &7%winner &ehas &c&lDEFEATED &ethe player &7%loser &ein a &6&nWildPvP&r &ematch."
+  Claim:
+    Match:
+      Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eclaim this chunk while a &6&nWildPvP&r &eis taking place in it."
+  Block:
+    Place:
+      Match:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eplace a block while in a &6&nWildPvP&r &ematch."
+      Chunk:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eplace that block at that chunk while there's a &6&nWildPvP&r &ematch there."
+    Break:
+      Match:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ebreak a block while in a &6&nWildPvP&r &ematch."
+      Chunk:
+        Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &ebreak that block at that chunk while there's a &6&nWildPvP&r &ematch there."
+  Interact:
+    Match:
+      Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &einteract with that block while in a &6&nWildPvP&r &ematch."
+  Vehicle:
+    Match:
+      Message: "&6Astro&fPvP &8- &cError&8: &eYou &c&lCANNOT &eenter that vehicle while in a &6&nWildPvP&r &ematch."
+Menus:
+  Matches:
+    Title: "Cage Match Queue"
+    Items:
+      Exit:
+        Displayname: "&cExit WildPvP Matches"
+      Previous:
+        Available:
+          Displayname: "&aPrevious Page <"
+        Unavailable:
+          Displayname: "&cPrevious Page <"
+      Next:
+        Available:
+          Displayname: "&aNext Page >"
+        Unavailable:
+          Displayname: "&cNext Page >"
+      Information:
+        Displayname: "&bInformation"
+        Create:
+          Lore:
+            - "&7Active&8:"
+            - "&f%active"
+            - ""
+            - "&7Queued&8:"
+            - "&f%queued"
+            - ""
+            - "&eClick to &a&lCREATE &ea match!"
+        Leave:
+          Lore:
+            - "&7Active&8:"
+            - "&f%active"
+            - ""
+            - "&7Queued&8:"
+            - "&f%queued"
+            - ""
+            - "&eClick to &c&lLEAVE &eyour match!"
+      Glass:
+        Displayname: "&6Astro&fPvP"
+      Match:
+        Displayname: "&b%player"
+        Leave:
+          Lore:
+            - "&7Health&8:"
+            - "&f%health"
+            - ""
+            - "&7Faction&8:"
+            - "&f%faction"
+            - ""
+            - "&7Players Nearby&8:"
+            - "&f%playersnearby Players"
+            - ""
+            - "&eClick to &c&lLEAVE &ematch!"
+        Enter:
+          Lore:
+            - "&7Health&8:"
+            - "&f%health"
+            - ""
+            - "&7Faction&8:"
+            - "&f%faction"
+            - ""
+            - "&7Players Nearby&8:"
+            - "&f%playersnearby Players"
+            - ""
+            - "&eLeft-Click to &a&lENTER &ematch!"
+            - "&eRight-Click to &b&lVIEW &einventory!"
+      None:
+        Displayname: "&c&oThere are no active WildPvP matches!"
+        Lore:
+          - "&7&oPlease check back later!"
+  Invsee:
+    Title: "%player's Inventory"
+    Items:
+      Glass:
+        Displayname: ""
+      Return:
+        Displayname: "&cReturn to WildPvP Matches"

@@ -1,0 +1,26 @@
+name: Enchantments
+version: 1.1
+main: org.arkhamnetwork.enchantments.Enchantments
+depend: [ EnchantmentAPI, Essentials, CosmicSkyCustomItems ]
+softdepend: [mcMMO, FactionUpgrades, CosmicDungeons, CosmicSkyCustomItems ]
+commands:
+  enchbook:
+    description: Root command.
+    usage: /<command>
+  enchdust:
+  enchorb:
+  enchscroll:
+  tinkerer:
+  enchanter:
+  transmog:
+  alchemist:
+  apply:
+    description: Rescans and applies all custom enchantment buffs for your current equipment.
+    usage: /<command>
+  blackscroll:
+    description: default command
+  enchreload:
+    description: reload the damage config
+  phoenix:
+    description: check phoenix cooldown
+    aliases: [phoenixcooldown, phoenixcd]

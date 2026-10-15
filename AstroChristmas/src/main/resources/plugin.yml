@@ -1,0 +1,12 @@
+name: AstroChristmas
+main: net.astropvp.christmas.ChristmasPlugin
+version: 1.0
+depend:
+  - CosmicPvPUtils
+  - StorageUtil
+commands:
+  christmas:
+    aliases:
+      - santa
+      - advent
+      - adventcalendar

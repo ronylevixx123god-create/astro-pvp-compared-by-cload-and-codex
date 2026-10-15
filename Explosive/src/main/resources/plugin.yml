@@ -1,0 +1,10 @@
+name: CosmicCustomTNT
+main: org.arkhamnetwork.CosmicCustomTNT.CosmicCustomTNT
+version: 1.0
+softdepend: [WorldGuard]
+commands:
+  ctnt:
+    description: Root command.
+    usage: /<command>
+  ccc:
+    description: ccc command.

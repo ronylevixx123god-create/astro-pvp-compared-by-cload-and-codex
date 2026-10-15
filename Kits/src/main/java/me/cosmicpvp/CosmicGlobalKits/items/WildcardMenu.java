@@ -1,0 +1,88 @@
+/*
+ * Decompiled with CFR 0.150.
+ * 
+ * Could not load the following classes:
+ *  com.cosmicpvp.cosmicutils.compat.ASound
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.gui.CosmicGUI
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.CC
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.InventoryUtils
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.ItemBuilder
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.NBTWrapper
+ *  com.cosmicpvp.cosmicutils.net.astropvp.armorsets.utils.PlayerUtil
+ *  me.ifamasssxd.cosmicevolutionkits.CosmicEvolutionKits
+ *  org.bukkit.Bukkit
+ *  org.bukkit.entity.Player
+ *  org.bukkit.inventory.ItemStack
+ *  org.bukkit.plugin.Plugin
+ */
+package me.cosmicpvp.CosmicGlobalKits.items;
+
+import com.cosmicpvp.cosmicutils.compat.ASound;
+import com.cosmicpvp.cosmicutils.gui.CosmicGUI;
+import com.cosmicpvp.cosmicutils.utils.*;
+import me.cosmicpvp.CosmicGlobalKits.CosmicGlobalKits;
+import me.cosmicpvp.CosmicGlobalKits.CosmicGlobalKitsAPI;
+import me.cosmicpvp.CosmicGlobalKits.libs.GlobalKits;
+import me.cosmicpvp.CosmicGlobalKits.struct.GlobalKitData;
+import me.cosmicpvp.CosmicGlobalKits.struct.GlobalKitUser;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
+
+import java.util.Map;
+
+public class WildcardMenu
+extends CosmicGUI {
+    private boolean unlocked = false;
+    private NBTWrapper itemWrapper;
+
+    public WildcardMenu(Player player, NBTWrapper itemWrapper) {
+        super(player, "Select /gkit to unlock/level", InventoryUtils.fitSize((int)GlobalKits.values().length));
+        this.itemWrapper = itemWrapper;
+    }
+
+    public void redraw() {
+        int index = 0;
+        GlobalKitUser user = CosmicGlobalKits.getPlugin().getGlobalKitUser(this.player.getUniqueId());
+        Map<GlobalKits, GlobalKitData> kitData = user.getGlobalKits();
+        for (GlobalKits kit : GlobalKits.values()) {
+            ItemBuilder builder = new ItemBuilder(kit.createMenuItem(kitData, this.player, false));
+            if (CosmicGlobalKitsAPI.canLevelUpGkit(this.player, kit)) {
+                builder.addLoreLine(new String[]{CC.Green + "Click to unlock or level up!"});
+            } else {
+                builder.addLoreLine(new String[]{CC.RedB + "MAX LEVEL"});
+            }
+            this.setItem(index++, builder.build(), () -> {
+                if (this.unlocked) {
+                    return;
+                }
+                if (this.itemWrapper.isBlacklistedIID()) {
+                    this.unlocked = true;
+                    this.close();
+                    this.player.sendMessage(CC.RedB + "(!) " + CC.Red + "Item has been claimed since you're inventory was opened!");
+                    return;
+                }
+                if (kit.unlockOrLevelUp(this.player)) {
+                    this.unlocked = true;
+                    this.itemWrapper.blacklistIID(this.player.getName() + " claimed");
+                    this.closeWithDelay();
+                }
+            });
+        }
+    }
+
+    public void onInventoryClose() {
+        if (!this.unlocked) {
+            this.unlocked = true;
+            PlayerUtil.giveOrDropProtectedItem((Player)this.player, (ItemStack)this.itemWrapper.build(), (int)-1);
+            ASound.CHICKEN_EGG_POP.play(this.player, 3.0f, 1.1f);
+            Bukkit.getScheduler().runTaskLater((Plugin)CosmicGlobalKits.getPlugin(), () -> {
+                if (this.player.isValid()) {
+                    this.player.updateInventory();
+                }
+            }, 1L);
+        }
+    }
+}
+

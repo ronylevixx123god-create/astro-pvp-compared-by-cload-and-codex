@@ -1,0 +1,7 @@
+name: AstroTournaments
+main: me.kingsavaqe.astrotournaments.AstroTournamentsPlugin
+version: 1.0
+author: KingSavaqe
+depend:
+  - AstroKillCounters
+  - StorageUtil

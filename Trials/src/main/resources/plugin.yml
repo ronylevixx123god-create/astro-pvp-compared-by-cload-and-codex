@@ -1,0 +1,5 @@
+name: AstroTrials
+main: org.demonicpvp.demonictrials.DemonicTrials
+version: 1.0
+description: Trials plugin
+depend: [CosmicPvPUtils, CosmicSkyCustomItems, Essentials, Factions]

@@ -1,0 +1,41 @@
+name: PlayerVaults
+authors: [drtshock, kashike, CmdrKittens]
+website: ${project.url}
+
+version: ${project.version}
+main: com.drtshock.playervaults.PlayerVaults
+depend: [CosmicPvPUtils]
+softdepend: [Vault, Multiverse-Inventories]
+api-version: 1.13
+
+commands:
+  pv:
+    description: Open a vault.
+    aliases: [vault, chest, playervaults]
+  pvdel:
+    description: Delete a vault.
+    aliases: [vaultdel]
+  pvsign:
+    description: Manage vault signs.
+    aliases: [vaultsign]
+  pvconvert:
+    description: Convert other plugins to PlayerVaultsX.
+    aliases: [vaultconvert]
+  pvreload:
+    description: Reload the configuration and language files.
+    permission: playervaults.admin
+  pvhelpme:
+    description: Pastes debug info to get better assistance.
+    permission: playervaults.admin
+  pvsearch:
+    description: Search trough pvs
+permissions:
+  playervaults.admin:
+    description: Grants access to admin commands for vaults.
+    default: op
+  playervaults.bypassblockeditems:
+    description: Grants access to bypass blocked vault items.
+    default: op
+  playervaults.commands.use:
+    description: Use the command
+    default: true

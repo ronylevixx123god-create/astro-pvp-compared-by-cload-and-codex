@@ -1,0 +1,7 @@
+name: CosmicSkyCustomItems
+version: 1.0
+main: me.ifamasssxd.cosmicskycustoms.CosmicSkyCustomItems
+depend: [CosmicPvPUtils]
+commands:
+  customitems:
+    description: Custom item command.

@@ -1,0 +1,12 @@
+cosmic_envoy:
+  enabled: true
+  min_delay: 25
+  max_delay: 40
+cosmic_pumpkin:
+  min_delay: 100
+  max_delay: 150
+cosmic_christmas:
+  min_delay: 115
+  max_delay: 225
+rankItems: true
+moneyNoteRanks: false

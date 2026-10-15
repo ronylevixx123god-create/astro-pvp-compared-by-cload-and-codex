@@ -1,0 +1,109 @@
+name: AstroCore
+version: ${project.version}
+main: net.astropvp.core.AstroCore
+description: AstroCore
+depend: [Vault, Essentials, CosmicPvPUtils, Arkkit, WorldGuard, StorageUtil, EnchantmentAPI, Enchantments]
+commands:
+  randomtp:
+    aliases: ["tprandom"]
+  bless:
+    aliases: ['blessme']
+  heal:
+    aliases: ['healme']
+  discord:
+    aliases: ['discord']
+  pots:
+    aliases: ['pot']
+  trailer:
+    description: Claim trailer rewards
+    aliases: ['trailerclaim', 'claimtrailer']
+  givechunkbuster:
+    aliases: ['givecb']
+  giveaway:
+    aliases: ['ga']
+  trash:
+    aliases: ['bin']
+  lastmanstanding:
+    aliases: ['lms']
+  givebucket:
+    description: gives magic bucket
+  grinding:
+    aliases: ['grind']
+  list:
+    aliases: ['elist']
+  dupe:
+    description: /dupe
+  givesoulpearl:
+    description: Gives soulpearl
+  spawnershop:
+    description: /spawnershop
+    aliases: ['spawnershop', 'spawners', 'spawner']
+  givetracker:
+    description: Gives a player a kill tracker.
+  astroitem:
+    description: Custom items for astro
+  withdrawsouls:
+    description: Take souls from items.
+    aliases: [takesouls, removesouls, withdraws, splitsouls, ws, withdrawsoul]
+  givesoulgem:
+    description: Give soul gem with the given amount.
+  helpenchants:
+    description: Enchantment help.
+    aliases: [ 'enchants', 'ce' ]
+  togglekilltitle:
+    description: Toggle kill titles
+  togglefactionland:
+    description: Toggle land title
+  wiki:
+    description: Wiki
+  spawnmenu:
+    description: Spawn menu for HCF.
+  csponge:
+    description: Root command.
+    usage: /<command>
+  armorcolor:
+    aliases: ['colorarmor', 'armor']
+    description: Color Armor Command
+  jackpot:
+    description: Jackpot command.
+  togglepay:
+    description: Toggle payments.
+  title:
+    description: Open title selection UI. If used from console, all titles are listed.
+    aliases: [titles, playertitle, playertitles]
+  titleset:
+    description: Set the title of a player. Only usable from console.
+  corechunkfinder:
+    description: Core chunk command.
+  setheroicbossspawn:
+    description: Set boss spawn.
+  spawnheroicboss:
+    description: Spawn boss.
+  coinflip:
+    description: Coin flip command.
+    aliases: [cf, coinflips, rps]
+  giveall:
+    aliases: [tempgiveall]
+    description: claim from autogiveall
+  nextgiveall:
+    description: nextgiveall from autogiveall
+  forcegiveall:
+    description: forcegiveall from autogiveall
+  togglesb:
+    description: Toggle scoreboards from factions.
+    aliases: [togglescoreboard, sb]
+  toggles:
+    description: Toggles.
+    aliases: [settings, options]
+  givebackpack:
+    description: givebackpack.
+  giveenchantmentcrystal:
+    description: giveenchantmentcrystal
+  clearlag:
+    description: /clearlag
+    aliases: [ cl ]
+  givepearl:
+  chatcolor:
+    aliases: [ color ]
+  togglepotsdrop:
+  togglebossmessages:

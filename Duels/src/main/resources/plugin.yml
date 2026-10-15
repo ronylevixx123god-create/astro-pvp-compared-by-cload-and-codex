@@ -1,0 +1,21 @@
+main: me.ifamasssxd.cosmicduel.CosmicDuel
+version: 1.0
+name: CosmicDuel
+softdepend: [Arkkit]
+commands:
+  duel:
+    description: Main duel command.
+    aliases: [duels]
+  spectate:
+    description: Spectate a duel.
+  removeduelspawn:
+    description: Removes duel spawn.
+  setduelspawn:
+    description: Sets duel spawn.
+  setduelworld:
+    description: Sets the duel world.
+  viewdeathinventory:
+    description: View death me.astropvp.cratekeys.inventory.
+  team:
+    aliases: ['dteam', 'teamduel']
+    description: Base command for creating a team

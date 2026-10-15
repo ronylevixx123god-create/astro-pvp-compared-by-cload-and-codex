@@ -1,0 +1,9 @@
+name: BAH
+author: quantiom
+description: Remake of Cosmic's BAH
+version: 1.0
+main: com.decimatemc.blackmarketauction.BlackMarketAuction
+commands:
+  bah:
+    aliases: [blackmarketauction]
+  bahloot:

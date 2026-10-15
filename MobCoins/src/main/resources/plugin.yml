@@ -1,0 +1,8 @@
+name: AstroMobCoins
+main: net.crankedpvp.shards.MobcoinPlugin
+version: ${git.total.commit.count}.0
+description: "§fCommit ID: §a${git.commit.id.abbrev}"
+website: https://crankedpvp.net/
+depend:
+  - CosmicPvPUtils
+  - StorageUtil

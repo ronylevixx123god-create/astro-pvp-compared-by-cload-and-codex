@@ -1,0 +1,9 @@
+name: Collect
+main: net.astropvp.CollectPlugin
+version: 1.0
+depend:
+  - StorageUtil
+commands:
+  collect:
+  collectsave:
+  collectload:

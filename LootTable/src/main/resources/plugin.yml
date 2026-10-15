@@ -1,0 +1,8 @@
+name: AstroLoottables
+main: net.astropvp.loottable.LootTablePlugin
+version: ${git.total.commit.count}.0
+description: "§fCommit ID: §a${git.commit.id.abbrev}"
+website: https://astropvp.net/
+depend:
+  - CosmicPvPUtils
+  - StorageUtil

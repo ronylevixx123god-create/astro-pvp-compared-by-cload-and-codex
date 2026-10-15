@@ -1,0 +1,9 @@
+version: 1.0
+name: CosmicContests
+main: me.ifamasssxd.cosmiccontests.CosmicContests
+depend: [Arkkit]
+soft-depend: [Factions]
+commands:
+  challenge:
+    description: Contest command.
+    aliases: [contests, contest, challenges]
