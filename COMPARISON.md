@@ -4,7 +4,9 @@ Compared Project-AstroPvP `e437ebe555d66cc869d8ece8e39b60445f46e994` against Ast
 
 ## Enchantment follow-up
 
-The repaired source was on a separate branch that the initial main-branch comparison did not include. Against the Odds and missing enchantment repairs are now restored from `codex/astropvp-restoration`. See [ENCHANTMENT-RESTORATION.md](ENCHANTMENT-RESTORATION.md) for provenance, behavior, 60 passing checks and deployment requirements.
+Current user preference: preserve original inactive enchantment behavior only in this comparison repository. Rocket Escape, Guided Rocket Escape, Paladin Armored, Alien Implants and the inactive armor durability calls have been returned to their original code. Ice Aspect’s slowness remains disabled. Against the Odds and non-activation reliability fixes remain. The two original repositories were not changed by this policy update.
+
+The repaired source was on a separate branch that the initial main-branch comparison did not include. Against the Odds and missing enchantment repairs are now restored from `codex/astropvp-restoration`. See [ENCHANTMENT-RESTORATION.md](ENCHANTMENT-RESTORATION.md) for provenance, behavior, 61 passing checks and deployment requirements.
 
 ## Initial comparison
 

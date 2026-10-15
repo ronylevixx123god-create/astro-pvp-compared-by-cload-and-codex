@@ -14,8 +14,7 @@ public class HeroicArmored extends HeroicCustomEnchantment {
         super("Paladin Armored", "Armored");
     }
 
-    @Override
-    public void applyDefenseEffect(final LivingEntity player, final LivingEntity attacker, final int level, final EntityDamageEvent e) {
+    public void applyDefenseEffect(final LivingEntity player, final LivingEntity attacker, final int level, final EntityDamageByEntityEvent e) {
         if (!(player instanceof Player)) {
             return;
         }

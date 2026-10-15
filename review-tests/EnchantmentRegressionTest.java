@@ -60,32 +60,43 @@ public class EnchantmentRegressionTest {
         plugin.registerEnchantments(); assertNull(EnchantmentAPI.getEnchantment(enchant.name()));
         verifyNoInteractions(scheduler);
     }
-    @Test public void restoredDefenseEnchantmentsOverrideTheActualApiHook() throws Exception {
-        for (Class<?> type : new Class<?>[]{RocketEscape.class, HeroicRocketEscape.class, HeroicArmored.class}) {
-            assertEquals(type, type.getMethod("applyDefenseEffect", LivingEntity.class, LivingEntity.class,
-                    int.class, EntityDamageEvent.class).getDeclaringClass());
+    @Test public void originallyInactiveDefenseHooksRemainInactive() throws Exception {
+        CustomEnchantment[] enchants = {new RocketEscape(), new HeroicRocketEscape(), new HeroicArmored()};
+        Player defender = mock(Player.class), attacker = mock(Player.class);
+        for (CustomEnchantment enchant : enchants) {
+            assertEquals(CustomEnchantment.class, enchant.getClass().getMethod("applyDefenseEffect",
+                    LivingEntity.class, LivingEntity.class, int.class, EntityDamageEvent.class).getDeclaringClass());
+            EntityDamageEvent event = new org.bukkit.event.entity.EntityDamageByEntityEvent(attacker, defender,
+                    EntityDamageEvent.DamageCause.ENTITY_ATTACK, 20);
+            enchant.applyDefenseEffect(defender, attacker, 3, event);
+            assertEquals(20, event.getDamage(), 0);
         }
+        verifyNoInteractions(defender, attacker);
     }
-    public abstract static class TestPlayer implements Player {
-        @Override public abstract double getHealth();
-        @Override public abstract double getMaxHealth();
-    }
-    @Test public void alienImplantsRegeneratesWhileEquippedAndStopsOnUnequip() {
-        BukkitTask task = mock(BukkitTask.class);
-        when(scheduler.runTaskTimer(eq(plugin), any(Runnable.class), anyLong(), anyLong())).thenReturn(task);
+    @Test public void alienImplantsRetainsOriginalInactiveEquipBehavior() {
         HeroicImplants enchant = new HeroicImplants();
-        Player player = mock(TestPlayer.class);
-        when(player.getUniqueId()).thenReturn(UUID.randomUUID());
-        when(player.getHealth()).thenReturn(18.0); when(player.getMaxHealth()).thenReturn(20.0);
-        when(player.getFoodLevel()).thenReturn(19);
+        Player player = mock(Player.class);
         enchant.applyEquipEffect(player, 3);
-        ArgumentCaptor<Runnable> timers = ArgumentCaptor.forClass(Runnable.class);
-        verify(scheduler, times(3)).runTaskTimer(eq(plugin), timers.capture(), anyLong(), anyLong());
-        Runnable tick = timers.getAllValues().get(2);
-        tick.run(); tick.run();
-        verify(player).setHealth(19.0); verify(player, times(2)).setFoodLevel(20);
-        enchant.applyUnequipEffect(player, 3); clearInvocations(player);
-        tick.run(); verify(player, never()).setHealth(anyDouble()); verify(player, never()).setFoodLevel(anyInt());
+        enchant.applyUnequipEffect(player, 3);
+        verifyNoInteractions(player);
+        verify(scheduler, never()).runTaskTimer(any(Plugin.class), any(Runnable.class), anyLong(), anyLong());
+    }
+    @Test public void commentedOutArmorDurabilityEffectsRemainInactive() {
+        Player player = mock(Player.class);
+        org.bukkit.inventory.EntityEquipment equipment = mock(org.bukkit.inventory.EntityEquipment.class);
+        org.bukkit.inventory.PlayerInventory inventory = mock(org.bukkit.inventory.PlayerInventory.class);
+        org.bukkit.inventory.ItemStack armor = new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_CHESTPLATE, 1, (short) 100);
+        org.bukkit.inventory.ItemStack[] pieces = new org.bukkit.inventory.ItemStack[4];
+        pieces[org.arkhamnetwork.enchantments.util.ArmorSlot.CHESTPLATE.getIndex()] = armor;
+        when(player.getEquipment()).thenReturn(equipment);
+        when(equipment.getArmorContents()).thenReturn(pieces);
+        when(player.getInventory()).thenReturn(inventory);
+        org.arkhamnetwork.enchantments.util.ArmorUtil.modifyPlayerArmor(player,
+                org.arkhamnetwork.enchantments.util.ArmorSlot.CHESTPLATE, -15, false);
+        assertEquals(100, armor.getDurability());
+        org.arkhamnetwork.enchantments.util.ArmorUtil.modifyPlayerArmor(player,
+                org.arkhamnetwork.enchantments.util.ArmorSlot.CHESTPLATE, 15, false);
+        assertEquals(100, armor.getDurability());
     }
     public static class WineRegion { boolean closed; public void closeFile() { closed = true; } }
     public static class OriginalRegion { boolean closed; public void c() { closed = true; } }
