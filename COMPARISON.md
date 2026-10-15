@@ -1,15 +1,15 @@
 # AstroPvP comparison and selected version
 
-Compared Project-AstroPvP `e437ebe555d66cc869d8ece8e39b60445f46e994` against Astro-PVP-COPY-OF- `9f1d10c324a7e621ffac4233b4cb2e99afc61efa` on 2026-10-15. Both source checkouts were clean before inspection and remain unchanged. This repository was empty; its project files are copied byte-for-byte from the COPY repository. No new application logic has been added. This report is the only added tracked file.
+Compared Project-AstroPvP `e437ebe555d66cc869d8ece8e39b60445f46e994` against Astro-PVP-COPY-OF- `9f1d10c324a7e621ffac4233b4cb2e99afc61efa` on 2026-10-15. Both source checkouts were clean before inspection and remain unchanged. This repository was initially empty and was populated from the COPY repository. At the user’s request, the follow-up review below now adds fixes and regression checks here; neither original repository has been changed.
 
-## Recommendation
+## Initial comparison
 
-Keep the COPY version. Across the tracked trees there are 83 differing paths: 72 modified, 2 added in COPY, and 9 IDE files present only in Project. No tracked jar differs. All 16 changed Java files were reviewed; the remaining codebase is identical.
+Keep the COPY version as the base, with the follow-up fixes below. Across the tracked trees there are 83 differing paths: 72 modified, 2 added in COPY, and 9 IDE files present only in Project. No tracked jar differs. All 16 changed Java files were reviewed; the remaining codebase was identical at the initial comparison.
 
 | Area | Selected improvement | Qualification |
 | --- | --- | --- |
-| HotFix AutoOP | Empty-by-default UUID allowlist replaces embedded staff usernames; delayed task checks the player is still online. | Existing behavior that de-ops players on join remains. UUIDs do not secure an improperly authenticated offline-mode proxy. Review this behavior before deployment. |
-| DiscordSync | Bot token and MySQL connection settings moved to config; missing token disables the plugin; shutdown checks missing initialization. | Bot/database integration was not exercised. Existing asynchronous startup/error handling still needs runtime testing. |
+| HotFix AutoOP | Empty-by-default UUID allowlist replaces embedded staff usernames; delayed task checks the player is still online. | The follow-up removes the automatic de-op behavior and rechecks delayed grants. UUIDs still require a correctly authenticated server/proxy setup. |
+| DiscordSync | Bot token and MySQL connection settings moved to config; missing token disables the plugin; shutdown checks missing initialization. | Bot/database integration was not exercised. The follow-up fixes startup sequencing and cleanup; live integration testing remains outstanding. |
 | Core, HotFix, CustomItems, Lootboxes, Revive | Discord webhooks move into config with empty defaults; absent webhook skips notification. CustomItems saves its defaults and Revive creates webhooks.yml. | Notification destinations must be configured privately. |
 | Core trailer command | YouTube API key moves from Java into config. | Empty key means trailer API verification is unavailable until configured. |
 | Ark and ShowcaseGUI | Embedded integration/database credentials cleared. | Existing credentials in prior source history should be rotated by their owner. This comparison is not a complete credential audit. |
@@ -17,26 +17,36 @@ Keep the COPY version. Across the tracked trees there are 83 differing paths: 72
 | Maven | Updated repository URLs, HTTPS replacements and removal of puha repository entries. 150 system-scope dependency group IDs receive a local prefix. StorageUtil, LootTable and LootFilter move earlier in the module list. | Local group prefixes distinguish prebuilt jars from reactor coordinates; they do not change jar contents. Full build remains unverified. |
 | IDE metadata | COPY omits nine Project-only IDE files. | No gameplay functionality is removed. |
 
+## Follow-up fixes requested by the user
+
+All application changes are made only in this comparison repository.
+
+- **AutoOP:** preserve existing operators instead of stripping OP on every join. Match configured UUIDs case-insensitively and recheck the allowlist, plugin status and player connection before the delayed grant. Removing a UUID before the task runs now cancels that grant.
+- **Discord startup/shutdown:** initialize the database first, wait for JDA readiness before registering features, stop initialization on failure, and shut down JDA and the database when disabled. Publish the pending JDA client before waiting so shutdown can cancel login. Avoid logging token-bearing exception messages.
+- **Discord authorization:** remove the unrestricted `!ownerupdate` path that granted roles to historical staff accounts. Ignore bot messages and handle malformed verification codes without crashing.
+- **Account linking:** consume codes on the Minecraft thread, serialize duplicate-account checks and database insertion, and send success only after persistence succeeds. Run database writes asynchronously and player effects on the Minecraft thread. Missing guild/member/role data no longer causes a null dereference during verification. Duplicate checks cover this manager’s concurrent requests; this is not a database migration for multi-server deployments.
+- **Whitelist commands:** ignore unrelated messages rather than sending permission errors to every chat message; check the existing permission role and schedule whitelist changes on the Minecraft thread.
+- **Database:** close statements/result sets with try-with-resources, update and invalidate the cache after writes/refreshes, expose a read-only cache snapshot, keep healthy connections instead of periodically closing them, validate connection configuration, bound JDBC connect/read waits and prevent reconnect after shutdown.
+- **Trailer verification:** reject lookalike hosts, normalize watch/short/embed/shorts links and historical stored claims to one validated 11-character video ID, handle console and missing API key safely, bound HTTP timeouts, close connections reliably, publish completion across threads, poll for completion, and recheck claimed videos before awarding a pending request. Fix the cooldown to store an expiration timestamp.
+
+The changes retain the COPY version’s configurable credentials/webhooks, WineSpigot closeFile compatibility and build configuration improvements. They are focused fixes to the reviewed areas, not a claim that the entire legacy plugin suite is defect-free.
+
 ## Validation
 
-- Installed checksum-verified Apache Maven 3.9.9 and Temurin JDK 8u472-b08 outside the repositories.
-- Configured Maven to use the existing cloud HTTPS proxy and system Java trust store, preserving TLS verification.
-- Installed the repository-supplied WineSpigot jar into the local Maven cache under the declared Spigot dependency coordinate.
-- Root Maven `validate`: PASS. This checks project models, not application behavior.
-- StorageUtil `verify`: PASS, including compilation and creation of the shaded jar. No tests exist in this module; zero tests ran. Setup was repeated successfully.
-- AutoOP.java and WorldUtil.java: PASS compiling against the bundled plugin/server jars with Java 8. javap confirms RegionFile.closeFile() is public in the supplied server.
-- Utils `verify`: BLOCKED during dependency resolution. Required non-Central Maven hosts receive HTTP 403 from the cloud CONNECT proxy. WorldGuard, VaultAPI, item-nbt-api-plugin, EssentialsX and com.conaxgames:server were unresolved. No assertions were disabled.
-- An exploratory compilation of all changed Java files against bundled jars alone was insufficient because webhook libraries and supporting source classes were missing from that isolated classpath. It does not establish a repository compile defect.
-- Full reactor build, Factions tests, plugin lifecycle, Minecraft gameplay, Discord, YouTube and MySQL behavior: NOT RUN.
+- `python3 review-tests/run.py`: **PASS — 35 tests**, with zero failures. The runner compiles all DiscordSync source files and the changed AutoOP/trailer code against the bundled APIs using Java 8. See [review-tests/README.md](review-tests/README.md) for prerequisites and coverage.
+- Tests exercise failure paths, delayed callbacks, unauthorized commands, duplicate links, resource cleanup, malformed URLs, missing credentials, startup/shutdown, and trailer timeout/cooldown behavior. Real SQL link/unlink and cache-refresh operations also run against an embedded H2 database in MySQL compatibility mode. No live accounts are contacted.
+- Initial onboarding: root Maven `validate` and StorageUtil `verify` passed, and AutoOP/WorldUtil compiled. StorageUtil had no tests; that build alone was not gameplay validation.
+- Full reactor packaging, Factions tests, Minecraft gameplay and live Discord/MySQL/YouTube integrations remain unverified. Utils Maven `verify` now passes after restoring repository access and registering the repository-supplied WineSpigot jar as the missing legacy `com.conaxgames:server:1.8.8-R0.2-SNAPSHOT` artifact. The environment draft’s install_script and start_skill were updated to reproduce this local build setup. No tracked jar or dependency declaration was changed.
+- Both source repositories remain clean and unchanged.
 
 ## Remaining prerequisites
 
-The environment draft saves install_script, start_skill and required Maven domain additions for review in environment settings. Draft persistence does not apply the network changes or publish the environment. Review/save and publish through the environment UI, then retry Utils dependency resolution. Further legacy dependency problems may appear after access is restored.
+The environment draft contains installation/startup instructions and Maven domain additions. Draft saving does not establish publication or a fresh-task restore. Use environment settings to review/save and publish the environment when desired.
 
-Two non-generated system dependency files are absent in the supplied repositories: AstroCrateKeys/lib/Banana.jar and NebulaShop/lib/Banana.jar. Full builds of those modules need the legitimate matching artifacts. Other initially missing target/*.jar paths are generated by earlier module builds.
+Two non-generated system dependency files are absent from the supplied codebase: `AstroCrateKeys/lib/Banana.jar` and `NebulaShop/lib/Banana.jar`. Builds of those modules need the legitimate matching artifacts. Other initially missing target jars are generated by earlier module builds.
 
-No Minecraft server was started and no EULA was accepted. Source comparison and representative build preparation are complete; full server readiness is not claimed.
+Discord guild/role IDs and deployment-specific integration settings still need to match the operator’s server. Prior committed credentials should be rotated by their owner. No Minecraft server was started and no EULA was accepted.
 
-## Reproduce the verified build
+## Reproduce the representative build
 
-Use existing isolated checkouts; do not create Git worktrees unless explicitly requested. The cloud environment install script performs the verified tool setup, project validation and StorageUtil build. In the prepared machine run `bash /workspace/.onboarding/install.sh`. Source repositories must remain unchanged. See saved start_skill for activation and the outstanding Utils command.
+Use the existing isolated checkouts; do not create Git worktrees unless explicitly requested. In the prepared cloud machine, `bash /workspace/.onboarding/install.sh` refreshes tool/proxy setup, validates Maven project models and builds StorageUtil and Utils. Then run `python3 review-tests/run.py` from this repository. The original repositories must remain unchanged.

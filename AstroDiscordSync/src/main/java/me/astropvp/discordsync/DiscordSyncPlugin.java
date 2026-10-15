@@ -14,9 +14,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.security.auth.login.LoginException;
 import java.sql.SQLException;
 
 public class DiscordSyncPlugin extends JavaPlugin {
@@ -43,70 +41,94 @@ public class DiscordSyncPlugin extends JavaPlugin {
         return this.databaseManager;
     }
 
+    // Shared with the asynchronous startup worker; shutdown must win a startup race.
+    private volatile boolean stopping;
+
+    @Override
     public void onEnable() {
-        this.saveDefaultConfig();
-        final String token = this.getConfig().getString("discord.bot-token", "");
+        stopping = false;
+        saveDefaultConfig();
+        final String token = getConfig().getString("discord.bot-token", "").trim();
         if (token.isEmpty()) {
-            this.getLogger().severe("discord.bot-token is not set in config.yml, disabling.");
+            getLogger().severe("discord.bot-token is not set in config.yml, disabling.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
 
+        databaseManager = new DatabaseManager(this);
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            JDA startedJda = null;
             try {
-                this.jda = (new JDABuilder()).setToken(token).setActivity(Activity.playing("play.astropvp.net")).setStatus(OnlineStatus.ONLINE).build();
-            } catch (LoginException var2) {
-                Bukkit.getScheduler().runTask(this, () -> {
-                    Bukkit.getPluginManager().disablePlugin(this);
-                    throw new RuntimeException("Shutting Discord Link plugin down, failed to initiate bot!", var2);
-                });
-            }
-
-            Bukkit.getScheduler().runTask(this, () -> {
-                this.commandManager = new CommandManager(this);
-                this.syncManager = new SyncManager(this);
-                this.chatListener = new ChatListener(this);
-                this.getServer().getPluginManager().registerEvents(this.chatListener, this);
-                this.commandManager.register(new SyncCommand(this));
-                this.commandManager.register(new UnSyncCommand(this));
-                this.discordListener = new DiscordListener(this);
-                this.jda.addEventListener(this.discordListener);
-                this.jda.addEventListener(new WhitelistCommand());
-            });
-        });
-        this.databaseManager = new DatabaseManager(this);
-        (new BukkitRunnable() {
-            public void run() {
-                try {
-                    DiscordSyncPlugin.this.databaseManager.connect();
-                    DiscordSyncPlugin.this.databaseManager.createTable();
-                    Bukkit.getScheduler().runTaskLater(DiscordSyncPlugin.this, () -> {
-                        DiscordSyncPlugin.this.databaseManager.fetchMap();
-                    }, 5L);
-                    DiscordSyncPlugin.this.databaseManager.autoReconnect(850);
-                } catch (Exception var2) {
-                    var2.printStackTrace();
+                databaseManager.connect();
+                databaseManager.createTable();
+                databaseManager.fetchMap();
+                startedJda = new JDABuilder().setToken(token)
+                        .setActivity(Activity.playing("play.astropvp.net"))
+                        .setStatus(OnlineStatus.ONLINE).build();
+                synchronized (this) {
+                    if (stopping) {
+                        startedJda.shutdownNow();
+                        return;
+                    }
+                    // Publish the client before waiting so disabling can cancel login too.
+                    jda = startedJda;
                 }
-
+                startedJda.awaitReady();
+                final JDA readyJda = startedJda;
+                synchronized (this) {
+                    if (stopping) {
+                        readyJda.shutdownNow();
+                        return;
+                    }
+                    Bukkit.getScheduler().runTask(this, () -> {
+                        if (stopping || !isEnabled()) {
+                            readyJda.shutdownNow();
+                            return;
+                        }
+                        commandManager = new CommandManager(this);
+                        syncManager = new SyncManager(this);
+                        chatListener = new ChatListener(this);
+                        getServer().getPluginManager().registerEvents(chatListener, this);
+                        commandManager.register(new SyncCommand(this));
+                        commandManager.register(new UnSyncCommand(this));
+                        discordListener = new DiscordListener(this);
+                        readyJda.addEventListener(discordListener, new WhitelistCommand(this));
+                        databaseManager.autoReconnect(850);
+                    });
+                }
+            } catch (Exception failure) {
+                if (startedJda != null) {
+                    startedJda.shutdownNow();
+                }
+                if (failure instanceof InterruptedException) {
+                    Thread.currentThread().interrupt();
+                }
+                // Do not log exception messages that may include tokens or JDBC URLs.
+                getLogger().severe("Discord/database startup failed (" + failure.getClass().getSimpleName() + ").");
+                synchronized (this) {
+                    if (!stopping) {
+                        Bukkit.getScheduler().runTask(this, () -> Bukkit.getPluginManager().disablePlugin(this));
+                    }
+                }
             }
-        }).runTaskAsynchronously(this);
+        });
     }
 
-    public void onDisable() {
-        if (this.jda != null) {
-            this.jda.removeEventListener(this.discordListener);
+    @Override
+    public synchronized void onDisable() {
+        stopping = true;
+        Bukkit.getScheduler().cancelTasks(this);
+        if (jda != null) {
+            jda.shutdownNow();
+            jda = null;
         }
-
-        if (this.databaseManager == null || this.databaseManager.getConnection() == null) {
-            return;
+        if (databaseManager != null) {
+            try {
+                databaseManager.close();
+            } catch (SQLException failure) {
+                getLogger().warning("Failed to close the Discord database connection.");
+            }
         }
-
-        try {
-            this.databaseManager.getConnection().close();
-        } catch (SQLException var2) {
-            var2.printStackTrace();
-        }
-
     }
 
     public CommandManager getCommandManager() {

@@ -4,11 +4,11 @@ import com.cosmicpvp.cosmicutils.utils.CC;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import me.ifamasssxd.cosmicmysterychest.CosmicMysteryChest;
 import net.astropvp.core.AstroCore;
 import net.astropvp.core.cooldown.RealtimeUUIDCooldown;
+import net.astropvp.core.utils.YouTubeVideoUrl;
 import org.apache.commons.io.IOUtils;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -22,22 +22,35 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Locale;
 import java.util.UUID;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class TrailerCommand implements CommandExecutor {
     public static String REQUIRED_VIDEO_TITLE = "AstroPvP Map 11 Trailer | CosmicTest";
 
-    public static List<String> claimedVideoIds = AstroCore.getInstance().getConfig().getStringList("players-trailers");
+    public static List<String> claimedVideoIds = AstroCore.getInstance().getConfig().getStringList("players-trailers").stream()
+            .map(YouTubeVideoUrl::normalizeStoredId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
 
     private Map<UUID, VideoInfoFetchTask> fetcherTaskMap = Maps.newHashMap();
 
     private RealtimeUUIDCooldown cooldownMap = new RealtimeUUIDCooldown("trailer");
 
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("This command is only available to players.");
+            return true;
+        }
         Player player = (Player) sender;
+        if (AstroCore.getInstance().getConfig().getString("youtube-api-key", "").trim().isEmpty()) {
+            player.sendMessage(CC.translate("&cTrailer verification is currently unavailable."));
+            return true;
+        }
         if (args.length == 0) {
             player.sendMessage(CC.translate("&c&l(!) &cPlease enter a video url!"));
             return true;
@@ -62,12 +75,23 @@ public class TrailerCommand implements CommandExecutor {
             player.sendMessage( CC.translate("&c&l(!) &cPlease wait a little bit before doing that."));
             return true;
         }
-        this.cooldownMap.add(player, Long.valueOf(15000L));
+        this.cooldownMap.add(player, System.currentTimeMillis() + 15000L);
         player.sendMessage( CC.translate("&aPlease wait while your video is verified..."));
         final VideoInfoFetchTask task = new VideoInfoFetchTask(player.getUniqueId(), videoId);
         (new BukkitRunnable() {
+            private int attempts;
+
             public void run() {
-                if (player == null || !player.isOnline()) {
+                if (!player.isOnline()) {
+                    TrailerCommand.this.fetcherTaskMap.remove(player.getUniqueId());
+                    cancel();
+                    return;
+                }
+                if (!task.isComplete() && ++attempts < 30) {
+                    return;
+                }
+                if (claimedVideoIds.contains(videoId)) {
+                    player.sendMessage(CC.translate("&cRewards have already been claimed for this video."));
                     TrailerCommand.this.fetcherTaskMap.remove(player.getUniqueId());
                     cancel();
                     return;
@@ -95,7 +119,7 @@ public class TrailerCommand implements CommandExecutor {
                     cancel();
                     return;
                 }
-                if (!videoDescription.toLowerCase().contains(sender.getName().toLowerCase())) {
+                if (!videoDescription.toLowerCase(Locale.ROOT).contains(sender.getName().toLowerCase(Locale.ROOT))) {
                     player.sendMessage( CC.translate("&c&l(!) Confirmation Required"));
                     player.sendMessage( "");
                     player.sendMessage( CC.Gray + videoDescription);
@@ -115,18 +139,14 @@ public class TrailerCommand implements CommandExecutor {
                 AstroCore.getInstance().reloadConfig();
                 player.getInventory().addItem(CosmicMysteryChest.get().getChestManager().getMysteryChestMap().get("TrailerLootbox").createClaimableItem(false));
                 TrailerCommand.this.fetcherTaskMap.remove(player.getUniqueId());
+                cancel();
             }
-        }).runTaskLater((Plugin)AstroCore.getInstance(), 100L);
-        return false;
+        }).runTaskTimer((Plugin)AstroCore.getInstance(), 20L, 20L);
+        return true;
     }
 
     public String getVideoIdFromUrl(String url) {
-        if (!url.toLowerCase().contains("youtube.com/watch?v="))
-            return null;
-        String id = url.split("v=")[1];
-        if (id.length() < 6)
-            return null;
-        return id;
+        return YouTubeVideoUrl.parse(url);
     }
 
     public class VideoInfoFetchTask extends BukkitRunnable {
@@ -146,7 +166,7 @@ public class TrailerCommand implements CommandExecutor {
             return this.videoId;
         }
 
-        boolean complete = false;
+        private volatile boolean complete = false;
 
         public boolean isComplete() {
             return this.complete;
@@ -161,35 +181,33 @@ public class TrailerCommand implements CommandExecutor {
 
         public void run() {
             HttpURLConnection con = null;
-            InputStream inputStream = null;
             try {
-                String urlString = "https://www.googleapis.com/youtube/v3/videos?part=id%2C+snippet&id=" + this.videoId + "&key=" + AstroCore.getInstance().getConfig().getString("youtube-api-key", "");
-                URL url = new URL(urlString);
-                con = (HttpURLConnection)url.openConnection();
+                String urlString = "https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet&id=" + this.videoId
+                        + "&key=" + java.net.URLEncoder.encode(AstroCore.getInstance().getConfig().getString("youtube-api-key", "").trim(), "UTF-8");
+                con = (HttpURLConnection) new URL(urlString).openConnection();
+                con.setConnectTimeout(5000);
+                con.setReadTimeout(10000);
                 con.setRequestMethod("GET");
-                inputStream = con.getInputStream();
-                StringWriter writer = new StringWriter();
-                IOUtils.copy(inputStream, writer);
-                String responseString = writer.toString();
-                Gson gson = new Gson();
-                JsonObject jObject = (JsonObject)gson.fromJson(responseString, JsonObject.class);
-                JsonArray jArray = jObject.getAsJsonArray("items");
-                JsonElement mainObject = jArray.get(0);
-                JsonElement snippet = mainObject.getAsJsonObject().get("snippet");
-                this.title = snippet.getAsJsonObject().get("title").getAsString();
-                this.description = snippet.getAsJsonObject().get("description").getAsString();
-                inputStream.close();
-                con.disconnect();
-            } catch (Exception e) {
-                e.printStackTrace();
+                try (InputStream inputStream = con.getInputStream()) {
+                    StringWriter writer = new StringWriter();
+                    IOUtils.copy(inputStream, writer, "UTF-8");
+                    JsonObject response = new Gson().fromJson(writer.toString(), JsonObject.class);
+                    JsonArray items = response.getAsJsonArray("items");
+                    if (items == null || items.size() == 0) {
+                        return;
+                    }
+                    JsonObject snippet = items.get(0).getAsJsonObject().getAsJsonObject("snippet");
+                    this.title = snippet.get("title").getAsString();
+                    this.description = snippet.get("description").getAsString();
+                }
+            } catch (Exception failure) {
+                AstroCore.getInstance().getLogger().warning("Trailer verification failed (" + failure.getClass().getSimpleName() + ").");
             } finally {
-                this.complete = true;
-                try {
-                    inputStream.close();
+                if (con != null) {
                     con.disconnect();
-                } catch (Exception exception) {}
+                }
+                this.complete = true;
             }
-            this.complete = true;
         }
 
         public String getDescription() {

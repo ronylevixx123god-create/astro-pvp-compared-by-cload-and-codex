@@ -1,21 +1,24 @@
 package me.astropvp.discordsync.managers;
 
 import me.astropvp.discordsync.DiscordSyncPlugin;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.UUID;
-public class DatabaseManager {
-    private static final String TABLE_NAME = "discord_data";
-    private Connection connection;
-    private DiscordSyncPlugin plugin;
-    private Map<UUID, Long> cachedResults = new HashMap<>();
 
-    public Connection getConnection() {
-        return this.connection;
+public class DatabaseManager {
+    private Connection connection;
+    private final DiscordSyncPlugin plugin;
+    private final Map<UUID, Long> cachedResults = new HashMap<>();
+    private boolean closed;
+
+    public synchronized Connection getConnection() {
+        return connection;
     }
 
     public DatabaseManager(DiscordSyncPlugin plugin) {
@@ -23,167 +26,208 @@ public class DatabaseManager {
     }
 
     public void autoReconnect(int interval) {
-        (new BukkitRunnable() {
+        new BukkitRunnable() {
+            @Override
             public void run() {
-                System.out.println("Running Auto Reconnect");
-
                 try {
-                    if (DatabaseManager.this.plugin.getDatabaseManager().isConnected()) {
-                        System.out.println("DB is currently connected, closing the connection...");
-                        DatabaseManager.this.plugin.getDatabaseManager().getConnection().close();
-                        System.out.println("Disconnected from DB.");
-                    } else {
-                        System.out.println("DB is currently NOT connected, opening new connection.");
-                    }
-
-                    System.out.println("Opening a new connection.");
-                    DatabaseManager.this.plugin.getDatabaseManager().connect();
-                    System.out.println("New connection opened successfully.");
-                } catch (Exception var2) {
-                    var2.printStackTrace();
-                    System.out.println("Error in console.");
+                    // connect() preserves a healthy connection instead of closing it mid-query.
+                    connect();
+                } catch (Exception failure) {
+                    logFailure("reconnect", failure);
                 }
-
             }
-        }).runTaskTimerAsynchronously(this.plugin, (long)(interval * 20L), (long)(interval * 20L));
+        }.runTaskTimerAsynchronously(plugin, interval * 20L, interval * 20L);
     }
 
-    public boolean isConnected() {
+    public synchronized boolean isConnected() {
         try {
-            return this.connection != null && !this.connection.isClosed();
-        } catch (SQLException var2) {
-            var2.printStackTrace();
+            return !closed && connection != null && !connection.isClosed();
+        } catch (SQLException failure) {
             return false;
         }
     }
 
-    public void insert(UUID uuid, long discordId) {
-        try {
-            PreparedStatement insert = this.connection.prepareStatement("INSERT INTO discord_data (uuid,discordId) VALUES (?,?)");
-            insert.setString(1, uuid.toString());
-            insert.setLong(2, discordId);
-            insert.executeUpdate();
-        } catch (Exception var5) {
-            var5.printStackTrace();
-        }
-
+    public synchronized void insert(UUID uuid, long discordId) {
+        insertLink(uuid, discordId);
     }
 
-    public void remove(UUID uuid) {
+    /** Serializes checks and writes so concurrent verification cannot link an account twice. */
+    public synchronized boolean insertLink(UUID uuid, long discordId) {
         try {
-            PreparedStatement remove = this.connection.prepareStatement("DELETE FROM discord_data WHERE UUID=?");
+            if (get(uuid) != null) {
+                return false;
+            }
+            try (PreparedStatement lookup = connection.prepareStatement("SELECT discordId FROM discord_data WHERE discordId=?")) {
+                lookup.setLong(1, discordId);
+                try (ResultSet results = lookup.executeQuery()) {
+                    if (results.next()) {
+                        return false;
+                    }
+                }
+            }
+            try (PreparedStatement insert = connection.prepareStatement("INSERT INTO discord_data (uuid,discordId) VALUES (?,?)")) {
+                insert.setString(1, uuid.toString());
+                insert.setLong(2, discordId);
+                insert.executeUpdate();
+                cachedResults.put(uuid, discordId);
+                return true;
+            }
+        } catch (Exception failure) {
+            logFailure("insert", failure);
+            return false;
+        }
+    }
+
+    public synchronized void remove(UUID uuid) {
+        try (PreparedStatement remove = connection.prepareStatement("DELETE FROM discord_data WHERE uuid=?")) {
             remove.setString(1, uuid.toString());
             remove.executeUpdate();
-            if (this.cachedResults.containsKey(uuid)) {
-                this.cachedResults.remove(uuid);
-            }
-        } catch (SQLException var3) {
-            var3.printStackTrace();
+            cachedResults.remove(uuid);
+        } catch (Exception failure) {
+            logFailure("remove", failure);
         }
-
     }
 
-    public Long get(UUID uuid) throws Exception {
-        if (this.cachedResults.containsKey(uuid)) {
-            return (Long)this.cachedResults.get(uuid);
-        } else {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM discord_data WHERE uuid=?");
+    public synchronized Long get(UUID uuid) throws SQLException {
+        if (cachedResults.containsKey(uuid)) {
+            return cachedResults.get(uuid);
+        }
+        if (!isConnected()) {
+            throw new SQLException("Discord database is not connected");
+        }
+        try (PreparedStatement statement = connection.prepareStatement("SELECT discordId FROM discord_data WHERE uuid=?")) {
             statement.setString(1, uuid.toString());
-            ResultSet results = statement.executeQuery();
-            if (!results.next()) {
-                return null;
-            } else {
-                Long discordId = results.getLong("discordId");
-                if (discordId != null) {
-                    this.cachedResults.put(uuid, discordId);
+            try (ResultSet results = statement.executeQuery()) {
+                if (!results.next()) {
+                    return null;
                 }
-
+                long discordId = results.getLong("discordId");
+                if (results.wasNull()) {
+                    return null;
+                }
+                cachedResults.put(uuid, discordId);
                 return discordId;
             }
         }
     }
 
-    public boolean contains(UUID uuid) {
-        if (this.cachedResults.containsKey(uuid)) {
-            return true;
-        } else {
-            try {
-                return this.get(uuid) != null;
-            } catch (Exception var3) {
-                var3.printStackTrace();
-                return false;
-            }
-        }
-    }
-
-    public boolean contains(Long discordId) {
+    public synchronized boolean contains(UUID uuid) {
         try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM discord_data WHERE discordId=?");
-            statement.setLong(1, discordId);
-            ResultSet resultSet = statement.executeQuery();
-            return resultSet.next();
-        } catch (Exception var4) {
-            var4.printStackTrace();
+            return get(uuid) != null;
+        } catch (Exception failure) {
+            logFailure("lookup", failure);
             return false;
         }
     }
 
-    public Map<UUID, Long> fetchMap() {
-        try {
-            PreparedStatement statement = this.connection.prepareStatement("SELECT * FROM discord_data");
-            ResultSet results = statement.executeQuery();
-            Map<UUID, Long> fetchedMap = new HashMap<>();
-
-            while(results.next()) {
-                try {
-                    UUID uuid = UUID.fromString(results.getString("uuid"));
-                    Long discordId = results.getLong("discordId");
-                    fetchedMap.put(uuid, discordId);
-                    this.cachedResults.putIfAbsent(uuid, discordId);
-                } catch (Exception var6) {
-                    System.out.println("error while mapping data");
-                }
+    public synchronized boolean contains(Long discordId) {
+        if (discordId == null || !isConnected()) {
+            return false;
+        }
+        try (PreparedStatement statement = connection.prepareStatement("SELECT discordId FROM discord_data WHERE discordId=?")) {
+            statement.setLong(1, discordId);
+            try (ResultSet results = statement.executeQuery()) {
+                return results.next();
             }
-
-            return fetchedMap;
-        } catch (Exception var7) {
-            var7.printStackTrace();
-            return Collections.EMPTY_MAP;
+        } catch (Exception failure) {
+            logFailure("lookup", failure);
+            return false;
         }
     }
 
-    /** @deprecated */
+    public synchronized Map<UUID, Long> fetchMap() {
+        if (!isConnected()) {
+            return Collections.emptyMap();
+        }
+        try (PreparedStatement statement = connection.prepareStatement("SELECT uuid, discordId FROM discord_data");
+             ResultSet results = statement.executeQuery()) {
+            Map<UUID, Long> fetched = new HashMap<>();
+            while (results.next()) {
+                try {
+                    UUID uuid = UUID.fromString(results.getString("uuid"));
+                    long discordId = results.getLong("discordId");
+                    if (!results.wasNull()) {
+                        fetched.put(uuid, discordId);
+                    }
+                } catch (IllegalArgumentException invalidUuid) {
+                    plugin.getLogger().warning("Skipping a Discord link with an invalid UUID.");
+                }
+            }
+            // Replace the snapshot: removed or changed links must not survive in the cache.
+            cachedResults.clear();
+            cachedResults.putAll(fetched);
+            return fetched;
+        } catch (Exception failure) {
+            logFailure("refresh", failure);
+            return Collections.emptyMap();
+        }
+    }
+
     @Deprecated
     public ResultSet executeAsync(String sql) {
         return null;
     }
 
-    public void connect() throws Exception {
-        synchronized(this) {
-            if (this.getConnection() != null && !this.getConnection().isClosed()) {
-                System.out.println("Current connect isn't closed!");
-            } else {
-                Class.forName("com.mysql.jdbc.Driver");
-                org.bukkit.configuration.ConfigurationSection sql = this.plugin.getConfig().getConfigurationSection("mysql");
-                String url = "jdbc:mysql://" + sql.getString("host") + ":" + sql.getInt("port", 3306) + "/" + sql.getString("database");
-                this.connection = DriverManager.getConnection(url, sql.getString("username"), sql.getString("password"));
-                System.out.println("DB connected!");
+    public synchronized void connect() throws Exception {
+        if (closed) {
+            throw new SQLException("Discord database manager has been shut down");
+        }
+        if (isConnected() && connection.isValid(5)) {
+            return;
+        }
+        if (connection != null) {
+            connection.close();
+            connection = null;
+        }
+        ConfigurationSection sql = plugin.getConfig().getConfigurationSection("mysql");
+        if (sql == null || sql.getString("host", "").trim().isEmpty()
+                || sql.getString("database", "").trim().isEmpty()
+                || sql.getString("username", "").trim().isEmpty()) {
+            throw new IllegalArgumentException("mysql.host, mysql.database and mysql.username are required");
+        }
+        int port = sql.getInt("port", 3306);
+        if (port < 1 || port > 65535) {
+            throw new IllegalArgumentException("mysql.port must be between 1 and 65535");
+        }
+        Class.forName("com.mysql.jdbc.Driver");
+        String url = "jdbc:mysql://" + sql.getString("host").trim() + ":" + port + "/" + sql.getString("database").trim();
+        Properties properties = new Properties();
+        properties.setProperty("user", sql.getString("username"));
+        properties.setProperty("password", sql.getString("password", ""));
+        properties.setProperty("connectTimeout", "10000");
+        properties.setProperty("socketTimeout", "10000");
+        connection = DriverManager.getConnection(url, properties);
+        cachedResults.clear();
+    }
+
+    public synchronized void close() throws SQLException {
+        closed = true;
+        cachedResults.clear();
+        if (connection != null) {
+            try {
+                connection.close();
+            } finally {
+                connection = null;
             }
         }
     }
 
-    public void createTable() throws SQLException {
-        String sqlCreate = "CREATE TABLE IF NOT EXISTS `discord_data` (\t`uuid` VARCHAR(36),\n\t`discordId` BIGINT\n);";
-        Statement statement = this.connection.createStatement();
-        statement.execute(sqlCreate);
-        statement.close();
+    public synchronized void createTable() throws SQLException {
+        try (Statement statement = connection.createStatement()) {
+            statement.execute("CREATE TABLE IF NOT EXISTS discord_data (uuid VARCHAR(36), discordId BIGINT)");
+        }
+    }
+
+    private void logFailure(String operation, Exception failure) {
+        // JDBC error messages may contain connection details; log the type only.
+        plugin.getLogger().warning("Discord database " + operation + " failed (" + failure.getClass().getSimpleName() + ").");
     }
 
     public DiscordSyncPlugin getPlugin() {
-        return this.plugin;
+        return plugin;
     }
 
-    public Map<UUID, Long> getCachedResults() {
-        return this.cachedResults;
+    public synchronized Map<UUID, Long> getCachedResults() {
+        return Collections.unmodifiableMap(new HashMap<>(cachedResults));
     }
 }
