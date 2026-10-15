@@ -68,7 +68,7 @@ public class MasteryMarkOfTheBeast extends MasteryCustomEnchantment {
                     if (player.isValid()) {
                         player.sendMessage(CC.RedB + "* MARK OFF " + CC.RedB + "*");
                     }
-                    markedPlayers.remove(player);
+                    markedPlayers.remove(uuid);
                 }, (long) (20.0 * seconds));
             }
         }

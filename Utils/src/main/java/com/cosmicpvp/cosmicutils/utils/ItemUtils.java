@@ -66,6 +66,22 @@ public class ItemUtils {
         return item.getDurability();
     }
 
+    public static ItemStack addDurability(ItemStack item, short durability) {
+        return CraftItemStack.modifyDurability(item, durability);
+    }
+
+    public static ItemStack subtractDurability(ItemStack item, short durability) {
+        return CraftItemStack.modifyDurability(item, -durability);
+    }
+
+    public static ItemStack addDurability(ItemStack item, int durability) {
+        return CraftItemStack.modifyDurability(item, durability);
+    }
+
+    public static ItemStack subtractDurability(ItemStack item, int durability) {
+        return CraftItemStack.modifyDurability(item, -durability);
+    }
+
     public static boolean areItemsSimilarIgnoringIID(ItemStack item, ItemStack itemWithIID) {
         ItemMeta itemWithIIDMeta;
         ItemMeta itemMeta;

@@ -41,7 +41,6 @@ import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerVelocityEvent;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -69,7 +68,8 @@ public class HeroicRocketEscape
         return System.currentTimeMillis() - RocketEscape.last_rocket_escape.get(pl.getUniqueId().toString()) > 15000L;
     }
 
-    public void applyDefenseEffect(LivingEntity player, LivingEntity target, int level, EntityDamageByEntityEvent event) {
+    @Override
+    public void applyDefenseEffect(LivingEntity player, LivingEntity target, int level, EntityDamageEvent event) {
         if (player.hasMetadata("neutralized"))
             return;
         if (player instanceof Player) {

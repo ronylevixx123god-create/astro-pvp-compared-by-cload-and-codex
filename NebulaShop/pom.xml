@@ -279,7 +279,7 @@
             <artifactId>ban</artifactId>
             <version>0.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/Banana.jar</systemPath>
+            <systemPath>${project.basedir}/lib/banana.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.conaxgames</groupId>

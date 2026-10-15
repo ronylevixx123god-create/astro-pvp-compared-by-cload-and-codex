@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 public enum TieredEnchantments {
+    againsttheodds(5),
     blackout(8),
     treasure(8),
     neutralize(8),

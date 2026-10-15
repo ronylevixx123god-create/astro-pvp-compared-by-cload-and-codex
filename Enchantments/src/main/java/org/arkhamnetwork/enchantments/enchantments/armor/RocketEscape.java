@@ -55,7 +55,8 @@ public class RocketEscape
         this.interval = 5.0;
     }
 
-    public void applyDefenseEffect(LivingEntity player, LivingEntity attacker, int level, EntityDamageByEntityEvent e) {
+    @Override
+    public void applyDefenseEffect(LivingEntity player, LivingEntity attacker, int level, org.bukkit.event.entity.EntityDamageEvent e) {
         if (player instanceof Player) {
             double dmg = e.getFinalDamage();
             if (player.getWorld().getEnvironment() == World.Environment.THE_END) {

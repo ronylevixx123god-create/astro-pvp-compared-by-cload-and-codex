@@ -33,18 +33,21 @@ if not Path(javac).exists():
     javac, java = shutil.which('javac'), shutil.which('java')
     if not javac or not java:
         raise RuntimeError('A Java 8 JDK is required; set JAVA_HOME.')
+if not (ROOT / 'Enchantments/target/classes/org/arkhamnetwork/enchantments/Enchantments.class').exists():
+    raise RuntimeError('Build Enchantments after Utils before running the enchantment regressions.')
 if not (ROOT / 'StorageUtil/target/StorageUtil-0.1-shaded.jar').exists():
     raise RuntimeError('Build StorageUtil with the environment install script before running these tests.')
 # The checked-in plugin jars provide the legacy APIs, never substitutes for the changed sources.
 jar_dirs = sorted({p.parent for p in ROOT.rglob('*.jar') if '.git' not in p.parts and 'target' not in p.parts})
-classpath = os.pathsep.join([str(p) for p in sorted(CACHE.glob('*.jar'))] + [str(ROOT / 'StorageUtil/target/StorageUtil-0.1-shaded.jar')] + [str(ROOT / '.lib/WineSpigot-V1.9.15.jar')] + [str(d / '*') for d in jar_dirs])
+classpath = os.pathsep.join([str(p) for p in sorted(CACHE.glob('*.jar'))] + [str(ROOT / 'StorageUtil/target/StorageUtil-0.1-shaded.jar')] + [str(ROOT / 'Enchantments/target/classes'), str(ROOT / 'Utils/target/classes'), str(ROOT / 'AstroCollect/lib/banana.jar')] + [str(d / '*') for d in jar_dirs])
 sources = list((ROOT / 'AstroDiscordSync/src/main/java').rglob('*.java'))
 sources += [ROOT / 'HotFix/src/main/java/me/astropvp/hotfixplugin/listeners/AutoOP.java',
             ROOT / 'Core/src/main/java/net/astropvp/core/utils/YouTubeVideoUrl.java',
             ROOT / 'Core/src/main/java/net/astropvp/core/commands/TrailerCommand.java']
+sources += [ROOT / 'Enchantments/src/main/java/org/arkhamnetwork/enchantments/util/EnchantmentDescriptions.java', ROOT / 'Enchantments/src/main/java/org/arkhamnetwork/enchantments/enchantments/swords/AgainstTheOdds.java', ROOT / 'Utils/src/main/java/com/cosmicpvp/cosmicutils/utils/RegionFileCloser.java']
 sources += list((ROOT / 'review-tests').glob('*.java'))
 with tempfile.TemporaryDirectory(prefix='astro-review-') as output:
     subprocess.run([javac, '-encoding', 'UTF-8', '-source', '8', '-target', '8', '-proc:none', '-sourcepath', '',
                     '-cp', classpath, '-d', output] + [str(p) for p in sources], check=True)
     subprocess.run([java, '-cp', output + os.pathsep + classpath, 'org.junit.runner.JUnitCore',
-                    'ReviewRegressionTest'], check=True)
+                    'ReviewRegressionTest', 'EnchantmentRegressionTest', 'org.arkhamnetwork.enchantments.enchantments.swords.AgainstTheOddsTest'], check=True)

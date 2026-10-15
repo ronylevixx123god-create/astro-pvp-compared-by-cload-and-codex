@@ -1,6 +1,6 @@
 package org.arkhamnetwork.enchantments.util;
 
-import net.astropvp.core.utils.cache.CacheManager;
+import com.cosmicpvp.cosmicutils.cache.CacheManager;
 import org.bukkit.entity.Player;
 
 public class CacheUtils {

@@ -90,7 +90,7 @@ public class WorldUtil {
                     if (!child.equals(parentFolder)) continue;
                     i.remove();
                     try {
-                        entry.getValue().closeFile();
+                        RegionFileCloser.close(entry.getValue());
                     } catch (IOException ex) {
                         Bukkit.getLogger().log(Level.SEVERE, null, ex);
                     }
@@ -118,7 +118,7 @@ public class WorldUtil {
         if (regionFile != null) {
             try {
                 Bukkit.getLogger().info("Deleting cached regionFile: " + file.toString());
-                regionFile.closeFile();
+                RegionFileCloser.close(regionFile);
             } catch (IOException ex) {
                 Bukkit.getLogger().log(Level.SEVERE, null, ex);
             }

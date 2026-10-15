@@ -1,7 +1,7 @@
 name: Enchantments
 version: 1.1
 main: org.arkhamnetwork.enchantments.Enchantments
-depend: [ EnchantmentAPI, Essentials, CosmicSkyCustomItems ]
+depend: [ EnchantmentAPI, Essentials, CosmicSkyCustomItems, ParticleLIB ]
 softdepend: [mcMMO, FactionUpgrades, CosmicDungeons, CosmicSkyCustomItems ]
 commands:
   enchbook:

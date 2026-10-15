@@ -53,9 +53,9 @@ public class ArmorUtil {
                 return item;
             }
             if (amount > 0) {
-                //item = ItemUtils.addDurability(item, amount);
+                item = ItemUtils.addDurability(item, amount);
             } else {
-                //item = ItemUtils.subtractDurability(item, Math.abs(amount));
+                item = ItemUtils.subtractDurability(item, Math.abs(amount));
             }
             if (item != null && item.getDurability() > item.getType().getMaxDurability()) {
                 final short dura = item.getDurability();
