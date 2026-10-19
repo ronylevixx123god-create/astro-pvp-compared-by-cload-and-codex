@@ -12,5 +12,9 @@
   ],
   "kotlin_commands_included": true,
   "html_search_script_checks": "Passed in Node with HTML-derived DOM fixtures: full count, search, no-match, category and combined filter",
-  "browser_rendering": "Not tested"
+  "browser_rendering": "Not tested",
+  "baseline": "a75b753b67b2a01125d3c12cf85c6a72c3270364",
+  "refresh_check": "Descriptor/Java/Kotlin coverage, source anchors and artifact row counts pass after Arkkit and exact-token alias corrections",
+  "showcase_normal_root_and_alias_documented": true,
+  "exact_lootbox_alias_documented": true
 }
