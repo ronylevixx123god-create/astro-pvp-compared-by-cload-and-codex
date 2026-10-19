@@ -34,12 +34,34 @@ import java.util.Map;
 
 public class WildcardMenu
 extends CosmicGUI {
-    private boolean unlocked = false;
-    private NBTWrapper itemWrapper;
+    private final NBTWrapper itemWrapper;
+    private final WildcardClaim claim;
 
     public WildcardMenu(Player player, NBTWrapper itemWrapper) {
         super(player, "Select /gkit to unlock/level", InventoryUtils.fitSize((int)GlobalKits.values().length));
         this.itemWrapper = itemWrapper;
+        this.claim = new WildcardClaim(new WildcardClaim.Actions() {
+            public boolean isItemAlreadyClaimed() {
+                return WildcardMenu.this.itemWrapper.isBlacklistedIID();
+            }
+
+            public void markItemClaimed() {
+                WildcardMenu.this.itemWrapper.blacklistIID(WildcardMenu.this.player.getName() + " claimed");
+            }
+
+            public void returnItem() {
+                WildcardMenu.this.returnItem();
+            }
+
+            public void closeAfterUnlock() {
+                WildcardMenu.this.closeWithDelay();
+            }
+
+            public void closeClaimedElsewhere() {
+                WildcardMenu.this.close();
+                WildcardMenu.this.player.sendMessage(CC.RedB + "(!) " + CC.Red + "Item has been claimed since you're inventory was opened!");
+            }
+        });
     }
 
     public void redraw() {
@@ -53,36 +75,22 @@ extends CosmicGUI {
             } else {
                 builder.addLoreLine(new String[]{CC.RedB + "MAX LEVEL"});
             }
-            this.setItem(index++, builder.build(), () -> {
-                if (this.unlocked) {
-                    return;
-                }
-                if (this.itemWrapper.isBlacklistedIID()) {
-                    this.unlocked = true;
-                    this.close();
-                    this.player.sendMessage(CC.RedB + "(!) " + CC.Red + "Item has been claimed since you're inventory was opened!");
-                    return;
-                }
-                if (kit.unlockOrLevelUp(this.player)) {
-                    this.unlocked = true;
-                    this.itemWrapper.blacklistIID(this.player.getName() + " claimed");
-                    this.closeWithDelay();
-                }
-            });
+            this.setItem(index++, builder.build(), () -> this.claim.click(done -> kit.unlockOrLevelUp(this.player, done)));
         }
     }
 
     public void onInventoryClose() {
-        if (!this.unlocked) {
-            this.unlocked = true;
-            PlayerUtil.giveOrDropProtectedItem((Player)this.player, (ItemStack)this.itemWrapper.build(), (int)-1);
-            ASound.CHICKEN_EGG_POP.play(this.player, 3.0f, 1.1f);
-            Bukkit.getScheduler().runTaskLater((Plugin)CosmicGlobalKits.getPlugin(), () -> {
-                if (this.player.isValid()) {
-                    this.player.updateInventory();
-                }
-            }, 1L);
-        }
+        this.claim.inventoryClosed();
+    }
+
+    private void returnItem() {
+        PlayerUtil.giveOrDropProtectedItem((Player)this.player, (ItemStack)this.itemWrapper.build(), (int)-1);
+        ASound.CHICKEN_EGG_POP.play(this.player, 3.0f, 1.1f);
+        Bukkit.getScheduler().runTaskLater((Plugin)CosmicGlobalKits.getPlugin(), () -> {
+            if (this.player.isValid()) {
+                this.player.updateInventory();
+            }
+        }, 1L);
     }
 }
 

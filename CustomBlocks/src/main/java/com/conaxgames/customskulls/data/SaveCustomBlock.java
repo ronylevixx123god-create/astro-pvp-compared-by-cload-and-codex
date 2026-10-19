@@ -39,12 +39,12 @@ public class SaveCustomBlock {
         if (abilityType == AbilityType.BLAZE_STONE_TOTEM) {
             mobGrinder.setLastActivated(mobGrinder.getLastActivated());
             mobGrinder.setLevel(mobGrinder.getLevel());
-            ymlFile.set("grinder", mobGrinder.getCrateKeys().get(CrateType.GRINDER));
+            ymlFile.set("grinder", mobGrinder.getCrateKeys().get(CrateType.SOLAR));
             ymlFile.set("xp", mobGrinder.getXp());
 
             mobGrinder.setLastActivated(mobGrinder.getLastActivated());
             mobGrinder.setLevel(mobGrinder.getLevel());
-            mobGrinder.getCrateKeys().put(CrateType.GRINDER, mobGrinder.getCrateKeys().get(CrateType.GRINDER));
+            mobGrinder.getCrateKeys().put(CrateType.SOLAR, mobGrinder.getCrateKeys().get(CrateType.SOLAR));
             mobGrinder.setXp(mobGrinder.getXp());
 
         }

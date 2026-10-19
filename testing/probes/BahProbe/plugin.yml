@@ -1,0 +1,5 @@
+name: BahProbe
+main: devtest.BahProbe
+version: dev
+depend: [BAH, HotFix]
+description: Isolated test probe for BAH management

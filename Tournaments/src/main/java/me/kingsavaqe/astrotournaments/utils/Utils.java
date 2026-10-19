@@ -31,9 +31,16 @@ public class Utils {
     }
 
     public static Location getLocationFromString(String string) {
+        if (string == null) {
+            throw new IllegalArgumentException("Tournament location is missing");
+        }
         String[] arg = string.split(",");
+        if (arg.length != 4 && arg.length != 6) {
+            throw new IllegalArgumentException("Tournament location must be world,x,y,z[,yaw,pitch]");
+        }
         double[] parsed = new double[5];
-        for (int a = 0; a < 5; a++) {
+        // Old Astro configs omitted orientation. Preserve their coordinates without requiring a reset.
+        for (int a = 0; a < arg.length - 1; a++) {
             parsed[a] = Double.parseDouble(arg[a + 1]);
         }
 

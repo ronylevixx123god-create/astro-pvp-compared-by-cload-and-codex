@@ -110,7 +110,7 @@ public class ContestManager {
                             Bukkit.getLogger().info("Error loading data for " + user.getName() + " (" + user.getUuid() + "), exception:");
                             e.printStackTrace();
                         }
-                        if (!CosmicContests.get().isFactionsEnabled() || (player = FPlayers.i.get(user.getUuid().toString())) == null || !player.hasFaction() || !player.getFaction().isNormal()) continue;
+                        if (!CosmicContests.get().isFactionsEnabled() || (player = FPlayers.getInstance().getById(user.getUuid().toString())) == null || !player.hasFaction() || !player.getFaction().isNormal()) continue;
                         user.setFactionTag(player.getFaction().getTag());
                     }
                 }

@@ -29,6 +29,22 @@
     </repositories>
 
     <dependencies>
+        <!-- Referenced directly by FactionsListener and ContestManager; do not rely on
+             transitive metadata from the legacy Arkkit artifact. -->
+        <dependency>
+            <groupId>com.massivecraft</groupId>
+            <artifactId>Factions</artifactId>
+            <version>1.6.9.5-U0.5.18</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- CosmicFactionPoints API for the optional contest point prize (provided at runtime if installed) -->
+        <dependency>
+            <groupId>local.com.conaxgames</groupId>
+            <artifactId>CosmicFactionPoints</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/CosmicFactionPoints.jar</systemPath>
+        </dependency>
         <!-- ConaxGames Repos -->
         <dependency>
             <groupId>com.conaxgames</groupId>

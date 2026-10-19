@@ -1,0 +1,4 @@
+name: SlotRewardProbe
+main: devtest.SlotRewardProbe
+version: test-only
+depend: [AstroSlotBot, AstroLoottables, AstroLootFilter]

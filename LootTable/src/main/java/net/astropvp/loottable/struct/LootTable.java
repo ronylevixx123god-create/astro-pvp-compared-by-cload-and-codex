@@ -14,7 +14,7 @@ public enum LootTable {
     COSMIC(Material.TRIPWIRE_HOOK, ChatColor.LIGHT_PURPLE),
     SEASON(Material.TRIPWIRE_HOOK, ChatColor.GOLD),
     SLOTS(Material.PAPER, ChatColor.YELLOW),
-    //ENVOY(Material.FIREWORK, ChatColor.AQUA),
+    ENVOY(Material.FIREWORK, ChatColor.AQUA),
     BAH(Material.ENDER_CHEST, ChatColor.GOLD),
     WARZONE_CHESTS(Material.CHEST, ChatColor.AQUA),
     GRINDING(Material.MOB_SPAWNER, ChatColor.YELLOW),

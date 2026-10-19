@@ -38,23 +38,19 @@ public class SQLManager {
     public static void initializeSQL(Plugin pl) {
         plugin = pl;
         sqlconfig = YamlConfiguration.loadConfiguration((File)new File(plugin.getDataFolder().getPath() + "/sqlconfig.yml"));
-        SQLManager.confirmSectionExists("user");
-        SQLManager.confirmSectionExists("database");
-        SQLManager.confirmSectionExists("password");
-        SQLManager.confirmSectionExists("port");
-        SQLManager.confirmSectionExists("hostname");
+        SQLSettings settings = SQLSettings.read(sqlconfig);
         try {
             sqlconfig.save(plugin.getDataFolder().getPath() + "/sqlconfig.yml");
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        user = sqlconfig.getString("user");
-        database = sqlconfig.getString("database");
-        password = sqlconfig.getString("password");
-        port = sqlconfig.getString("port");
-        hostname = sqlconfig.getString("hostname");
-        sqlurl = "jdbc:mysql://" + hostname + ":" + port + "/" + database + "?autoReconnect=true";
+        user = settings.user;
+        database = settings.database;
+        password = settings.password;
+        port = Integer.toString(settings.port);
+        hostname = settings.host;
+        sqlurl = settings.url();
     }
 
     static {

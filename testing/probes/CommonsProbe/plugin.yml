@@ -1,0 +1,5 @@
+name: CommonsProbe
+main: devtest.CommonsProbe
+version: dev
+softdepend: [Commons, NebulaShop, AstroRuins]
+description: Isolated test probe for Commons, NebulaShop, AstroRuins

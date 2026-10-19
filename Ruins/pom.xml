@@ -36,6 +36,52 @@
         </repository>
     </repositories>
 
+    <build>
+        <plugins>
+            <!-- Bundle only ACF (acf-paper 0.5.0-SNAPSHOT), relocated into this plugin. On Astro it
+                 came unrelocated from AstroDiscordSync; this plugin no longer relies on that. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <artifactSet>
+                                <includes>
+                                    <include>co.aikar:acf-paper</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>co.aikar.commands</pattern>
+                                    <shadedPattern>org.demonicpvp.demonicruins.libs.acf</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>co.aikar.locales</pattern>
+                                    <shadedPattern>org.demonicpvp.demonicruins.libs.locales</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>co.aikar.timings.lib</pattern>
+                                    <shadedPattern>org.demonicpvp.demonicruins.libs.timings</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.jodah.expiringmap</pattern>
+                                    <shadedPattern>org.demonicpvp.demonicruins.libs.expiringmap</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <!-- ConaxGames repos -->
         <dependency>

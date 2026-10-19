@@ -41,6 +41,11 @@
     </build>
 
     <repositories>
+        <!-- Aikar's official repository, source of acf-paper 0.5.0-SNAPSHOT -->
+        <repository>
+            <id>aikar</id>
+            <url>https://repo.aikar.co/content/groups/aikar/</url>
+        </repository>
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
@@ -100,6 +105,14 @@
             <groupId>fr.minuskube.inv</groupId>
             <artifactId>smart-invs</artifactId>
             <version>1.2.7</version>
+            <exclusions>
+                <!-- Pulled in via spigot-api 1.8.8; no longer downloadable. The same version
+                     (bungeecord-chat 1.8-SNAPSHOT) is bundled in the WineSpigot server jar. -->
+                <exclusion>
+                    <groupId>net.md-5</groupId>
+                    <artifactId>bungeecord-chat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>

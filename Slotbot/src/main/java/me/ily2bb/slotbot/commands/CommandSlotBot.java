@@ -13,7 +13,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandSlotBot implements CommandExecutor {
+    private static final String ADMIN_PERMISSION = "slotbot.admin";
+
+    private static boolean isAdminCommand(final String sub) {
+        return sub.contentEquals("enable") || sub.contentEquals("disable") || sub.contentEquals("give") || sub.contentEquals("giveheroic");
+    }
+
     public boolean onCommand(final CommandSender sender, final Command arg1, final String arg2, final String[] args) {
+        if (args.length >= 1 && isAdminCommand(args[0]) && !sender.hasPermission(ADMIN_PERMISSION)) {
+            sender.sendMessage(CC.Red + "You do not have permission to use this command.");
+            return false;
+        }
         if (args.length >= 1) {
             if (args[0].contentEquals("enable")) {
                 SlotBotPlugin.getInstance().getConfig().set("slot-bot-enabled", true);

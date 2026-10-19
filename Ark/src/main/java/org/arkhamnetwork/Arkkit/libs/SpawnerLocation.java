@@ -90,7 +90,7 @@ public class SpawnerLocation {
         this.worldName = block.getWorld().getName();
         this.spawnerType = cs.getSpawnedType();
         this.placeTime = System.currentTimeMillis();
-        this.spawnerCount = cs.getSpawnerCount();
+        this.spawnerCount = SpawnerCompat.getStackSize(cs);
     }
 
     public String string() {

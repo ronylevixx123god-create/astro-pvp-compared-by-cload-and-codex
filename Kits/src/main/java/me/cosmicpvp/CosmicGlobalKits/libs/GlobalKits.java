@@ -32,6 +32,7 @@ import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import me.cosmicpvp.CosmicGlobalKits.CosmicGlobalKits;
 import me.cosmicpvp.CosmicGlobalKits.CosmicGlobalKitsAPI;
 import me.cosmicpvp.CosmicGlobalKits.struct.GlobalKit;
@@ -42,8 +43,9 @@ import me.cosmicpvp.CosmicGlobalKits.struct.gkits.HeroicCosmonaut;
 import me.cosmicpvp.CosmicGlobalKits.struct.gkits.HeroicGrimReaper;
 import me.cosmicpvp.CosmicGlobalKits.struct.gkits.HeroicLoki;
 import me.cosmicpvp.CosmicGlobalKits.utils.GlobalCooldowns;
+import me.cosmicpvp.CosmicGlobalKits.permissions.GrantResult;
+import me.cosmicpvp.CosmicGlobalKits.permissions.KitPermissionGranter;
 import me.cosmicpvp.CosmicGlobalKits.utils.ItemUtils;
-import org.arkhamnetwork.permissions.ArkhamPermissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -155,20 +157,53 @@ public enum GlobalKits {
         return null;
     }
 
-    public boolean unlockOrLevelUp(Player player) {
+    /**
+     * Unlocks this kit for the player through LuckPerms. The result is delivered on the main thread;
+     * only {@link GrantResult#GRANTED} means a new unlock happened (and may consume an unlock item).
+     */
+    public void unlockOrLevelUp(Player player, Consumer<GrantResult> onMainThread) {
         if (this.hasUnlockCooldown(player)) {
-            return false;
+            onMainThread.accept(GrantResult.FAILED);
+            return;
         }
-        if (!this.hasAccess(player)) {
-            Bukkit.dispatchCommand((CommandSender)Bukkit.getConsoleSender(), (String)("pex user " + player.getName() + " add " + this.getPermissionString() + " " + CosmicUtils.get().getServerName()));
-            player.sendMessage(CC.AquaB + "(!) You've UNLOCKED the " + this.getItemName() + CC.AquaB + " GKIT!");
-            player.sendMessage((Object)ChatColor.GRAY + "Redeem your new kit in the /gkit menu!");
-            Bukkit.getScheduler().runTaskLater((Plugin)CosmicGlobalKits.getPlugin(), () -> ArkhamPermissions.getInstance().getPermissionManager().reloadPlayer(player), 15L);
-            Bukkit.getPluginManager().callEvent((Event)new CustomCosmicPlayerEvent(player, "GKIT_LEVELUP", new Object[]{this, 0}));
-            return true;
+        if (this.hasAccess(player)) {
+            this.sendAlreadyUnlocked(player);
+            onMainThread.accept(GrantResult.ALREADY_GRANTED);
+            return;
         }
+        String scope = CosmicGlobalKits.getPlugin().getConfig().getString(KitPermissionGranter.CONFIG_KEY, "");
+        KitPermissionGranter granter;
+        try {
+            granter = KitPermissionGranter.bukkit((Plugin)CosmicGlobalKits.getPlugin());
+        }
+        catch (LinkageError e) {
+            CosmicGlobalKits.getPlugin().getLogger().severe("[GlobalKits] LuckPerms is not installed; cannot unlock " + this.name() + " for " + player.getName());
+            this.sendUnlockFailed(player);
+            onMainThread.accept(GrantResult.FAILED);
+            return;
+        }
+        granter.grant(player.getUniqueId(), this.getPermissionString(), scope, result -> {
+            if (player.isOnline()) {
+                if (result == GrantResult.GRANTED) {
+                    player.sendMessage(CC.AquaB + "(!) You've UNLOCKED the " + this.getItemName() + CC.AquaB + " GKIT!");
+                    player.sendMessage((Object)ChatColor.GRAY + "Redeem your new kit in the /gkit menu!");
+                    Bukkit.getPluginManager().callEvent((Event)new CustomCosmicPlayerEvent(player, "GKIT_LEVELUP", new Object[]{this, 0}));
+                } else if (result == GrantResult.ALREADY_GRANTED) {
+                    this.sendAlreadyUnlocked(player);
+                } else {
+                    this.sendUnlockFailed(player);
+                }
+            }
+            onMainThread.accept(result);
+        });
+    }
+
+    private void sendAlreadyUnlocked(Player player) {
         player.sendMessage(ChatColor.RED.toString() + ChatColor.BOLD.toString() + "(!) " + (Object)ChatColor.RED + "You already have the " + this.getItemName() + (Object)ChatColor.RED + " unlocked!");
-        return false;
+    }
+
+    private void sendUnlockFailed(Player player) {
+        player.sendMessage(CC.RedB + "(!) " + CC.Red + "Unable to unlock the " + this.getItemName() + CC.Red + " GKIT right now. Your item was not used; please try again or contact staff.");
     }
 
     public boolean hasUnlockCooldown(Player player) {

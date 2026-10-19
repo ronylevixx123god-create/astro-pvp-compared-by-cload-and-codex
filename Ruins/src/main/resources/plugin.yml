@@ -2,6 +2,7 @@ name: AstroRuins
 main: org.demonicpvp.demonicruins.DemonicRuins
 version: 1.0
 load: POSTWORLD
+depend: [Commons, ProtocolLib, CCVerify]
 softdepend: [CosmicBosses]
 commands:
   ruins:

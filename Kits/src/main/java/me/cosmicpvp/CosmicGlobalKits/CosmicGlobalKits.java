@@ -52,6 +52,7 @@ public class CosmicGlobalKits extends JavaPlugin {
         kitGemsEnabled = this.getConfig().getBoolean("kitGemsEnabled");
         SQLManager.initializeSQL(this);
         SQLManager.sql_query.add("CREATE TABLE IF NOT EXISTS " + sql_table + "(player_uuid VARCHAR(64), player_name VARCHAR(16), global_kit TEXT, last_use LONG)");
+        SQLManager.sql_query.add("CREATE TABLE IF NOT EXISTS globalkit_player_tiers(player_uuid VARCHAR(64), player_name VARCHAR(16), global_kit varchar(64), tier int, server_name varchar(32))");
         this.sql_worker = new SQLQueryThread();
         this.sql_worker.start();
             CosmicSkyCustomItems.get().getItemManager().registerCustomItem(new WildcardGkit());
@@ -68,9 +69,11 @@ public class CosmicGlobalKits extends JavaPlugin {
     }
 
     public void onDisable() {
-        this.sql_worker.interrupt();
-        this.sql_worker.doWork();
-        this.sql_worker = null;
+        if (this.sql_worker != null) {
+            this.sql_worker.interrupt();
+            this.sql_worker.doWork();
+            this.sql_worker = null;
+        }
 
         if (this.sqlQueryThread != null) {
             this.sqlQueryThread.interrupt();

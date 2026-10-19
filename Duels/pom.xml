@@ -10,9 +10,41 @@
 
     <build>
         <finalName>CosmicDuel</finalName>
+        <plugins>
+            <!-- Bundle only MF-GUI 2.0.3.3, relocated. On Astro, CosmicDuel used the unrelocated copy
+                 inside older CosmicGUIShop jars; CosmicGUIShop dropped it on 2022-05-15. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <artifactSet>
+                                <includes>
+                                    <include>me.mattstudios.utils:matt-framework-gui</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>me.mattstudios.mfgui</pattern>
+                                    <shadedPattern>me.ifamasssxd.cosmicduel.libs.mfgui</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
@@ -33,6 +65,18 @@
     </repositories>
 
     <dependencies>
+        <!-- MF-GUI 2.0.3.3 (Maven Central): same library code Astro used via CosmicGUIShop -->
+        <dependency>
+            <groupId>me.mattstudios.utils</groupId>
+            <artifactId>matt-framework-gui</artifactId>
+            <version>2.0.3.3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.jetbrains</groupId>
+                    <artifactId>annotations</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- ConaxGames repos -->
         <dependency>
             <groupId>com.conaxgames</groupId>

@@ -1,3 +1,10 @@
 store_url: buy.astropvp.net
 server_name: AstroPvP
 kitGemsEnabled: true
+
+# Server scope for /gkit unlock permissions granted through LuckPerms (cosmickits.kit.<kit>).
+# Leave blank to use LuckPerms' own "server:" name from plugins/LuckPerms/config.yml, so grants
+# match the server context LuckPerms actually applies. If LuckPerms' server name is "global" or
+# empty, unlocks are refused (the unlock item is kept) until you set either that or this value.
+# Set to "global" only to deliberately grant kit permissions on every server.
+luckperms-server-context: ""

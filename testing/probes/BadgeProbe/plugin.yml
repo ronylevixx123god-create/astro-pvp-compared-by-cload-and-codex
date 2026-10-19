@@ -1,0 +1,5 @@
+name: BadgeProbe
+main: devtest.BadgeProbe
+version: dev
+softdepend: [AstroCore]
+description: Isolated test probe for AstroCore DiscordSync badges

@@ -1,0 +1,5 @@
+name: KitsLPProbe
+main: devtest.KitsLPProbe
+version: dev
+depend: [LuckPerms, CosmicGlobalKits]
+description: Isolated test probe for Kits LuckPerms grants

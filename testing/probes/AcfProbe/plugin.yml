@@ -1,0 +1,6 @@
+name: AcfProbe
+main: devtest.AcfProbe
+version: dev
+depend: [AstroSlotBot, AstroLoottables]
+softdepend: [AstroCore, AstroLootFilter]
+description: Isolated test probe for ACF bundling

@@ -62,6 +62,9 @@
             <groupId>io.puharesource.mc</groupId>
             <artifactId>TitleManager</artifactId>
             <version>2.2.0</version>
+            <scope>system</scope>
+            <!-- Official release from github.com/Puharesource/TitleManager (repo.puha.io is gone) -->
+            <systemPath>${project.basedir}/../.lib/TitleManager-2.2.0.jar</systemPath>
         </dependency>
 
         <!-- New Cosmic Repos -->
@@ -78,9 +81,10 @@
             <systemPath>${project.basedir}/../Utils/target/CosmicPvPUtils.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>com.conaxgames</groupId>
+            <groupId>com.massivecraft</groupId>
             <artifactId>Factions</artifactId>
-            <version>0.1</version>
+            <version>1.6.9.5-U0.5.18</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.conaxgames</groupId>
@@ -110,11 +114,6 @@
         <dependency>
             <groupId>com.conaxgames</groupId>
             <artifactId>Duels</artifactId>
-            <version>0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.conaxgames</groupId>
-            <artifactId>Factions</artifactId>
             <version>0.1</version>
         </dependency>
         <dependency>
@@ -297,6 +296,27 @@
             <version>0.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/DamageIndicators.jar</systemPath>
+        </dependency>
+        <!-- Unit tests (versions already used elsewhere in the local Maven cache) -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- LuckPerms API from the LuckPerms 5.4.30 plugin bundled with Astro (provided at runtime) -->
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.4.30</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../Core/lib/LuckPerms-Bukkit-5.4.30.jar</systemPath>
         </dependency>
     </dependencies>
 

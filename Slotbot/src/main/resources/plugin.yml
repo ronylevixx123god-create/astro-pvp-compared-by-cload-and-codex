@@ -9,3 +9,7 @@ commands:
     aliases: [ bot, slotbot, slots]
   addskin:
     description: /addskin
+permissions:
+  slotbot.admin:
+    description: /slot enable, disable, give and giveheroic
+    default: op

@@ -1,3 +1,11 @@
+# Current integration comparison
+
+The current branch comparison, decisions, reproducible checks, and limitations are in
+[INTEGRATION-REPORT.md](INTEGRATION-REPORT.md). The original files are now available in
+`ronylevixx123god-create/sss` at `e437ebe555d66cc869d8ece8e39b60445f46e994`, copied unchanged
+from `x0/Project-AstroPvP`. The notes below describe the earlier destination work, retained
+as provenance rather than evidence for the current integration run.
+
 # AstroPvP comparison and selected version
 
 Compared Project-AstroPvP `e437ebe555d66cc869d8ece8e39b60445f46e994` against Astro-PVP-COPY-OF- `9f1d10c324a7e621ffac4233b4cb2e99afc61efa` on 2026-10-15. Both source checkouts were clean before inspection and remain unchanged. This repository was initially empty and was populated from the COPY repository. At the user’s request, the follow-up review below now adds fixes and regression checks here; neither original repository has been changed.

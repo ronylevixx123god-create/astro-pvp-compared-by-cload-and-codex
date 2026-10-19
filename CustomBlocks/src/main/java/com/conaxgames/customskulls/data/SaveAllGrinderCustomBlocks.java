@@ -27,7 +27,7 @@ public class SaveAllGrinderCustomBlocks {
                     File file = new File(CoreSkulls.instance.getDataFolder().toString() + "/data/" + AbilityData.getUUID(data.getLocation()) + ".yml");
 
                     if (!file.exists()) {
-                        return;
+                        continue;
                     }
 
                     YamlConfiguration ymlFile = YamlConfiguration.loadConfiguration(file);
@@ -39,11 +39,12 @@ public class SaveAllGrinderCustomBlocks {
 
                     mobGrinder.setLastActivated(mobGrinder.getLastActivated());
 
-                        ymlFile.set("grinder", mobGrinder.getCrateKeys().get(CrateType.GODLY));
+                        // The single-block writer and loader both use SOLAR for the legacy "grinder" key.
+                        ymlFile.set("grinder", mobGrinder.getCrateKeys().get(CrateType.SOLAR));
                         ymlFile.set("xp", mobGrinder.getXp());
                         mobGrinder.setLevel(mobGrinder.getLevel());
                         mobGrinder.setLastActivated(mobGrinder.getLastActivated());
-                        mobGrinder.getCrateKeys().put(CrateType.GRINDER, mobGrinder.getCrateKeys().get(CrateType.GRINDER));
+                        mobGrinder.getCrateKeys().put(CrateType.SOLAR, mobGrinder.getCrateKeys().get(CrateType.SOLAR));
                         mobGrinder.setXp(mobGrinder.getXp());
 
 
@@ -61,6 +62,8 @@ public class SaveAllGrinderCustomBlocks {
         } catch (ConcurrentModificationException e) {
             CoreSkulls.setSavingGrinderBlocks(false);
             e.printStackTrace();
+        } finally {
+            CoreSkulls.setSavingGrinderBlocks(false);
         }
 
     }

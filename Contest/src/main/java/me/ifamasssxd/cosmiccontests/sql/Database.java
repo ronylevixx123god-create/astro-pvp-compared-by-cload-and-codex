@@ -41,7 +41,8 @@ public class Database {
         this.username = config.getString("sql.username");
         this.password = config.getString("sql.password");
         this.database = config.getString("sql.database");
-        this.url = "jdbc:mysql://" + this.host + ":3306/" + this.database + "?autoReconnect=true";
+        int port = config.getInt("sql.port", 3306);
+        this.url = "jdbc:mysql://" + this.host + ":" + port + "/" + this.database + "?autoReconnect=true";
     }
 
     public Database(String host, String username, String password, String database) {

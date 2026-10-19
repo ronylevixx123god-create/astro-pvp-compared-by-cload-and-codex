@@ -48,7 +48,7 @@ public class MakeCustomBlocks {
             ymlFile.set("xp", 0);
             mobGrinder.setLastActivated(mobGrinder.getLastActivated());
             mobGrinder.setLevel(mobGrinder.getLevel());
-            mobGrinder.getCrateKeys().put(CrateType.GRINDER, 0);
+            mobGrinder.getCrateKeys().put(CrateType.SOLAR, 0);
             mobGrinder.setXp(0);
 
         }

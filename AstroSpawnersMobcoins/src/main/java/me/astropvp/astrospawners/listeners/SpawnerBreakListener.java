@@ -1,7 +1,5 @@
 package me.astropvp.astrospawners.listeners;
 
-import com.compilex.CosmicCustomCreepers.enums.CreeperTypes;
-import com.compilex.CosmicCustomCreepers.listeners.CreeperListener;
 import com.cosmicpvp.cosmicutils.utils.CC;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
@@ -10,13 +8,12 @@ import me.astropvp.astrospawners.data.SpawnerData;
 import me.astropvp.astrospawners.data.SpawnerManager;
 import me.astropvp.astrospawners.items.ItemSpawner;
 import me.astropvp.astrospawners.utils.EntityUtils;
+import me.astropvp.astrospawners.utils.ExplosiveHook;
 import me.astropvp.factionlogs.struct.impl.SpawnerBreak;
 import me.astropvp.factionlogs.struct.impl.SpawnerPlace;
 import me.astropvp.factionlogs.utils.FactionsLogsAPI;
 import me.venir.astrocollectors.collector.Collector;
 import me.venir.astrocollectors.collector.CollectorManager;
-import org.arkhamnetwork.CosmicCustomTNT.enums.TNTTypes;
-import org.arkhamnetwork.CosmicCustomTNT.listeners.TNTListener;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -46,31 +43,8 @@ public class SpawnerBreakListener implements Listener {
             return;
         }
 
-        if (event.getEntity() instanceof Creeper) {
-
-            Creeper c = (Creeper)event.getEntity();
-
-            if (CreeperListener.creepers.containsKey(c.getUniqueId())) {
-
-                CreeperTypes egg_type = CreeperListener.creepers.get(c.getUniqueId());
-                if (egg_type == CreeperTypes.Raid) {
-                    chance = 1;
-                } else
-                if (egg_type == CreeperTypes.Lucky) {
-                    chance += 0.3;
-                }
-            }
-        }
-        if(event.getEntity() instanceof TNTPrimed) {
-            TNTPrimed tnt = (TNTPrimed) event.getEntity();
-            if(TNTListener.customTnt.containsKey(tnt.getUniqueId())) {
-
-                TNTTypes tntType = TNTListener.customTnt.get(tnt.getUniqueId());
-
-                if(tntType == TNTTypes.Lucky)
-                    chance += 0.35;
-            }
-        }
+        // Raid/Lucky creeper and Lucky TNT bonuses from Explosive (CosmicCustomTNT), if it is enabled.
+        chance = ExplosiveHook.adjustChance(event.getEntity(), chance);
         List<Block> blocks = event.blockList();
         for (int i = blocks.size() - 1; i >= 0; i--) {
             Block block = blocks.get(i);

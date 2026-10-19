@@ -88,7 +88,7 @@ public class CrateKeyOpenerGUI {
                             }
                         }
                         ItemStack itemStack = LootTableAPI.getRandomLootItem(LootTable.valueOf(type.name()));
-                        if (!LootFilterAPI.isFiltered(player, net.astropvp.lootfilter.struct.LootTable.valueOf(type.name()), itemStack)) {
+                        if (!LootFilterAPI.isFiltered(player, LootTable.valueOf(type.name()), itemStack)) {
                             if (ArkhamMoneyNotesAPI.isMoneyNote(itemStack)) {
                                 double moneyNoteVal = ArkhamMoneyNotesAPI.getMoneyNoteVal(itemStack);
                                 EconomyUtils.depositBalance(player, moneyNoteVal);

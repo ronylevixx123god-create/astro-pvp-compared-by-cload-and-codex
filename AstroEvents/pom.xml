@@ -40,8 +40,10 @@
         <dependency>
             <groupId>com.gmail.filoghost.holographicdisplays</groupId>
             <artifactId>holographicdisplays-api</artifactId>
-            <version>2.4.0</version>
-            <scope>provided</scope>
+            <!-- Compile against the exact HolographicDisplays API supplied with Astro. -->
+            <version>2.1.10</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../AstroCollect/lib/HolographicDisplays (2).jar</systemPath>
         </dependency>
         <dependency>
             <groupId>co.aikar</groupId>

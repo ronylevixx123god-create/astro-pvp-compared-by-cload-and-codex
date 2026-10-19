@@ -245,16 +245,6 @@ public class ChatListener implements Listener {
     }
 
     public String getNitroLeader(Player player) {
-        String prefix = "";
-        if (me.astropvp.discordsync.listeners.ChatListener.isNitroBooster(player)) {
-            prefix += me.astropvp.discordsync.listeners.ChatListener.BOOSTER_BADGE;
-        }
-        if (me.astropvp.discordsync.listeners.ChatListener.isFactionLeader(player)) {
-            prefix += me.astropvp.discordsync.listeners.ChatListener.LEADER_BADGE;
-        }
-        if (!prefix.equals("")) {
-            prefix = "&8<" + prefix + "&8> ";
-        }
-        return prefix;
+        return DiscordSyncBadges.getNitroLeader(player);
     }
 }

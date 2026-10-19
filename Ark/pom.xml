@@ -70,8 +70,9 @@
         <dependency>
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
-            <version>4.5.0</version>
-            <scope>provided</scope>
+            <version>4.5.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../HotFix/lib/ProtocolLib.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -89,11 +90,8 @@
             <artifactId>joda-time</artifactId>
             <version>2.10.4</version>
         </dependency>
-        <dependency>
-            <groupId>com.github.sk89q.worldedit</groupId>
-            <artifactId>ap</artifactId>
-            <version>7.0.1</version>
-        </dependency>
+        <!-- No WorldEdit annotation processor is used by these sources. The runtime API
+             is already provided by the bundled WorldEdit dependency below. -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>

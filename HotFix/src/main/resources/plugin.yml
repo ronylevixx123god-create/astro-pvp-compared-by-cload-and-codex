@@ -1,5 +1,6 @@
 name: HotFix
 main: me.astropvp.hotfixplugin.HotFixPlugin
 version: 1.0
+depend: [CosmicPvPUtils]
 commands:
   lpfix:

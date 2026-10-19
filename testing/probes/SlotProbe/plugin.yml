@@ -1,0 +1,5 @@
+name: SlotProbe
+main: devtest.SlotProbe
+version: dev
+depend: [AstroSlotBot, AstroLoottables]
+description: Isolated test probe for slot bot tickets

@@ -1,0 +1,5 @@
+name: DuelMenuProbe
+main: devtest.DuelMenuProbe
+version: dev
+depend: [CosmicDuel]
+description: Isolated test probe for CosmicDuel menus

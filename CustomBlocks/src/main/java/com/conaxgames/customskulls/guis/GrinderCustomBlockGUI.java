@@ -30,7 +30,7 @@ import org.bukkit.inventory.PlayerInventory;
 @Getter
 public class GrinderCustomBlockGUI {
     private final PaginatedGui customBlockGui;
-    private final ItemStack godlyKey = CrateKeyItem.getItem(CrateType.GRINDER);
+    private final ItemStack godlyKey = CrateKeyItem.getItem(CrateType.SOLAR);
     private final MobGrinderManager mobGrinderManager = CoreSkulls.instance.getMobGrinderManager();
 
     public GrinderCustomBlockGUI(AbilityData data, Block block) {
@@ -83,13 +83,13 @@ public class GrinderCustomBlockGUI {
         }));
 
         //Godly key
-        ItemStack godlyKey = new ItemBuilder(Material.GOLD_NUGGET, CC.translate("&4&lGodly Crate Keys &8(&7" + mobGrinder.getCrateKeys().get(CrateType.GRINDER) + "&8)"), CC.translate("&7Click to redeem the godly crate keys")).build();
+        ItemStack godlyKey = new ItemBuilder(Material.GOLD_NUGGET, CC.translate("&4&lGodly Crate Keys &8(&7" + mobGrinder.getCrateKeys().get(CrateType.SOLAR) + "&8)"), CC.translate("&7Click to redeem the godly crate keys")).build();
         this.customBlockGui.setItem(4, 2, new GuiItem(godlyKey, event -> {
             if (CoreSkulls.isSavingGrinderBlocks) {
                 event.getWhoClicked().sendMessage(CC.translate("&c&l(!)&c Please retry in a second, the customblock is saving the data"));
                 return;
             }
-            int godlyKeys = mobGrinder.getCrateKeys().get(CrateType.GRINDER);
+            int godlyKeys = mobGrinder.getCrateKeys().get(CrateType.SOLAR);
             if (godlyKeys == 0) return;
             int givenKeys = 0;
             int amountToGive;
@@ -107,7 +107,7 @@ public class GrinderCustomBlockGUI {
 
 
             event.getWhoClicked().sendMessage(CC.translate("&a&l+ " + NumberUtils.formatMoney(givenKeys) + " &4&lGodly &f&lCrate Keys"));
-            mobGrinder.getCrateKeys().put(CrateType.GRINDER, godlyKeys - givenKeys);
+            mobGrinder.getCrateKeys().put(CrateType.SOLAR, godlyKeys - givenKeys);
             GrinderCustomBlockGUI grinderCustomBlockGUI = new GrinderCustomBlockGUI(data, block);
             grinderCustomBlockGUI.getCustomBlockGui().open(event.getWhoClicked());
 

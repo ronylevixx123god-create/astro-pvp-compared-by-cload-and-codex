@@ -1,4 +1,4 @@
-spawner-income-per-hour:
+spawner-income-per-minute:
   IRON_GOLEM: 16000
   VILLAGER: 50000
   PIG_ZOMBIE: 1500
@@ -7,4 +7,4 @@ spawner-income-per-hour:
   SPIDER: 316
   CAVE_SPIDER: 316
   CREEPER: 0
-tnt-per-hour: 85
+tnt-per-minute: 85

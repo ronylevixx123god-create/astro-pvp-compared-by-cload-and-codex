@@ -15,80 +15,57 @@
 
     </properties>
 
-
-
-    <repositories>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-
+        <dependency>
+            <groupId>com.astropvp</groupId>
+            <artifactId>storage</artifactId>
+            <version>1.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../StorageUtil/target/StorageUtil-0.1-shaded.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.astropvp</groupId>
+            <artifactId>loottable</artifactId>
+            <version>1825.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/LootTable.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>4.11.0</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.astropvp</groupId>
-            <artifactId>loottables</artifactId>
+            <artifactId>cosmic-utils</artifactId>
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/../.lib/CosmicPvPUtils.jar</systemPath>
         </dependency>
 
-
         <dependency>
             <groupId>com.astropvp</groupId>
-            <artifactId>storage</artifactId>
-            <version>1.0</version>
+            <artifactId>auction</artifactId>
+            <version>1.1</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../StorageUtil/target/StorageUtil-0.1-shaded.jar</systemPath>
+            <systemPath>${project.basedir}/../Core/lib/Auction.jar</systemPath>
         </dependency>
 
         <dependency>
-            <groupId>com.astropvp</groupId>
-            <artifactId>collects</artifactId>
-            <version>1.0</version>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.8.8-R0.1-SNAPSHOT</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../.lib/Collect.jar</systemPath>
+            <systemPath>${project.basedir}/../AstroCollect/lib/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar</systemPath>
         </dependency>
-
-        <dependency>
-            <groupId>com.astropvp</groupId>
-            <artifactId>utils</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/LootTable.jar</systemPath>
-        </dependency>
-
-        <dependency>
-            <groupId>net.astropvp</groupId>
-            <artifactId>AstroDamageHandler</artifactId>
-            <version>0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.conaxgames</groupId>
-            <artifactId>server</artifactId>
-            <version>1.8.8-R0.2-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
 
     </dependencies>
 

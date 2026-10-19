@@ -1,0 +1,4 @@
+name: SlotGiveProbe
+main: devtest.SlotGiveProbe
+version: dev
+depend: [AstroSlotBot]

@@ -41,6 +41,12 @@
     </build>
 
     <repositories>
+        <!-- PaperMC repository, as in the other modules using VaultAPI 1.7 (source of its
+             transitive bukkit 1.13.1 API / guava 21 / snakeyaml 1.21 compile-time deps) -->
+        <repository>
+            <id>paper-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>

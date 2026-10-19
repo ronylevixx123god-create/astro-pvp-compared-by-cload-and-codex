@@ -16,7 +16,6 @@
  */
 package me.ifamasssxd.cosmiccontests.listeners;
 
-import com.compilex.CompilexPermissions.PermissionsAPI;
 import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import com.massivecraft.factions.event.FPlayerJoinEvent;
@@ -31,13 +30,25 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
+import java.util.UUID;
+
 public class FactionsListener
 implements Listener {
+    // AstroFactions stores each FPlayer's id as the player's UUID string.
+    private static UUID uuidOf(FPlayer fPlayer) {
+        try {
+            return UUID.fromString(fPlayer.getId());
+        }
+        catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
     @EventHandler
     public void onPlayerLeave(FPlayerJoinEvent event) {
         Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin)CosmicContests.get(), () -> {
             ContestUser user;
-            if (event.getFPlayer() != null && event.getFPlayer().hasFaction() && (user = ContestUser.getUser(event.getFPlayer().getCachedUUID())) != null) {
+            if (event.getfPlayer() != null && event.getfPlayer().hasFaction() && (user = ContestUser.getUser(uuidOf(event.getfPlayer()))) != null) {
                 if (event.getFaction().isNormal()) {
                     user.setFactionTag(event.getFaction().getTag());
                 } else {
@@ -51,7 +62,7 @@ implements Listener {
     public void onPlayerLeave(FPlayerLeaveEvent event) {
         Bukkit.getScheduler().scheduleSyncDelayedTask((Plugin)CosmicContests.get(), () -> {
             ContestUser user;
-            if (event.getFPlayer() != null && (user = ContestUser.getUser(event.getFPlayer().getCachedUUID())) != null) {
+            if (event.getfPlayer() != null && (user = ContestUser.getUser(uuidOf(event.getfPlayer()))) != null) {
                 user.setFactionTag(null);
             }
         }, 1L);
@@ -59,7 +70,7 @@ implements Listener {
 
     @EventHandler(priority=EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
-        FPlayer player = (FPlayer)FPlayers.i.get((OfflinePlayer)event.getPlayer());
+        FPlayer player = FPlayers.getInstance().getByPlayer(event.getPlayer());
         ContestUser user = ContestUser.getUser(event.getPlayer().getUniqueId());
         if (player != null && player.hasFaction() && player.getFaction().isNormal() && user != null) {
             user.setFactionTag(player.getFaction().getTag());

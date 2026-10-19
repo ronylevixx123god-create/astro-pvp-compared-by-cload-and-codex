@@ -62,6 +62,16 @@
     </repositories>
 
     <dependencies>
+        <!-- Keep first: Arkkit's lib/CosmicBossEggs.jar bundles WorldEdit 5.5.8, whose BukkitWorld /
+             Polygonal2DRegion predate the WorldEdit 6 API used by CorruptCosmonaut.breakFloor().
+             WorldEdit 6.1.7.3 = the version Astro uses across the project for its 1.8.8 server. -->
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>6.1.7.3</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../Enchantments/lib/worldedit-bukkit-6.1.7.3.jar</systemPath>
+        </dependency>
         <!-- Normal -->
         <dependency>
             <groupId>com.conaxgames</groupId>
@@ -172,13 +182,6 @@
         </dependency>
 
         <!-- System Repos -->
-        <dependency>
-            <groupId>com.conaxgames</groupId>
-            <artifactId>worldguard</artifactId>
-            <version>0.1</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/worldedit-bukkit-6.0.jar</systemPath>
-        </dependency>
         <dependency>
             <groupId>com.conaxgames</groupId>
             <artifactId>mcmmo</artifactId>

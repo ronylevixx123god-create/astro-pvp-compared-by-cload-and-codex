@@ -61,6 +61,9 @@
             <groupId>io.puharesource.mc</groupId>
             <artifactId>TitleManager</artifactId>
             <version>2.2.0</version>
+            <scope>system</scope>
+            <!-- Official release from github.com/Puharesource/TitleManager (repo.puha.io is gone) -->
+            <systemPath>${project.basedir}/../.lib/TitleManager-2.2.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -96,7 +99,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.conaxgames</groupId>
+            <groupId>net.astropvp</groupId>
             <artifactId>Core</artifactId>
             <version>0.1</version>
             <scope>provided</scope>

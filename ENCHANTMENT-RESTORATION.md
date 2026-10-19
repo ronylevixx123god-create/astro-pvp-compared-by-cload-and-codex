@@ -1,3 +1,7 @@
+> Current integration: see [INTEGRATION-REPORT.md](INTEGRATION-REPORT.md). The existing
+> Against the Odds and inactive-effect policy is retained. Earlier source checkout IDs and
+> environment paths below are historical; current validation is reported separately.
+
 # Enchantment restoration
 
 The earlier comparison covered the repositories' `main` branches. The user-created **Against the Odds** enchantment and several gameplay repairs were instead on `Project-AstroPvP` branch `codex/astropvp-restoration`, commit `63127bc6796700f1ac2eefb3d7caba916f56aff5`. Selected compatibility fixes and Against the Odds were recovered from that branch. At the user’s later request, effects that were inactive in the original Astro code are preserved as inactive in this comparison repository. Both source repositories remain unchanged. Other, unrelated restoration-branch changes have not been merged here.

@@ -58,9 +58,10 @@
             <systemPath>${project.basedir}/../LootTable/target/LootTable.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>com.conaxgames</groupId>
+            <groupId>com.massivecraft</groupId>
             <artifactId>Factions</artifactId>
-            <version>0.1</version>
+            <version>1.6.9.5-U0.5.18</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.conaxgames</groupId>

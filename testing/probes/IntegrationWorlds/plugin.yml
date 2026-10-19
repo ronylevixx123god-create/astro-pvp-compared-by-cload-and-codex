@@ -1,0 +1,5 @@
+name: IntegrationWorlds
+main: devtest.IntegrationWorlds
+version: test-only
+depend: [WorldGuard]
+loadbefore: [AstroArcade, CosmicDungeons, AstroTournaments, AstroRuins]

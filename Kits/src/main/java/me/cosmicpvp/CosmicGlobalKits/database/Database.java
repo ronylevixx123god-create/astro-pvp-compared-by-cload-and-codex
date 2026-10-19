@@ -30,11 +30,12 @@ public class Database {
             CosmicGlobalKits.getPlugin().saveResource("sqlconfig.yml", true);
         }
         YamlConfiguration config = YamlConfiguration.loadConfiguration((File)sqlFile);
-        this.host = config.getString("sql.hostname");
-        this.username = config.getString("sql.user");
-        this.password = config.getString("sql.password");
-        this.database = config.getString("sql.database");
-        this.url = "jdbc:mysql://" + this.host + ":3306/" + this.database + "?autoReconnect=true";
+        SQLSettings settings = SQLSettings.read(config);
+        this.host = settings.host;
+        this.username = settings.user;
+        this.password = settings.password;
+        this.database = settings.database;
+        this.url = settings.url();
     }
 
     /*

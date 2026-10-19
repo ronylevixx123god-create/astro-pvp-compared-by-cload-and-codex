@@ -1,0 +1,251 @@
+{
+  "scope": "Targeted fixtures on isolated Banana 1.8.8; no live server or official client. Chronological runs include superseded failures; last run per probe/phase is current. Full stack fails independently of probe success.",
+  "build": {
+    "selected_reactor_entries": 77,
+    "selected_clean_build": "passed before final Kits fixes; final Kits clean verify also passed",
+    "excluded": [
+      "AstroFactions",
+      "AstroFactions/modules/Main",
+      "AstroFactions/modules/Legacy",
+      "Trials",
+      "PlayerVaultsX"
+    ],
+    "native_tests": 68,
+    "review_tests": 61,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "server_runs": [
+    {
+      "run": "20261019T034059Z-18375591",
+      "probe": "SlotGiveProbe",
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "AstroSlotBot enabled=true",
+        "slot-bot-enabled before = true",
+        "normal: op=false slotbot.admin=false | admin: op=false slotbot.admin=true | op: op=true slotbot.admin=true",
+        "PASS normal player /slot give, /bot give, /slot giveheroic on self -> tickets=0 (expected 0)",
+        "PASS normal player /slot disable -> slot-bot-enabled still true",
+        "PASS admin (slotbot.admin) /slot give SlotNormal 2 -> normal has 2 (expected 2)",
+        "PASS OP /slot give SlotNormal 1 -> normal has 3 (expected 3)",
+        "PASS admin /slot giveheroic SlotNormal 1 -> heroic tickets 0 -> 1",
+        "PASS console 'slotbot give SlotNormal 1' (AstroCore LMS reward) -> normal has 4 (expected >= 4)",
+        "PASS admin /slot disable -> slot-bot-enabled now false",
+        "PASS normal player /slot opens menu -> '\u00a78Astro Roll Bot' size=54",
+        "RESULT fails=0"
+      ],
+      "startup_error_count": 35
+    },
+    {
+      "run": "20261019T034242Z-fe74a415",
+      "probe": "DuelMenuProbe",
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "CosmicDuel enabled=true",
+        "player=org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer name=MenuTester",
+        "MainTeamGUI menu class = me.ifamasssxd.cosmicduel.libs.mfgui.gui.guis.PaginatedGui",
+        "Team Menu: title='Team Menu' size=27",
+        "   slot 11 = BOOK '\u00a7b\u00a7lTeams List'",
+        "   slot 13 = LADDER '\u00a7a\u00a7lCreate Team'",
+        "   slot 15 = BARRIER '\u00a7c\u00a7lDisband Team'",
+        "Team List: title='Team List' size=54",
+        "   slot 45 = ARROW '\u00a7c<- Previous Page'",
+        "   slot 46 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 47 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 48 = STONE_BUTTON '\u00a7a\u00a7lRefresh Page'",
+        "   slot 49 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 50 = BED '\u00a76\u00a7lMain Menu'",
+        "   slot 51 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 52 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 53 = ARROW '\u00a7aNext Page ->'",
+        "RESULT done"
+      ],
+      "startup_error_count": 31
+    },
+    {
+      "run": "20261019T034923Z-dc9cce28",
+      "probe": "SlotGiveProbe",
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "AstroSlotBot enabled=true",
+        "slot-bot-enabled before = true",
+        "normal: op=false slotbot.admin=false | admin: op=false slotbot.admin=true | op: op=true slotbot.admin=true",
+        "PASS normal player /slot give, /bot give, /slot giveheroic on self -> tickets=0 (expected 0)",
+        "PASS normal player /slot disable -> slot-bot-enabled still true",
+        "PASS admin (slotbot.admin) /slot give SlotNormal 2 -> normal has 2 (expected 2)",
+        "PASS OP /slot give SlotNormal 1 -> normal has 3 (expected 3)",
+        "PASS admin /slot giveheroic SlotNormal 1 -> heroic tickets 0 -> 1",
+        "PASS console 'slotbot give SlotNormal 1' (AstroCore LMS reward) -> normal has 4 (expected >= 4)",
+        "PASS admin /slot disable -> slot-bot-enabled now false",
+        "PASS normal player /slot opens menu -> '\u00a78Astro Roll Bot' size=54",
+        "RESULT fails=0"
+      ],
+      "startup_error_count": 111
+    },
+    {
+      "run": "20261019T034943Z-5f617534",
+      "probe": "SlotRewardProbe",
+      "check_scope": "probe",
+      "probe_passed": false,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "plugins: AstroCore=false AstroLootFilter=true AstroSlotBot=true AstroLoottables=true",
+        "AstroCore commands: [armorcolor, astroitem, bless, chatcolor, clearlag, coinflip, corechunkfinder, csponge, discord, dupe, forcegiveall, giveall, giveaway, givebackpack, givebucket, givechunkbuster, giveenchantmentcrystal, givepearl, givesoulgem, givesoulpearl, givetracker, grinding, heal, helpenchants, jackpot, lastmanstanding, list, nextgiveall, pots, randomtp, setheroicbossspawn, spawnershop, spawnheroicboss, spawnmenu, title, titleset, togglebossmessages, togglefactionland, togglekilltitle, togglepay, togglepotsdrop, toggles, togglesb, trailer, trash, wiki, withdrawsouls]",
+        "AstroLootFilter commands: [filterloot, ftloot, lootfilter, lootfrenzy, lootft]",
+        "player ran /slot -> menu '\u00a78Astro Roll Bot' size=54 inventory before spin: (none)",
+        "spin started with 1 ticket (same calls as the Spin button)",
+        "FAIL exactly one fixture reward for one rolling column: 0",
+        "RESULT 4 s after spin: player inventory = (none)"
+      ],
+      "startup_error_count": 190
+    },
+    {
+      "run": "20261019T035117Z-62c6f75f",
+      "probe": "DuelMenuProbe",
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "CosmicDuel enabled=true",
+        "player=org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer name=MenuTester",
+        "MainTeamGUI menu class = me.ifamasssxd.cosmicduel.libs.mfgui.gui.guis.PaginatedGui",
+        "Team Menu: title='Team Menu' size=27",
+        "   slot 11 = BOOK '\u00a7b\u00a7lTeams List'",
+        "   slot 13 = LADDER '\u00a7a\u00a7lCreate Team'",
+        "   slot 15 = BARRIER '\u00a7c\u00a7lDisband Team'",
+        "Team List: title='Team List' size=54",
+        "   slot 45 = ARROW '\u00a7c<- Previous Page'",
+        "   slot 46 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 47 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 48 = STONE_BUTTON '\u00a7a\u00a7lRefresh Page'",
+        "   slot 49 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 50 = BED '\u00a76\u00a7lMain Menu'",
+        "   slot 51 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 52 = STAINED_GLASS_PANE '\u00a7f'",
+        "   slot 53 = ARROW '\u00a7aNext Page ->'",
+        "RESULT done"
+      ],
+      "startup_error_count": 111
+    },
+    {
+      "run": "20261019T035138Z-959bd736",
+      "probe": "KitsLPProbe",
+      "check_scope": "probe",
+      "probe_passed": false,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": true,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "phase=grant luckperms server=astro-integration"
+      ],
+      "startup_error_count": 1612
+    },
+    {
+      "run": "20261019T035541Z-fd8017eb",
+      "probe": "KitsLPProbe",
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "phase=grant luckperms server=astro-integration",
+        "grant1=GRANTED mainThread=true",
+        "grant2=ALREADY_GRANTED mainThread=true"
+      ],
+      "startup_error_count": 108
+    },
+    {
+      "run": "20261019T035557Z-563a0d57",
+      "probe": "KitsLPProbe",
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "phase=verify luckperms server=astro-integration",
+        "stored node=cosmickits.kit.hyper value=true contexts=ImmutableContextSet([server=astro-integration])",
+        "access server=astro-integration -> true",
+        "access server=othersrv -> false"
+      ],
+      "startup_error_count": 108
+    },
+    {
+      "run": "20261019T040519Z-f27d4188",
+      "probe": "KitsLPProbe",
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "phase=grant luckperms server=astro-integration",
+        "grant1=GRANTED mainThread=true",
+        "grant2=ALREADY_GRANTED mainThread=true"
+      ],
+      "startup_error_count": 108
+    },
+    {
+      "run": "20261019T040535Z-ac4d370e",
+      "probe": "KitsLPProbe",
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe_lines": [
+        "phase=verify luckperms server=astro-integration",
+        "stored node=cosmickits.kit.hyper value=true contexts=ImmutableContextSet([server=astro-integration])",
+        "access server=astro-integration -> true",
+        "access server=othersrv -> false"
+      ],
+      "startup_error_count": 108
+    }
+  ],
+  "remaining_blockers": [
+    "FactionsKore external IP lookup denied by network proxy; Core unavailable",
+    "Missing Multiverse-Core and CrankedUtils",
+    "Missing original maps/regions",
+    "Slot reward handoff failed with Core unavailable"
+  ],
+  "untested": [
+    "Full original gameplay/reward compatibility",
+    "Official-client combat",
+    "BAH financial/crash roundtrips",
+    "Live Discord/YouTube",
+    "Production data migration",
+    "WineSpigot"
+  ]
+}

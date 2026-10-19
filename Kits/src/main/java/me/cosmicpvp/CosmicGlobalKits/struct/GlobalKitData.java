@@ -14,9 +14,11 @@ import org.bukkit.entity.Player;
 
 public class GlobalKitData {
     private long lastUsed;
+    private int kitTier = 0;
 
-    public GlobalKitData(long lastUsed) {
+    public GlobalKitData(long lastUsed, int kitTier) {
         this.lastUsed = lastUsed;
+        this.kitTier = kitTier;
     }
 
 
@@ -29,6 +31,14 @@ public class GlobalKitData {
 
     public void setLastUsed(long lastUsed) {
         this.lastUsed = lastUsed;
+    }
+
+    public int getKitTier() {
+        return this.kitTier;
+    }
+
+    public void setKitTier(int kitTier) {
+        this.kitTier = kitTier;
     }
 
 

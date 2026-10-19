@@ -20,7 +20,7 @@ import me.ifamasssxd.cosmicguishop.ArkhamMoneyNotesAPI;
 import me.ily2bb.slotbot.CosmicSlotBotAPI;
 
 import net.astropvp.lootfilter.LootFilterAPI;
-import net.astropvp.lootfilter.struct.LootTable;
+import net.astropvp.loottable.struct.LootTable;
 import org.arkhamnetwork.Arkkit.patches.ExpBottles;
 import org.arkhamnetwork.Arkkit.patches.balancetop.BalanceTop;
 import org.bukkit.*;
@@ -86,7 +86,7 @@ public class SlotBotOpenerGUI {
                         }
                     }
                     final ItemStack itemStack = CosmicSlotBotAPI.getRandomSlotBotLootItem();
-                    if (!LootFilterAPI.isFiltered(p, LootTable.SLOTBOT, itemStack)) {
+                    if (!LootFilterAPI.isFiltered(p, LootTable.SLOTS, itemStack)) {
                         if (ArkhamMoneyNotesAPI.isMoneyNote(itemStack)) {
                             double moneyNoteVal = ArkhamMoneyNotesAPI.getMoneyNoteVal(itemStack);
                             EconomyUtils.depositBalance(p, moneyNoteVal);

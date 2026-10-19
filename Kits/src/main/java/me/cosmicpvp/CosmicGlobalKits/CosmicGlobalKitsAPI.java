@@ -82,6 +82,24 @@ public class CosmicGlobalKitsAPI {
 
 
 
+    public static int getKitTier(Player player, GlobalKits kit) {
+        GlobalKitData found;
+        GlobalKitUser user = CosmicGlobalKits.getPlugin().getGlobalKitUser(player.getUniqueId());
+        if (user != null && user.getGlobalKits() != null && (found = user.getGlobalKits().get((Object)kit)) != null) {
+            return found.getKitTier();
+        }
+        return 0;
+    }
+
+    public static boolean canLevelUpGkit(Player player, GlobalKits kit) {
+        GlobalKitUser user = CosmicGlobalKits.getPlugin().getGlobalKitUser(player.getUniqueId());
+        if (user == null || user.getGlobalKits() == null || user.isLoadingData()) {
+            return false;
+        }
+        GlobalKitData da = user.getGlobalKits().get((Object)kit);
+        return da == null || da.getKitTier() < 3;
+    }
+
     public static void registerGkitLevels(Player player, GlobalKits kit) {
         String playerName = player.getName();
         GlobalKitUser user = CosmicGlobalKits.getPlugin().getGlobalKitUser(player.getUniqueId());
@@ -91,7 +109,7 @@ public class CosmicGlobalKitsAPI {
         }
         Map<GlobalKits, GlobalKitData> data = user.getGlobalKits();
         if (!data.containsKey((Object)kit)) {
-            data.put(kit, new GlobalKitData(0L));
+            data.put(kit, new GlobalKitData(0L, 0));
             Bukkit.getLogger().info("Registering global kit data for new kit claim for " + playerName + "!");
         }
     }

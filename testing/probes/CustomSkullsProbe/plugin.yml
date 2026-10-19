@@ -1,0 +1,4 @@
+name: CustomSkullsProbe
+main: devtest.CustomSkullsProbe
+version: dev
+depend: [CustomSkullBlocks, AstroCrateKeys, AstroLootFilter, AstroLoottables, AstroSlotBot]
