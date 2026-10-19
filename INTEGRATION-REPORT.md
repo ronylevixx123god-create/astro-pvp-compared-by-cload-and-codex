@@ -1,5 +1,8 @@
 # Combined Astro integration — 2026-10-19
 
+Later tested envoy improvements are recorded in [ENVOY-SAFETY-REPORT.md](ENVOY-SAFETY-REPORT.md).
+The counts and test runs below describe the initial integration checkpoint.
+
 This branch combines reviewed fixes with the destination's existing work. It is **not a
 production-ready server package or an exact-gameplay-compatibility certification**.
 Builds and targeted server checks pass as listed below; the complete stack and reward

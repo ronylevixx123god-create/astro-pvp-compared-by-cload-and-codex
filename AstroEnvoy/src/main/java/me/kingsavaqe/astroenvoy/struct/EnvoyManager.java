@@ -51,15 +51,28 @@ public class EnvoyManager implements PlaceholderReplacer {
     }
 
     public void handleCrateSpawning() {
-        List<Location> locations = new ArrayList<>(getLocations());
-        List<Location> finalLocations = new ArrayList<>();
-        this.currentChests = new ArrayList<>();
         int crates = Bukkit.getOnlinePlayers().size() > 15 ? Bukkit.getOnlinePlayers().size() / 6 : 7;
-        for(int i = 0; i < crates; i++) {
-            Location location = locations.get(ThreadLocalRandom.current().nextInt(0, locations.size() - 1));
-            locations.remove(location);
-            finalLocations.add(location);
+        List<Location> finalLocations = selectLocations(getLocations(), crates);
+        if (finalLocations.size() != crates) {
+            plugin.getLogger().warning("Envoy skipped: not enough distinct, loaded, empty locations. Add locations with /aenvoy setup.");
+            return;
         }
+        spawnCrates(finalLocations);
+    }
+
+    static List<Location> selectLocations(List<Location> saved, int crates) {
+        List<Location> available = saved.stream()
+                .filter(Objects::nonNull)
+                .filter(location -> location.getWorld() != null)
+                .distinct()
+                .filter(location -> location.getBlock().getType() == Material.AIR)
+                .collect(Collectors.toList());
+        if (available.size() < crates) return new ArrayList<>();
+        java.util.Collections.shuffle(available, ThreadLocalRandom.current());
+        return new ArrayList<>(available.subList(0, crates));
+    }
+
+    private void spawnCrates(List<Location> finalLocations) {
         this.remainingCrates = finalLocations.size();
         this.currentChests = finalLocations;
         finalLocations.stream()
@@ -87,11 +100,12 @@ public class EnvoyManager implements PlaceholderReplacer {
     }
 
     public void handleCrateRemoving() {
-        this.locations.stream()
+        new ArrayList<>(this.currentChests).stream()
                 .filter(Objects::nonNull)
                 .filter(location -> location.getBlock().getType() == Material.CHEST)
                 .forEach(this::removeCrateAt);
         this.currentChests.clear();
+        this.remainingCrates = 0;
     }
 
     public void removeCrateAt(Location location) {
@@ -116,25 +130,33 @@ public class EnvoyManager implements PlaceholderReplacer {
                 .filter(Objects::nonNull) //TODO filter people with envoy messages enabled
                 .forEach(player -> player.sendMessage(CC.translate(EnvoyManager.prefix + "&cThe previous envoy event has ended")));
         this.handleCrateRemoving();
-        this.fireworkTask.cancel();
+        if (this.fireworkTask != null) this.fireworkTask.cancel();
         this.fireworkTask = null;
         //this.plugin.getServer().getScheduler().runTaskLater(this.plugin, this::startEnvoyEvent, 20L * 60 * ThreadLocalRandom.current().nextInt(25, 35));
     }
 
     public void startEnvoyEvent() {
-        if(this.isActive()) {
-            System.out.println("[Envoy] Stopping previous envoy to start a new one");
+        tryStartEnvoyEvent();
+    }
+
+    public boolean tryStartEnvoyEvent() {
+        int crates = Bukkit.getOnlinePlayers().size() > 15 ? Bukkit.getOnlinePlayers().size() / 6 : 7;
+        List<Location> selected = selectLocations(getLocations(), crates);
+        if (selected.size() != crates) {
+            plugin.getLogger().warning("Envoy skipped: not enough distinct, loaded, empty locations. Add locations with /aenvoy setup.");
+            return false;
+        }
+        if (this.isActive()) {
             endEnvoyEvent();
         }
-
         this.updateLastEnvoyTime();
-
+        spawnCrates(selected);
         this.setActive(true);
-        this.handleCrateSpawning();
         this.plugin.getServer().getOnlinePlayers()
                 .stream()
-                .filter(Objects::nonNull) //TODO filter people with envoy messages enabled
+                .filter(Objects::nonNull)
                 .forEach(player -> sendEnvoyStartMessage(player, this.remainingCrates));
+        return true;
     }
 
     private void sendEnvoyStartMessage(Player player, int chests) {

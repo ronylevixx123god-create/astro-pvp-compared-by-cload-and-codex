@@ -1,0 +1,53 @@
+{
+  "native_build": "AstroEnvoy clean verify passed",
+  "native_tests": 6,
+  "native_failures": 0,
+  "native_errors": 0,
+  "native_skipped": 0,
+  "review_tests": 61,
+  "review_result": "passed",
+  "server": {
+    "check_scope": "probe",
+    "probe_passed": true,
+    "startup_has_errors": true,
+    "run": "20261019T041238Z-6d1e757a",
+    "server": "AstroCollect/lib/banana.jar",
+    "ready": true,
+    "exit_code": 0,
+    "forced_stop": false,
+    "staged_plugins": 90,
+    "probe": "EnvoySafetyProbe",
+    "probe_lines": [
+      "PASS empty setup stays inactive",
+      "PASS exactly seven empty locations start",
+      "PASS seven actual event crates tracked",
+      "PASS fixture chest spawned 100",
+      "PASS fixture chest spawned 102",
+      "PASS fixture chest spawned 104",
+      "PASS fixture chest spawned 106",
+      "PASS fixture chest spawned 108",
+      "PASS fixture chest spawned 110",
+      "PASS fixture chest spawned 112",
+      "PASS preexisting chest excluded",
+      "PASS event chest removed 100",
+      "PASS event chest removed 102",
+      "PASS event chest removed 104",
+      "PASS event chest removed 106",
+      "PASS event chest removed 108",
+      "PASS event chest removed 110",
+      "PASS event chest removed 112",
+      "PASS preexisting chest preserved",
+      "PASS event state cleared",
+      "PASS repeated stop safe",
+      "RESULT envoy-safety passed"
+    ],
+    "elapsed_seconds": 17.4,
+    "startup_error_count": 112
+  },
+  "limitations": [
+    "Full stack still has startup errors; not a production readiness result",
+    "No envoy loot/economy delivery assertions",
+    "Not an official-client interaction test",
+    "MariaDB not started for this focused fixture run"
+  ]
+}

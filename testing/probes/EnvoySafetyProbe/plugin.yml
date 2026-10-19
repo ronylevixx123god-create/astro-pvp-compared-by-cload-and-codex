@@ -1,0 +1,4 @@
+name: EnvoySafetyProbe
+main: devtest.EnvoySafetyProbe
+version: 1.0
+depend: [AstroEnvoys]

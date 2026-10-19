@@ -103,7 +103,8 @@ text=log.read_text(errors='replace')
 probe_lines=[line.split('PROBE ',1)[1] for line in text.splitlines() if 'PROBE ' in line]
 errors=[line for line in text.splitlines() if any(x in line for x in ['ERROR]','SEVERE]','Error occurred while','Could not load','UnknownDependency','NoClassDefFoundError','NoSuchMethodError','NoSuchFieldError'])]
 expected=[]
-if args.probe=='SlotGiveProbe':expected=['RESULT fails=0']
+if args.probe=='EnvoySafetyProbe':expected=['RESULT envoy-safety passed']
+elif args.probe=='SlotGiveProbe':expected=['RESULT fails=0']
 elif args.probe=='SlotRewardProbe':expected=['PASS exactly one fixture reward for one rolling column: 1']
 elif args.probe=='DuelMenuProbe':expected=["Team Menu: title='Team Menu' size=27","Team List: title='Team List' size=54",'RESULT done']
 elif args.probe=='KitsLPProbe':

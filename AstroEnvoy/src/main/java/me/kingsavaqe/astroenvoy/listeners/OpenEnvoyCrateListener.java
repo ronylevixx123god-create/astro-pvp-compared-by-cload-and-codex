@@ -26,7 +26,7 @@ public class OpenEnvoyCrateListener implements Listener {
         if(event.getAction() != Action.LEFT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if(event.getClickedBlock().getType() != Material.CHEST) return;
         Location clickedBlockLocation = event.getClickedBlock().getLocation();
-        if(!this.plugin.getEnvoyManager().getLocations().contains(clickedBlockLocation)) return;
+        if(!this.plugin.getEnvoyManager().getCurrentChests().contains(clickedBlockLocation)) return;
         event.setCancelled(true);
         this.plugin.getEnvoyManager().removeCrateAt(clickedBlockLocation);
         this.plugin.getEnvoyManager().setRemainingCrates(this.plugin.getEnvoyManager().getRemainingCrates() - 1);

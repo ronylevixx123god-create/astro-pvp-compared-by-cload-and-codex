@@ -26,8 +26,12 @@ public class EnvoySummonerListener implements Listener {
         if(!CustomItemUtils.isCrankedCustomItem(itemStack)) return;
         if(!CustomItemUtils.getCrankedCustomItem(itemStack).equals("envoySummoner")) return;
         if(!this.plugin.getEnvoyManager().isActive() || this.plugin.getEnvoyManager().canSpawnEnvoy()) {
-            event.getPlayer().setItemInHand(ItemUtils.decreaseItemStackAmountByOne(itemStack));
-            this.plugin.getEnvoyManager().startEnvoyEvent();
+            event.setCancelled(true);
+            if (this.plugin.getEnvoyManager().tryStartEnvoyEvent()) {
+                event.getPlayer().setItemInHand(ItemUtils.decreaseItemStackAmountByOne(itemStack));
+            } else {
+                event.getPlayer().sendMessage(CC.translate("&cThe envoy cannot start: not enough available crate locations. Your summoner was kept."));
+            }
             return;
         }
 
