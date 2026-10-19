@@ -174,3 +174,7 @@ See [AUCTION-ESCROW-FIX.md](AUCTION-ESCROW-FIX.md) for the E01 item-return corre
 ## Command validation follow-up
 
 See [COMMAND-FIXES.md](COMMAND-FIXES.md) for collector, giftcard and coinflip input fixes, bounded bulk grants, registration screening and command-specific isolated-server evidence.
+
+## Command inventory
+
+[COMMAND-CATALOG.md](COMMAND-CATALOG.md) lists 553 source entries (including aliases, alternative implementations, inactive definitions and subcommands), with descriptions and source links. The searchable HTML and CSV/JSON versions are in comparison/. Java/Kotlin annotations, 194 descriptor entries and faction constructor routing were checked for catalog coverage. This is documentation, not a claim that all commands load or work in gameplay.

@@ -1,0 +1,16 @@
+{
+  "scope": "Documentation/data consistency only; no command execution or gameplay tests",
+  "descriptor_entries_covered": 194,
+  "java_kotlin_annotated_roots_covered": 60,
+  "catalog_entries": 553,
+  "csv_rows": 553,
+  "html_rows": 553,
+  "all_source_anchors_exist": true,
+  "nested_faction_assignment_routes_verified": [
+    "f dtr get",
+    "f tnt info"
+  ],
+  "kotlin_commands_included": true,
+  "html_search_script_checks": "Passed in Node with HTML-derived DOM fixtures: full count, search, no-match, category and combined filter",
+  "browser_rendering": "Not tested"
+}
