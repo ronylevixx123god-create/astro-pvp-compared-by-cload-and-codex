@@ -170,3 +170,7 @@ See [REWARD-DATA-FIXES.md](REWARD-DATA-FIXES.md) for D06/D09 repairs, regression
 ## Auction escrow follow-up
 
 See [AUCTION-ESCROW-FIX.md](AUCTION-ESCROW-FIX.md) for the E01 item-return correction, regression results and remaining settlement risks.
+
+## Command validation follow-up
+
+See [COMMAND-FIXES.md](COMMAND-FIXES.md) for collector, giftcard and coinflip input fixes, bounded bulk grants, registration screening and command-specific isolated-server evidence.

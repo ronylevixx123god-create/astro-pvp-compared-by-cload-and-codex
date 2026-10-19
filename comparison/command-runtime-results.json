@@ -1,0 +1,22 @@
+{
+  "check_scope": "probe",
+  "probe_passed": true,
+  "startup_has_errors": true,
+  "run": "20261019T053009Z-fa4e2643",
+  "ready": true,
+  "exit_code": 0,
+  "forced_stop": false,
+  "staged_plugins": 90,
+  "probe": "CommandInputProbe",
+  "probe_lines": [
+    "PASS giftcard plugin enabled for command dispatch",
+    "PASS giftcard alias shares registered command",
+    "PASS giftcard console command rejected without exception",
+    "PASS Core class loader available",
+    "SCOPE Core enabled=false; invoking console handler only, no gameplay manager",
+    "PASS coinflip console handler safe",
+    "RESULT command-input passed"
+  ],
+  "elapsed_seconds": 17.0,
+  "startup_error_count": 109
+}

@@ -115,8 +115,14 @@ implements CommandExecutor {
             }
             String number = args[0].replace("k", "000").replace("m", "000000").replace("b", "000000000");
             if (StringUtils.isNumeric(number)) {
-                double val = Double.parseDouble(number);
-                if (val <= 0.0) {
+                final double val;
+                try {
+                    val = Double.parseDouble(number);
+                } catch (NumberFormatException exception) {
+                    sender.sendMessage(ChatColor.RED + "You must enter a valid amount to bet!");
+                    return true;
+                }
+                if (!Double.isFinite(val) || val <= 0.0) {
                     sender.sendMessage(ChatColor.RED + "You must enter a valid amount to bet!");
                     return true;
                 }
@@ -133,6 +139,7 @@ implements CommandExecutor {
                 player.openInventory(flip);
                 return true;
             }
+            sender.sendMessage(ChatColor.RED + "You must enter a valid amount to bet!");
         } else {
             if (args.length == 0) {
                 ((Player)sender).openInventory(manager.getLobbyInventory((Player)sender));

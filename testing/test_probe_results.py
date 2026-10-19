@@ -6,6 +6,14 @@ class ProbeResultTest(unittest.TestCase):
     def test_starting_message_is_not_a_completed_probe(self):
         self.assertFalse(probe_passed('SlotGiveProbe', 'grant', ['starting']))
 
+    def test_command_probe_requires_checks_beyond_completion(self):
+        self.assertFalse(probe_passed('CommandInputProbe', 'grant', ['RESULT command-input passed']))
+        lines = ['PASS giftcard alias shares registered command',
+                 'PASS giftcard console command rejected without exception',
+                 'PASS coinflip console handler safe', 'RESULT command-input passed']
+        self.assertTrue(probe_passed('CommandInputProbe', 'grant', lines))
+        self.assertFalse(probe_passed('CommandInputProbe', 'grant', lines + ['FAIL command dispatch']))
+
     def test_failure_overrides_completion_marker(self):
         self.assertFalse(probe_passed('SlotGiveProbe', 'grant', ['FAIL permission check', 'RESULT fails=0']))
 

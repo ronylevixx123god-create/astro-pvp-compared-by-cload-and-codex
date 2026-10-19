@@ -1,5 +1,8 @@
 """Assertion contracts for isolated probes; startup errors retain their own scope."""
 CONTRACTS = {
+    'CommandInputProbe': ['PASS giftcard alias shares registered command',
+                          'PASS giftcard console command rejected without exception',
+                          'PASS coinflip console handler safe', 'RESULT command-input passed'],
     'OptionalProxyProbe': ['RESULT optional-proxy passed'],
     'MissingMapsProbe': ['RESULT missing-maps passed'],
     'EnvoySafetyProbe': ['RESULT envoy-safety passed'],

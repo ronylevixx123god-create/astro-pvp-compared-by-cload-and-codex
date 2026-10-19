@@ -12,6 +12,8 @@ Follow-up: [REWARD-DATA-FIXES.md](REWARD-DATA-FIXES.md) records targeted repairs
 
 Follow-up: [AUCTION-ESCROW-FIX.md](AUCTION-ESCROW-FIX.md) records the E01 confirmation repair and its scope.
 
+Follow-up: [COMMAND-FIXES.md](COMMAND-FIXES.md) records selected A01 command repairs and the remaining command test limits.
+
 ## Priority totals
 
 | Priority | Count | Meaning |

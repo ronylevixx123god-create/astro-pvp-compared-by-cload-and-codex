@@ -1,0 +1,4 @@
+name: CommandInputProbe
+main: devtest.CommandInputProbe
+version: 1.0
+softdepend: [AstroGiftCardPlugin, AstroCore]

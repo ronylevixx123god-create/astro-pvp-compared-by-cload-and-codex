@@ -1,0 +1,29 @@
+{
+  "scope": "Literal getCommand calls versus module plugin.yml command/alias declarations; not dynamic frameworks, runtime ownership or all branches. Comment removal is a heuristic; manually review mismatches.",
+  "literal_calls": 159,
+  "modules": 43,
+  "declaration_mismatches": [
+    {
+      "module": "Ark",
+      "file": "Ark/src/main/java/org/arkhamnetwork/Arkkit/patches/balancetop/BalanceTop.java",
+      "command": "balancetop",
+      "declared_command_or_alias": false,
+      "call_context": "ess."
+    },
+    {
+      "module": "Ark",
+      "file": "Ark/src/main/java/org/arkhamnetwork/Arkkit/patches/balancetop/BalanceTop.java",
+      "command": "balancetop",
+      "declared_command_or_alias": false,
+      "call_context": "ess."
+    },
+    {
+      "module": "Ark",
+      "file": "Ark/src/main/java/org/arkhamnetwork/Arkkit/patches/balancetop/BalanceTop.java",
+      "command": "balancetop",
+      "declared_command_or_alias": false,
+      "call_context": "CommandUtils.unRegisterBukkitCommand(ess, ess."
+    }
+  ],
+  "manual_resolution": "All three mismatches are ess.getCommand(\"balancetop\") in Ark BalanceTop, deliberately addressing the enabled Essentials plugin. No missing module-local literal declarations identified by this screen. Dynamic command frameworks, cross-plugin collisions, dispatch availability and runtime authority are not verified by this scan."
+}
