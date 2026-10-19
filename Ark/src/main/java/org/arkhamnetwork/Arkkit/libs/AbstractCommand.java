@@ -76,19 +76,24 @@ public abstract class AbstractCommand
     }
 
     final CommandMap getCommandMap() {
-        if (cmap == null) {
-            try {
-                Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                f.setAccessible(true);
-                cmap = (CommandMap) f.get(Bukkit.getServer());
-                return this.getCommandMap();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (cmap != null) {
+        if (cmap != null) {
             return cmap;
         }
-        return this.getCommandMap();
+        if (Bukkit.getServer() == null) {
+            throw new IllegalStateException("Cannot access command map before Bukkit server initialization");
+        }
+        try {
+            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            field.setAccessible(true);
+            Object map = field.get(Bukkit.getServer());
+            if (!(map instanceof CommandMap)) {
+                throw new IllegalStateException("Bukkit commandMap field does not contain a CommandMap");
+            }
+            cmap = (CommandMap) map;
+            return cmap;
+        } catch (ReflectiveOperationException | SecurityException exception) {
+            throw new IllegalStateException("Unable to access Bukkit command map", exception);
+        }
     }
 
     public abstract boolean onCommand(CommandSender var1, Command var2, String var3, String[] var4);

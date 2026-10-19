@@ -1,5 +1,11 @@
 """Assertion contracts for isolated probes; startup errors retain their own scope."""
 CONTRACTS = {
+    'ArkkitAliasProbe': ['PASS uncached command map reflection succeeds',
+                         'PASS showcase normal alias and namespace resolve together',
+                         'PASS showcase normal and alias dispatch usage without grants',
+                         'PASS lootbox arguments preserved', 'PASS longer lootbox command left intact',
+                         'PASS teleport alias target preserved', 'PASS cancelled alias left intact',
+                         'PASS fixture patch registrations cleaned up', 'RESULT arkkit-alias passed'],
     'CommandInputProbe': ['PASS giftcard alias shares registered command',
                           'PASS giftcard console command rejected without exception',
                           'PASS coinflip console handler safe', 'RESULT command-input passed'],

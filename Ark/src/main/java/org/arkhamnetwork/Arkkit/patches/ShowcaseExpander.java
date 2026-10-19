@@ -34,7 +34,7 @@ public class ShowcaseExpander
 
     @Override
     public void enable() {
-        this.registerCommand(new CommandShowcaseExpander("/showcaseexpander", "/<command>", "Root command for showcase expanders.", Arrays.asList("sce")));
+        this.registerCommand(new CommandShowcaseExpander("showcaseexpander", "/<command>", "Root command for showcase expanders.", Arrays.asList("sce")));
         this.registerListener(new ShowcaseExpanderListener());
     }
 

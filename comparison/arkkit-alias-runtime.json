@@ -1,0 +1,59 @@
+{
+  "scope": "Actual Arkkit patch registration and non-mutating console usage; Core alias methods only because Core is disabled; full stack startup not clean",
+  "attempts": [
+    {
+      "check_scope": "probe",
+      "probe_passed": false,
+      "startup_has_errors": true,
+      "run": "20261019T101730Z-76f2183f",
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe": "ArkkitAliasProbe",
+      "probe_lines": [
+        "PASS actual Arkkit enabled",
+        "PASS showcase patch not already registered in fixture",
+        "PASS uncached command map reflection succeeds",
+        "PASS showcase normal alias and namespace resolve together",
+        "PASS showcase normal and alias dispatch usage without grants",
+        "PASS Core class loader available for alias fixture",
+        "SCOPE Core enabled=false; alias methods invoked directly, not live player dispatch",
+        "FAIL java.lang.IllegalArgumentException: methods with same signature getHealth() but incompatible return types: double and others",
+        "PASS fixture patch registrations cleaned up"
+      ],
+      "elapsed_seconds": 17.7,
+      "attempt": "fixture-failed",
+      "startup_error_count": 110
+    },
+    {
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "run": "20261019T101807Z-d5936cc9",
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "probe": "ArkkitAliasProbe",
+      "probe_lines": [
+        "PASS actual Arkkit enabled",
+        "PASS showcase patch not already registered in fixture",
+        "PASS uncached command map reflection succeeds",
+        "PASS showcase normal alias and namespace resolve together",
+        "PASS showcase normal and alias dispatch usage without grants",
+        "PASS Core class loader available for alias fixture",
+        "SCOPE Core enabled=false; alias methods invoked directly, not live player dispatch",
+        "PASS lootbox arguments preserved",
+        "PASS longer lootbox command left intact",
+        "PASS teleport alias target preserved",
+        "PASS cancelled alias left intact",
+        "PASS fixture patch registrations cleaned up",
+        "RESULT arkkit-alias passed"
+      ],
+      "elapsed_seconds": 17.1,
+      "attempt": "final-passed",
+      "startup_error_count": 109
+    }
+  ]
+}

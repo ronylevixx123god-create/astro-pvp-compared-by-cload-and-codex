@@ -1,0 +1,4 @@
+name: ArkkitAliasProbe
+main: devtest.ArkkitAliasProbe
+version: 1.0
+softdepend: [Arkkit, AstroCore]

@@ -1,0 +1,103 @@
+{
+  "scope": "Native tests for six modules built together with Maven clean verify; mocked server/player boundaries where stated; not full gameplay tests",
+  "tests": 54,
+  "new_tests": 12,
+  "suites": [
+    {
+      "module": "Ark",
+      "suite": "org.arkhamnetwork.Arkkit.libs.CommandMapFailureTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "Ark",
+      "suite": "org.arkhamnetwork.Arkkit.patches.ShowcaseExpanderCommandTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "Core",
+      "suite": "net.astropvp.core.cosmiccoinflip.commands.CommandCoinFlipInputTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "Core",
+      "suite": "net.astropvp.core.listeners.CommandAliasArgumentsTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "Core",
+      "suite": "net.astropvp.core.listeners.DiscordSyncBadgesTest",
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "Core",
+      "suite": "net.crankedpvp.staff.listeners.RandomTeleportListenerTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "AuctionHouse",
+      "suite": "me.recolance.auction.controller.ConfirmMenuEscrowTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "CustomBlocks",
+      "suite": "com.conaxgames.customskulls.data.GrinderPersistenceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "CustomBlocks",
+      "suite": "com.conaxgames.customskulls.tasks.MobGrinderRewardTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "AstroCollectors",
+      "suite": "me.venir.astrocollectors.collector.CollectorPersistenceTest",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "AstroCollectors",
+      "suite": "me.venir.astrocollectors.commands.CollectorGiveCommandTest",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "module": "GiftcardShop",
+      "suite": "net.astropvp.giftcardshop.commands.CreateGiftcardCommandTest",
+      "tests": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ]
+}

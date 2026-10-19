@@ -178,3 +178,7 @@ See [COMMAND-FIXES.md](COMMAND-FIXES.md) for collector, giftcard and coinflip in
 ## Command inventory
 
 [COMMAND-CATALOG.md](COMMAND-CATALOG.md) lists 553 source entries (including aliases, alternative implementations, inactive definitions and subcommands), with descriptions and source links. The searchable HTML and CSV/JSON versions are in comparison/. Java/Kotlin annotations, 194 descriptor entries and faction constructor routing were checked for catalog coverage. This is documentation, not a claim that all commands load or work in gameplay.
+
+## Arkkit and alias follow-up
+
+See [ARKKIT-ALIAS-FIXES.md](ARKKIT-ALIAS-FIXES.md) for showcase command registration, bounded command-map failure handling and precise alias rewriting, with native and isolated-server evidence.

@@ -14,6 +14,14 @@ class ProbeResultTest(unittest.TestCase):
         self.assertTrue(probe_passed('CommandInputProbe', 'grant', lines))
         self.assertFalse(probe_passed('CommandInputProbe', 'grant', lines + ['FAIL command dispatch']))
 
+    def test_arkkit_probe_requires_cleanup_and_each_repair_check(self):
+        from probe_results import CONTRACTS
+        expected = list(CONTRACTS['ArkkitAliasProbe'])
+        self.assertTrue(probe_passed('ArkkitAliasProbe', 'grant', expected))
+        self.assertFalse(probe_passed('ArkkitAliasProbe', 'grant', ['RESULT arkkit-alias passed']))
+        self.assertFalse(probe_passed('ArkkitAliasProbe', 'grant', [line for line in expected if 'cleaned up' not in line]))
+        self.assertFalse(probe_passed('ArkkitAliasProbe', 'grant', expected + ['FAIL dispatch']))
+
     def test_failure_overrides_completion_marker(self):
         self.assertFalse(probe_passed('SlotGiveProbe', 'grant', ['FAIL permission check', 'RESULT fails=0']))
 

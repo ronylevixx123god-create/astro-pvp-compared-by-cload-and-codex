@@ -14,6 +14,8 @@ Follow-up: [AUCTION-ESCROW-FIX.md](AUCTION-ESCROW-FIX.md) records the E01 confir
 
 Follow-up: [COMMAND-FIXES.md](COMMAND-FIXES.md) records selected A01 command repairs and the remaining command test limits.
 
+Follow-up: [ARKKIT-ALIAS-FIXES.md](ARKKIT-ALIAS-FIXES.md) records Arkkit command registration and alias repairs; unrelated command collisions remain open.
+
 ## Priority totals
 
 | Priority | Count | Meaning |
