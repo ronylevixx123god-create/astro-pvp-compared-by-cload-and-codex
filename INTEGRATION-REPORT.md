@@ -1,5 +1,7 @@
 # Combined Astro integration — 2026-10-19
 
+Further protection for envoy decorations and changed crate blocks is recorded in [ENVOY-OWNERSHIP-REPORT.md](ENVOY-OWNERSHIP-REPORT.md).
+
 The remaining optional ProxyPatch paths are covered by [OPTIONAL-PROXY-REPORT.md](OPTIONAL-PROXY-REPORT.md).
 
 Further runtime/dependency/runner fixes are recorded in [RUNTIME-SAFETY-REPORT.md](RUNTIME-SAFETY-REPORT.md).

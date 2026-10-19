@@ -15,6 +15,8 @@ import org.bukkit.entity.*;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
@@ -37,6 +39,9 @@ public class EnvoyManager implements PlaceholderReplacer {
     private boolean active;
 
     private FireworkTask fireworkTask;
+
+    // Only entities created by this event may be removed during cleanup.
+    private final Map<Location, ArmorStand> holograms = new HashMap<>();
 
     @Getter @Setter
     private List<Location> locations = new ArrayList<>();
@@ -82,6 +87,7 @@ public class EnvoyManager implements PlaceholderReplacer {
                     //crateLocation.getBlock().setType(Material.CHEST);
                     BlockUtils.setBlockFast(crateLocation.getBlock(), Material.CHEST.getId(), (byte)0, false);
                     ArmorStand armorStand = (ArmorStand)crateLocation.getWorld().spawnEntity(crateLocation.clone().add(0.5D, 0.1D, 0.5D), EntityType.ARMOR_STAND);
+                    holograms.put(crateLocation, armorStand);
                     armorStand.setCustomName(CC.translate("&6✧ &e&lEnvoy Crate &6✧"));
                     armorStand.setCustomNameVisible(true);
                     armorStand.setGravity(false);
@@ -102,25 +108,24 @@ public class EnvoyManager implements PlaceholderReplacer {
     public void handleCrateRemoving() {
         new ArrayList<>(this.currentChests).stream()
                 .filter(Objects::nonNull)
-                .filter(location -> location.getBlock().getType() == Material.CHEST)
                 .forEach(this::removeCrateAt);
         this.currentChests.clear();
         this.remainingCrates = 0;
     }
 
     public void removeCrateAt(Location location) {
-        //location.getBlock().setType(Material.AIR);
-        BlockUtils.setAir(location.getBlock(), false);
+        if (location == null || !this.currentChests.remove(location)) return;
+        // A player/plugin may have replaced the chest since it was spawned.
+        if (location.getWorld() != null && location.getBlock().getType() == Material.CHEST) {
+            BlockUtils.setAir(location.getBlock(), false);
+        }
         removeNearbyHologram(location);
-        this.currentChests.remove(location);
     }
 
+    /** Remove only the hologram created for this crate, never nearby decorations. */
     public void removeNearbyHologram(Location location) {
-        for (Entity entity : location.getWorld().getNearbyEntities(location, 0.3D, 0.6D, 0.3D)) {
-            if (!(entity instanceof ArmorStand))
-                continue;
-            entity.remove();
-        }
+        ArmorStand hologram = this.holograms.remove(location);
+        if (hologram != null) hologram.remove();
     }
 
     public void endEnvoyEvent() {

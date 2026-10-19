@@ -110,4 +110,26 @@ public class EnvoySafetyTest {
         }
     }
 
+    @Test public void hologramCleanupDoesNotDeleteNearbyDecorations() {
+        World world = mock(World.class);
+        Location crate = new Location(world, 1, 64, 0);
+        org.bukkit.entity.ArmorStand decoration = mock(org.bukkit.entity.ArmorStand.class);
+        when(world.getNearbyEntities(eq(crate), anyDouble(), anyDouble(), anyDouble()))
+                .thenReturn(Collections.<org.bukkit.entity.Entity>singletonList(decoration));
+        EnvoyManager manager = new EnvoyManager(mock(EnvoyPlugin.class));
+        manager.removeNearbyHologram(crate);
+        verify(decoration, never()).remove();
+    }
+
+    @Test public void changedCrateBlockStillGetsHologramCleanup() {
+        World world = mock(World.class);
+        Location crate = location(world, 1, Material.STONE);
+        EnvoyManager manager = spy(new EnvoyManager(mock(EnvoyPlugin.class)));
+        manager.setCurrentChests(new ArrayList<>(Collections.singletonList(crate)));
+        doNothing().when(manager).removeNearbyHologram(crate);
+        manager.handleCrateRemoving();
+        verify(manager).removeNearbyHologram(crate);
+        assertTrue(manager.getCurrentChests().isEmpty());
+    }
+
 }
