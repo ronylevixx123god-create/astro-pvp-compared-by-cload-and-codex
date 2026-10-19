@@ -93,8 +93,6 @@ public class ConfirmMenu
             if (slot < 4) {
                 ItemStack i = (ItemStack) p.getMetadata("auctionConfirm").get(0).value();
                 double price = p.getMetadata("auctionPrice").get(0).asDouble();
-                p.removeMetadata("auctionConfirm", Auction.getPlugin());
-                p.removeMetadata("auctionPrice", Auction.getPlugin());
                 double fee = Controller.getSellFee(p, price);
                 if (fee > 0.0 && !Auction.economy.has(p, fee)) {
                     p.sendMessage(CC.RedB + "(!) " + CC.Red + "You can no longer afford the fee of " + CC.RedB + "$" + CC.Red + NumberUtils.format(fee, DecimalFormatType.MONEY));
@@ -109,6 +107,10 @@ public class ConfirmMenu
                         ItemID.setItemID(i, ItemID.generateNewItemID());
                     }
                 }
+                // Keep escrow through validation: the close handler must return
+                // the item if the listing fee is no longer affordable.
+                p.removeMetadata("auctionConfirm", Auction.getPlugin());
+                p.removeMetadata("auctionPrice", Auction.getPlugin());
                 Controller.sell(p, i, price, fee, false);
                 this.closePlayerInventoryOnClick(p);
             } else {

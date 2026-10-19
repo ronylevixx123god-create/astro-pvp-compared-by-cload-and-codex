@@ -166,3 +166,7 @@ tests; the map-dependent failures above remain explicitly unresolved.
 ## Collector and grinder follow-up
 
 See [REWARD-DATA-FIXES.md](REWARD-DATA-FIXES.md) for D06/D09 repairs, regression results and remaining runtime limitations.
+
+## Auction escrow follow-up
+
+See [AUCTION-ESCROW-FIX.md](AUCTION-ESCROW-FIX.md) for the E01 item-return correction, regression results and remaining settlement risks.

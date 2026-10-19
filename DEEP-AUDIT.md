@@ -10,6 +10,8 @@ The fault reproducer observed **11 defects**: seven used paths when their plugin
 
 Follow-up: [REWARD-DATA-FIXES.md](REWARD-DATA-FIXES.md) records targeted repairs for D06 and D09. The counts and reproducer observations below describe the historical audit baseline, not the remaining unresolved total.
 
+Follow-up: [AUCTION-ESCROW-FIX.md](AUCTION-ESCROW-FIX.md) records the E01 confirmation repair and its scope.
+
 ## Priority totals
 
 | Priority | Count | Meaning |
