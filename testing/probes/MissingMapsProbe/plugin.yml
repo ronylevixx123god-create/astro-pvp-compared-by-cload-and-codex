@@ -1,0 +1,4 @@
+name: MissingMapsProbe
+main: devtest.MissingMapsProbe
+version: 1.0
+softdepend: [AstroCore, AstroTournaments, OutpostPatches]

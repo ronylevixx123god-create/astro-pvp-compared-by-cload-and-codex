@@ -21,14 +21,11 @@ import java.util.stream.Collectors;
 
 public class RandomTeleportListener implements Listener {
 
-    private final Map<Player, List<Player>> playerListMap;
-
     private final List<Player> cooldown = new ArrayList<>();
 
     private final AstroCore plugin;
     public RandomTeleportListener(AstroCore plugin) {
         this.plugin = plugin;
-        this.playerListMap = new HashMap<>();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -42,6 +39,10 @@ public class RandomTeleportListener implements Listener {
         if(!this.plugin.getStaffManager().isPlayerInStaffMode(player)) return;
         event.setCancelled(true);
 
+        teleportToRandomPlayer(player);
+    }
+
+    void teleportToRandomPlayer(Player player) {
         if(cooldown.contains(player)) return;
 
         List<Player> possibleSelectedPlayers = player.getWorld().getPlayers()
@@ -51,9 +52,15 @@ public class RandomTeleportListener implements Listener {
                 //.filter(possiblePlayer -> !PLAYERS.contains(possiblePlayer.getName()))
                 //.filter(loopPlayer -> WorldGuardUtils.canPvPInRegion(player))
                 .collect(Collectors.toList());
-        possibleSelectedPlayers.removeIf(checkPlayer -> ProxyPatch.playerNames.contains(checkPlayer.getName()));
+        if (Bukkit.getPluginManager().isPluginEnabled("ProxyPatch")) {
+            possibleSelectedPlayers.removeIf(checkPlayer -> ProxyPatch.playerNames.contains(checkPlayer.getName()));
+        }
+        if (possibleSelectedPlayers.isEmpty()) {
+            player.sendMessage(CC.translate(AstroCore.prefix + "&cNo eligible players are available in this world."));
+            return;
+        }
         Player selectedPlayer = possibleSelectedPlayers.get(ThreadLocalRandom.current().nextInt(possibleSelectedPlayers.size()));
-        player.teleport(selectedPlayer, PlayerTeleportEvent.TeleportCause.UNKNOWN);
+        if (!player.teleport(selectedPlayer, PlayerTeleportEvent.TeleportCause.UNKNOWN)) return;
         player.sendMessage(CC.translate(AstroCore.prefix + "&eYou have been teleported to &6" + selectedPlayer.getName()));
         player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1.0f, 1.0f);
 

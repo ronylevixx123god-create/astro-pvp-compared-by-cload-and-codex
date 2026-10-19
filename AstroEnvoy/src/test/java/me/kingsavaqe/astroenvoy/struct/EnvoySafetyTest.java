@@ -46,16 +46,13 @@ public class EnvoySafetyTest {
         EnvoyPlugin plugin = mock(EnvoyPlugin.class);
         when(plugin.getLogger()).thenReturn(Logger.getAnonymousLogger());
         EnvoyManager manager = new EnvoyManager(plugin);
-        try (MockedStatic<Bukkit> bukkit = mockStatic(Bukkit.class)) {
-            bukkit.when(Bukkit::getOnlinePlayers).thenReturn(Collections.emptyList());
-            long before = manager.getLastEnvoyTime();
-            assertFalse(manager.tryStartEnvoyEvent());
-            assertFalse(manager.isActive());
-            manager.setActive(true);
-            assertFalse(manager.tryStartEnvoyEvent());
-            assertTrue(manager.isActive());
-            assertEquals(before, manager.getLastEnvoyTime());
-        }
+        long before = manager.getLastEnvoyTime();
+        assertFalse(manager.tryStartEnvoyEvent(0));
+        assertFalse(manager.isActive());
+        manager.setActive(true);
+        assertFalse(manager.tryStartEnvoyEvent(0));
+        assertTrue(manager.isActive());
+        assertEquals(before, manager.getLastEnvoyTime());
     }
 
     @Test public void cleanupRemovesOnlySpawnedChestsWithoutConcurrentModification() {

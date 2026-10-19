@@ -5,6 +5,5 @@ description: "§fCommit ID: §a${git.commit.id.abbrev}"
 website: https://crankedpvp.net/
 depend:
   - StorageUtil
-  - CrankedUtils
   - CosmicPvPUtils
   - NBTAPI

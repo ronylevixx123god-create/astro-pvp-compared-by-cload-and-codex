@@ -84,3 +84,10 @@ economy stages, world protections, or real-player gameplay.
 
 Never work around missing Multiverse-Core, CrankedUtils, FactionsKore licensing, or maps by
 installing dummy replacement plugins or weakening gameplay assertions. Record the blocker.
+
+The runner now rejects probes without a registered contract in `probe_results.py` and
+rejects nonzero server exits, even after a successful assertion marker. Run the runner
+regressions with `python3 -m unittest discover -s testing -p test_probe_results.py`.
+For explicit dependency-absence checks, `--omit-plugin ProxyPatch` omits that plugin
+from the disposable run and records the requested omission in its summary. This
+option does not make dependent-feature startup failures count as passes.

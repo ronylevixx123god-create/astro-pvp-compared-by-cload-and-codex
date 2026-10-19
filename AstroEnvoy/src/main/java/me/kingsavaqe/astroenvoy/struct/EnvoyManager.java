@@ -140,7 +140,11 @@ public class EnvoyManager implements PlaceholderReplacer {
     }
 
     public boolean tryStartEnvoyEvent() {
-        int crates = Bukkit.getOnlinePlayers().size() > 15 ? Bukkit.getOnlinePlayers().size() / 6 : 7;
+        return tryStartEnvoyEvent(Bukkit.getOnlinePlayers().size());
+    }
+
+    boolean tryStartEnvoyEvent(int onlinePlayers) {
+        int crates = onlinePlayers > 15 ? onlinePlayers / 6 : 7;
         List<Location> selected = selectLocations(getLocations(), crates);
         if (selected.size() != crates) {
             plugin.getLogger().warning("Envoy skipped: not enough distinct, loaded, empty locations. Add locations with /aenvoy setup.");

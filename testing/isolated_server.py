@@ -7,6 +7,7 @@ An accepted EULA is required explicitly. Database credentials stay outside the c
 import argparse,hashlib,json,os,re,shutil,subprocess,time,uuid,zipfile,urllib.parse
 from pathlib import Path
 import yaml
+from probe_results import CONTRACTS, probe_passed as check_probe, run_succeeded
 ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser()
 parser.add_argument('--accept-eula',action='store_true')
@@ -14,10 +15,12 @@ parser.add_argument('--state',type=Path,default=Path('/workspace/.integration-se
 parser.add_argument('--server',default='AstroCollect/lib/banana.jar')
 parser.add_argument('--probe',default='')
 parser.add_argument('--seconds',type=int,default=30)
+parser.add_argument('--omit-plugin',action='append',default=[],help='Explicitly omit a plugin for an isolated absence test; recorded in results')
 parser.add_argument('--db-config',type=Path)
 parser.add_argument('--lp-profile',default='')
 parser.add_argument('--phase',choices=['grant','verify'],default='grant')
 args=parser.parse_args()
+if args.probe and args.probe not in CONTRACTS:parser.error('Probe has no registered assertion contract; inspect imported diagnostics manually')
 if not args.accept_eula:parser.error('Accept the Minecraft EULA before using --accept-eula')
 state=args.state.resolve();run=state/'runs'/(time.strftime('%Y%m%dT%H%M%SZ',time.gmtime())+'-'+uuid.uuid4().hex[:8]);run.mkdir(parents=True)
 plugins=run/'plugins';plugins.mkdir()
@@ -29,6 +32,7 @@ def stage(p,label):
   if z.testzip():raise RuntimeError('Invalid jar: '+str(p))
   if 'plugin.yml' not in z.namelist():return
   desc=yaml.safe_load(z.read('plugin.yml'));name=desc['name']
+ if name in args.omit_plugin:return
  if name in staged:raise RuntimeError('Duplicate plugin '+name)
  target=plugins/(name+'.jar');shutil.copyfile(p,target);staged[name]=target
  manifest.append(dict(name=name,source=label,sha256=hashlib.sha256(p.read_bytes()).hexdigest(),depend=desc.get('depend',[])))
@@ -102,15 +106,7 @@ with log.open('w') as output:
 text=log.read_text(errors='replace')
 probe_lines=[line.split('PROBE ',1)[1] for line in text.splitlines() if 'PROBE ' in line]
 errors=[line for line in text.splitlines() if any(x in line for x in ['ERROR]','SEVERE]','Error occurred while','Could not load','UnknownDependency','NoClassDefFoundError','NoSuchMethodError','NoSuchFieldError'])]
-expected=[]
-if args.probe=='EnvoySafetyProbe':expected=['RESULT envoy-safety passed']
-elif args.probe=='SlotGiveProbe':expected=['RESULT fails=0']
-elif args.probe=='SlotRewardProbe':expected=['PASS exactly one fixture reward for one rolling column: 1']
-elif args.probe=='DuelMenuProbe':expected=["Team Menu: title='Team Menu' size=27","Team List: title='Team List' size=54",'RESULT done']
-elif args.probe=='KitsLPProbe':
- expected=['grant1=GRANTED mainThread=true','grant2=ALREADY_GRANTED mainThread=true'] if args.phase=='grant' else ['access server=astro-integration -> true','access server=othersrv -> false']
-probe_passed=bool(probe_lines) and not any('FAIL' in line for line in probe_lines) and all(any(want in line for line in probe_lines) for want in expected)
-summary={'check_scope':'probe' if args.probe else 'startup','probe_passed':probe_passed if args.probe else None,'startup_has_errors':bool(errors),'run':run.name,'server':args.server,'ready':ready,'exit_code':process.returncode,'forced_stop':forced,'staged_plugins':len(staged),'probe':args.probe,'probe_lines':probe_lines,'errors':errors,'elapsed_seconds':round(time.monotonic()-started,1)}
+probe_passed=check_probe(args.probe,args.phase,probe_lines) if args.probe else None
+summary={'check_scope':'probe' if args.probe else 'startup','probe_passed':probe_passed if args.probe else None,'startup_has_errors':bool(errors),'run':run.name,'server':args.server,'ready':ready,'exit_code':process.returncode,'forced_stop':forced,'staged_plugins':len(staged),'omitted_plugins':args.omit_plugin,'probe':args.probe,'probe_lines':probe_lines,'errors':errors,'elapsed_seconds':round(time.monotonic()-started,1)}
 (run/'summary.json').write_text(json.dumps(summary,indent=2));print(json.dumps({'run':str(run),'ready':ready,'exit_code':process.returncode,'staged_plugins':len(staged),'probe':probe_lines,'error_count':len(errors)},indent=2))
-if not ready or forced or (args.probe and not probe_passed):raise SystemExit(1)
-if not args.probe and errors:raise SystemExit(1)
+if not run_succeeded(ready,forced,process.returncode,args.probe,probe_passed,errors):raise SystemExit(1)

@@ -1,5 +1,7 @@
 # Combined Astro integration — 2026-10-19
 
+Further runtime/dependency/runner fixes are recorded in [RUNTIME-SAFETY-REPORT.md](RUNTIME-SAFETY-REPORT.md).
+
 Later tested envoy improvements are recorded in [ENVOY-SAFETY-REPORT.md](ENVOY-SAFETY-REPORT.md).
 The counts and test runs below describe the initial integration checkpoint.
 

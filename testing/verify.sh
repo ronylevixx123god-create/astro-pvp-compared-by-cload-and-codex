@@ -17,3 +17,5 @@ python3 testing/prepare_maven.py
   -pl '!AstroFactions,!AstroFactions/modules/Main,!AstroFactions/modules/Legacy,!Trials,!PlayerVaultsX' \
   clean verify
 python3 review-tests/run.py
+
+python3 -m unittest discover -s testing -p test_probe_results.py
