@@ -61,7 +61,7 @@ public class CCVerify extends JavaPlugin implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
         // ProxyPatch is optional; without this check every join fails with NoClassDefFoundError when it isn't installed
-        if (getServer().getPluginManager().getPlugin("ProxyPatch") != null
+        if (getServer().getPluginManager().isPluginEnabled("ProxyPatch")
                 && ProxyPatch.playerNames.contains(event.getPlayer().getName())) return;
         PacketIO.get().addPlayer(event.getPlayer());
     }

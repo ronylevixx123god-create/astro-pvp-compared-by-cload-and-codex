@@ -97,8 +97,9 @@ stopped normally; no test Java or database process remained.
   the network proxy (HTTP CONNECT 403). No unverified replacement was installed.
 - Native Factions, Trials and PlayerVaultsX remain excluded for the previously
   documented dependency blockers. Their builds are not counted as passed.
-- Other unguarded optional-ProxyPatch references remain in Ark, ArmorSets and the
-  CCVerify packet path. This patch does not claim those paths are repaired.
+- At this checkpoint, unguarded optional-ProxyPatch references remained in Ark, ArmorSets
+  and the CCVerify packet path. The subsequent [optional-proxy follow-up](OPTIONAL-PROXY-REPORT.md)
+  repairs and tests those paths separately.
 - A further audit found the legacy kit tier INSERT uses ON DUPLICATE KEY UPDATE but
   the restored table definition has no unique key. Existing databases may have their
   own indexes or duplicates. This needs a separately tested, data-preserving schema

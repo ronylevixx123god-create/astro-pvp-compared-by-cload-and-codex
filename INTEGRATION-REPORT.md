@@ -1,5 +1,7 @@
 # Combined Astro integration — 2026-10-19
 
+The remaining optional ProxyPatch paths are covered by [OPTIONAL-PROXY-REPORT.md](OPTIONAL-PROXY-REPORT.md).
+
 Further runtime/dependency/runner fixes are recorded in [RUNTIME-SAFETY-REPORT.md](RUNTIME-SAFETY-REPORT.md).
 
 Later tested envoy improvements are recorded in [ENVOY-SAFETY-REPORT.md](ENVOY-SAFETY-REPORT.md).

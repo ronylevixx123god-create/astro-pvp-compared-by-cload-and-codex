@@ -1,5 +1,6 @@
 """Assertion contracts for isolated probes; startup errors retain their own scope."""
 CONTRACTS = {
+    'OptionalProxyProbe': ['RESULT optional-proxy passed'],
     'MissingMapsProbe': ['RESULT missing-maps passed'],
     'EnvoySafetyProbe': ['RESULT envoy-safety passed'],
     'SlotGiveProbe': ['RESULT fails=0'],

@@ -1,0 +1,93 @@
+{
+  "base_commit": "a4d1c1a0edfdf5d613eb8f4677969832ac4347f0",
+  "native_build": {
+    "modules": [
+      "Ark",
+      "AstroArmorSets",
+      "CCVerify"
+    ],
+    "command": "clean verify",
+    "result": "passed",
+    "native_unit_tests": 0
+  },
+  "review_tests": {
+    "tests": 61,
+    "result": "passed"
+  },
+  "runner_tests": {
+    "tests": 8,
+    "result": "passed"
+  },
+  "server_runs": {
+    "present_then_disabled": {
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "run": "20261019T043010Z-0bc9d8ce",
+      "server": "AstroCollect/lib/banana.jar",
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 90,
+      "omitted_plugins": [],
+      "probe": "OptionalProxyProbe",
+      "probe_lines": [
+        "PASS armor plugin enabled",
+        "PASS client plugin enabled",
+        "PASS actual ProxyPatch enabled",
+        "PASS enabled ordinary near filtering",
+        "PASS enabled ordinary armor refresh scheduling",
+        "PASS enabled ordinary client registration",
+        "PASS enabled ordinary client REGISTER payload",
+        "PASS enabled listed near filtering",
+        "PASS enabled listed armor refresh scheduling",
+        "PASS enabled listed client registration",
+        "PASS enabled listed client REGISTER payload",
+        "PASS disabled listed near filtering",
+        "PASS disabled listed armor refresh scheduling",
+        "PASS disabled listed client registration",
+        "PASS disabled listed client REGISTER payload",
+        "RESULT optional-proxy passed"
+      ],
+      "elapsed_seconds": 17.1,
+      "startup_error_count": 109
+    },
+    "absent": {
+      "check_scope": "probe",
+      "probe_passed": true,
+      "startup_has_errors": true,
+      "run": "20261019T042950Z-eeb48474",
+      "server": "AstroCollect/lib/banana.jar",
+      "ready": true,
+      "exit_code": 0,
+      "forced_stop": false,
+      "staged_plugins": 89,
+      "omitted_plugins": [
+        "ProxyPatch"
+      ],
+      "probe": "OptionalProxyProbe",
+      "probe_lines": [
+        "PASS armor plugin enabled",
+        "PASS client plugin enabled",
+        "PASS absent near filtering",
+        "PASS absent armor refresh scheduling",
+        "PASS absent client registration",
+        "PASS absent client REGISTER payload",
+        "RESULT optional-proxy passed"
+      ],
+      "elapsed_seconds": 17.1,
+      "startup_error_count": 109
+    }
+  },
+  "initial_failure": "First fixture left the opt-in NearLegacy patch uninitialized and failed with a NullPointerException before filtering. Final fixtures explicitly enable that original patch in the disposable server.",
+  "additional_verification": "Earlier successful runs counted custom payloads generally; final runs distinguish the REGISTER channel from asynchronous handshake traffic.",
+  "limitations": [
+    "Full stack still has startup/task errors",
+    "Armor refresh tasks checked then cancelled; armor effects not tested",
+    "No official client or complete handshake/encryption test",
+    "Near authorization/hidden/ghost/faction/radius variants not tested",
+    "No reward or economy test rerun"
+  ],
+  "servers_stopped": true,
+  "live_server_untouched": true
+}

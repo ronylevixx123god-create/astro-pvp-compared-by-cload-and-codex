@@ -1,0 +1,4 @@
+name: OptionalProxyProbe
+main: devtest.OptionalProxyProbe
+version: 1.0
+softdepend: [Arkkit, AstroArmorSets, CCVerify, Essentials, Factions, ProxyPatch]

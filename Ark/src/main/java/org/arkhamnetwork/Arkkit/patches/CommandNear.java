@@ -158,7 +158,7 @@ final class CommandNear
                     continue;
                 }
             }
-            if (ProxyPatch.playerNames.contains(p.getName())) continue;
+            if (Bukkit.getPluginManager().isPluginEnabled("ProxyPatch") && ProxyPatch.playerNames.contains(p.getName())) continue;
             if (output.length() > 0) {
                 output.append(", ");
                 counter++;

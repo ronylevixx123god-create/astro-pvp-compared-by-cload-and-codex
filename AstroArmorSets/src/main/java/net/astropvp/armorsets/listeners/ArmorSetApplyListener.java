@@ -68,7 +68,7 @@ public class ArmorSetApplyListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        if (ProxyPatch.playerNames.contains(e.getPlayer().getName())) return;
+        if (Bukkit.getPluginManager().isPluginEnabled("ProxyPatch") && ProxyPatch.playerNames.contains(e.getPlayer().getName())) return;
         if (e.getPlayer() != null) {
             Bukkit.getScheduler().runTaskLater(AstroArmorSets.getInstance(), () -> {
                 AstroArmorSetsAPI.refreshArmorSets(e.getPlayer(), true);
