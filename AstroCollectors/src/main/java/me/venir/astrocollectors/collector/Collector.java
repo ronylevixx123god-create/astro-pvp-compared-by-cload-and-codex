@@ -94,12 +94,10 @@ public final class Collector {
         }
 
         this.worth = (double) data.get("worth");
-        try {
-            this.tnt = (long) data.get("lootboxes");
-        } catch (Exception e) {
-            this.tnt = 0;
-
-        }
+        // Older collector files did not store lootboxes. Restore this balance
+        // independently of TNT, accepting either JSON integer representation.
+        Object savedLootboxes = data.get("lootboxes");
+        this.lootboxes = savedLootboxes instanceof Number ? ((Number) savedLootboxes).longValue() : 0L;
 
         this.tnt = (long) data.get("tnt");
         Location holoLoc = this.getLocation().clone();

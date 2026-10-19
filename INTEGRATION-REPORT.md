@@ -162,3 +162,7 @@ read/write code already uses that table, and IF NOT EXISTS preserves existing da
 The newer optional-ProxyPatch and missing-map guards are deferred, not counted as
 verified fixes in this branch. They require targeted unavailable-map/optional-plugin
 tests; the map-dependent failures above remain explicitly unresolved.
+
+## Collector and grinder follow-up
+
+See [REWARD-DATA-FIXES.md](REWARD-DATA-FIXES.md) for D06/D09 repairs, regression results and remaining runtime limitations.

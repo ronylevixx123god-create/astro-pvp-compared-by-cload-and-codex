@@ -8,6 +8,8 @@ The fault reproducer observed **11 defects**: seven used paths when their plugin
 
 **Immediate priority:** rotate/revoke the embedded Tebex credential through secure store settings (S01), and finish data-preservation repairs before starting restored collector/grinder plugins against real data. No credential values are included here.
 
+Follow-up: [REWARD-DATA-FIXES.md](REWARD-DATA-FIXES.md) records targeted repairs for D06 and D09. The counts and reproducer observations below describe the historical audit baseline, not the remaining unresolved total.
+
 ## Priority totals
 
 | Priority | Count | Meaning |

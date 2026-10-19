@@ -10,9 +10,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.function.DoubleSupplier;
 
 public class MobGrinderRunnable extends BukkitRunnable {
     int amountOfExpPerBlaze = 40;
+    private final DoubleSupplier random;
+
+    public MobGrinderRunnable() {
+        this(Math::random);
+    }
+
+    MobGrinderRunnable(DoubleSupplier random) {
+        this.random = random;
+    }
 
     @Override
     public void run() {
@@ -71,9 +81,9 @@ public class MobGrinderRunnable extends BukkitRunnable {
             }
 
 
-            double chance = Math.random();
+            double chance = random.getAsDouble();
             if (chance < chanceGodlyKey) {
-                int godlyKeys = mobGrinder.getCrateKeys().get(CrateType.COSMIC);
+                int godlyKeys = mobGrinder.getCrateKeys().getOrDefault(CrateType.SOLAR, 0);
                 mobGrinder.getCrateKeys().put(CrateType.SOLAR, godlyKeys + 1);
             }
         }
