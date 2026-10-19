@@ -1,0 +1,959 @@
+{
+  "audit_date": "2026-10-19",
+  "application_commit": "ce8b7cbb33ee92131d4a921fcf5bc9e994207692",
+  "source_inventory": {
+    "java_kotlin_files": 3522,
+    "source_modules": 79,
+    "top_level_plugin_descriptors": 76,
+    "scope": "Filename/pattern screening across inventory; manual review concentrated on high-risk storage/economy/lifecycle paths. Not every source line or embedded binary was manually audited."
+  },
+  "source_refs": {
+    "sss_main": "e437ebe555d66cc869d8ece8e39b60445f46e994",
+    "copy_main": "463da680560f817649a70f17044818658e28baa7",
+    "copy_integration": "48dcfd7adff37bf5a4ac86b9ba8c0d5c29631872",
+    "astro_codex": "accessible, zero advertised refs/commits",
+    "destination_main": "1c19e45a22d0ada436a9ab23f7f5790a8a47e14d"
+  },
+  "counts": {
+    "P0": 1,
+    "P1": 23,
+    "P2": 4,
+    "BLOCK": 5,
+    "COND": 4,
+    "TEST": 8
+  },
+  "items": [
+    {
+      "id": "S01",
+      "priority": "P0",
+      "title": "Rotate and remove embedded Tebex credentials",
+      "status": "Confirmed by redacted source scan; validity deliberately not tested",
+      "impact": "Two literal X-Buycraft-Secret assignments remain in tracked ResetGiftcards source. Treat them as exposed; one source read also surfaced a value in tool output. Public history/binaries may retain copies. No values are included in this report or its JSON.",
+      "repair": "Have the store owner rotate/revoke the exposed credential through secure vendor settings. Read replacement credentials from private configuration/environment, leave committed defaults empty, and fail billing operations closed when unavailable. Preserve Git history; do not force-push a history rewrite as a substitute for rotation.",
+      "acceptance": "Private secret scan of current source, history and shipped binaries; confirm old credentials revoked through owner-controlled settings; sandbox billing tests. Do not use the exposed key to test its validity.",
+      "evidence": [
+        {
+          "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java",
+          "line": 24,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java#L24"
+        }
+      ]
+    },
+    {
+      "id": "D01",
+      "priority": "P1",
+      "title": "Stop discarding failed kit SQL writes",
+      "status": "Reproduced: KIT-QUEUE",
+      "impact": "SQLQueryThread removes queued statements even after executeUpdate throws. A temporary database failure loses pending tier/cooldown writes.",
+      "repair": "Acknowledge work only after confirmed success, retain failed work with bounded backoff, and add durable/idempotent operation tracking. A blind retry of non-idempotent SQL can itself duplicate effects after an ambiguous commit.",
+      "acceptance": "Inject prepare/execute/connection failures, ambiguous commit, process restart and recovery. Verify original tier/cooldown semantics and zero lost or double-applied operations.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryThread.java",
+          "line": 58,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryThread.java#L58"
+        }
+      ]
+    },
+    {
+      "id": "D02",
+      "priority": "P1",
+      "title": "Terminate kit SQL workers and serialize shutdown flushing",
+      "status": "Reproduced: KIT-THREADS; concurrent flush risk confirmed by inspection",
+      "impact": "Both worker loops swallow interrupts and continue forever. onDisable interrupts them and flushes on the calling thread while background work can still run; reload can retain old workers and duplicate processing.",
+      "repair": "Use an explicit stop condition, bounded join and a single serialized drain/connection owner. Do not rely on interrupt alone or Thread.stop. Report unfinished work safely.",
+      "acceptance": "Start/stop/reload repeatedly with blocked queries; prove workers exit, no overlapping execution occurs, and queued work is retained on timeout.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryThread.java",
+          "line": 28,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryThread.java#L28"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryCustomThread.java",
+          "line": 19,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryCustomThread.java#L19"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/CosmicGlobalKits.java",
+          "line": 74,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/CosmicGlobalKits.java#L74"
+        }
+      ]
+    },
+    {
+      "id": "D03",
+      "priority": "P1",
+      "title": "Migrate kit tier/cooldown tables to deliberate uniqueness",
+      "status": "Confirmed for fresh CREATE TABLE definitions; existing DB indexes not inspected",
+      "impact": "Tables are created without unique keys while writers use ON DUPLICATE KEY UPDATE. Tier rows can accumulate, and the loader overwrites tier values in an unordered result loop. Existing installations may have different indexes.",
+      "repair": "Inspect and back up actual schema/data first. Define the correct player/kit/server identity, resolve duplicates with a documented policy, and migrate transactionally. Do not pick MAX(tier) blindly because legitimate resets/downgrades may exist.",
+      "acceptance": "Fresh schema plus duplicate legacy fixture, repeated updates, resets, multiple servers and restart. Verify no data loss and stable final tiers.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/CosmicGlobalKits.java",
+          "line": 55,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/CosmicGlobalKits.java#L55"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/utils/GlobalCooldowns.java",
+          "line": 45,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/utils/GlobalCooldowns.java#L45"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/struct/GlobalKitUser.java",
+          "line": 72,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/struct/GlobalKitUser.java#L72"
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "priority": "P1",
+      "title": "Give kit SQL operations safe connection ownership",
+      "status": "Confirmed by inspection; connection races not stress-tested",
+      "impact": "SQLConnection shares an unsynchronized static connection and closes it after a global query counter threshold while other operations may be using it. Reconnect failures can leave a stale connection returned. Resource lifetimes are inconsistent.",
+      "repair": "Use owned connections or a correctly configured pool and try-with-resources. Add connection health/timeouts, explicit failure propagation, and retain existing table/field behavior.",
+      "acceptance": "Concurrent login reads and writes, reconnect at threshold, outage/recovery and shutdown under load; prove no active statement is closed by unrelated work.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLConnection.java",
+          "line": 18,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLConnection.java#L18"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLConnection.java",
+          "line": 34,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLConnection.java#L34"
+        }
+      ]
+    },
+    {
+      "id": "D05",
+      "priority": "P1",
+      "title": "Preserve collector records for temporarily missing worlds",
+      "status": "Reproduced: COLLECTOR-WORLD",
+      "impact": "CollectorManager skips entries whose world is absent, then saves only loaded entries. The load/save reproducer erased a valid missing-world record from its temporary file. Autosave starts after three seconds.",
+      "repair": "Retain unresolved records verbatim or postpone saving until world loading is complete; merge loaded/unresolved state and write atomically. Do not create a replacement empty world to make real data load.",
+      "acceptance": "Load with a missing world, save, restart, restore that world and prove its collector data remains identical. Complete this before enabling collectors against real saved data.",
+      "evidence": [
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/collector/CollectorManager.java",
+          "line": 62,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/collector/CollectorManager.java#L62"
+        },
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/collector/CollectorManager.java",
+          "line": 83,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/collector/CollectorManager.java#L83"
+        },
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/AstroCollectors.java",
+          "line": 59,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/AstroCollectors.java#L59"
+        }
+      ]
+    },
+    {
+      "id": "D06",
+      "priority": "P1",
+      "title": "Restore collector lootboxes into the correct field",
+      "status": "Reproduced with mocked external hooks: COLLECTOR-LOOTBOX",
+      "impact": "The constructor reads the saved lootboxes value into tnt, then overwrites tnt from its own field. A saved lootbox count of 7 reloads as 0 while TNT survives.",
+      "repair": "Load lootboxes independently with backward-compatible numeric defaults and preserve TNT/worth/spawner fields. Avoid resetting unknown data during migration.",
+      "acceptance": "JSON save/load roundtrip with nonzero TNT, lootboxes and worth, legacy missing fields, then a real isolated collector reload/claim test.",
+      "evidence": [
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/collector/Collector.java",
+          "line": 98,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/collector/Collector.java#L98"
+        }
+      ]
+    },
+    {
+      "id": "D07",
+      "priority": "P1",
+      "title": "Snapshot and atomically save collector state",
+      "status": "Concurrency/crash risk confirmed by inspection; no disk-fault stress run",
+      "impact": "An async task walks mutable HashMaps while main-thread gameplay changes collectors/spawners. Saves truncate the destination file directly. A race or interrupted write can produce incomplete data.",
+      "repair": "Take a consistent snapshot on the owner thread, serialize that snapshot off-thread, and replace a temporary file atomically with recovery/backups. Serialize autosave and shutdown saves.",
+      "acceptance": "Concurrent collector creation/removal/income during autosave, forced write failure, malformed/truncated file and graceful shutdown; preserve last good data.",
+      "evidence": [
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/AstroCollectors.java",
+          "line": 55,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/AstroCollectors.java#L55"
+        },
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/collector/CollectorManager.java",
+          "line": 73,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/collector/CollectorManager.java#L73"
+        },
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/collector/Collector.java",
+          "line": 366,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/collector/Collector.java#L366"
+        }
+      ]
+    },
+    {
+      "id": "D08",
+      "priority": "P1",
+      "title": "Harden the shared SaveLoadManager used across plugins",
+      "status": "Confirmed by inspection; concurrency/corruption scenarios not reproduced",
+      "impact": "The shared cache is a mutable HashMap, save writes directly to the live JSON file, and load catches IOException but not malformed JSON runtime failures. One bad file can abort loading subsequent records. Many gameplay plugins inherit this code.",
+      "repair": "Use consistent snapshots, atomic replacement, per-file parse/schema validation and quarantine with backups. Preserve every plugin's keys/format and do not silently replace corrupted data with defaults.",
+      "acceptance": "Malformed one-of-many files, truncated write, concurrent cache mutation and original data roundtrips across affected subclasses.",
+      "evidence": [
+        {
+          "path": "StorageUtil/src/main/java/net/astropvp/storage/utils/SaveLoadManager.java",
+          "line": 23,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/StorageUtil/src/main/java/net/astropvp/storage/utils/SaveLoadManager.java#L23"
+        },
+        {
+          "path": "StorageUtil/src/main/java/net/astropvp/storage/utils/SaveLoadManager.java",
+          "line": 96,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/StorageUtil/src/main/java/net/astropvp/storage/utils/SaveLoadManager.java#L96"
+        },
+        {
+          "path": "StorageUtil/src/main/java/net/astropvp/storage/utils/SaveLoadManager.java",
+          "line": 75,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/StorageUtil/src/main/java/net/astropvp/storage/utils/SaveLoadManager.java#L75"
+        }
+      ]
+    },
+    {
+      "id": "D09",
+      "priority": "P1",
+      "title": "Repair the grinder reward counter producer",
+      "status": "Reproduced: GRINDER-KEYS",
+      "impact": "The running task reads COSMIC but writes SOLAR. Normal creation/loading initializes SOLAR only, so a reward hit can null-unbox and throw. If COSMIC=0 exists, an accumulated SOLAR total of 41 is overwritten with 1. Earlier save/load repairs did not cover this producer.",
+      "repair": "Use the same intended counter consistently through production, GUI claim, save and reload. Preserve original reward odds and numeric balances; handle absent legacy counters explicitly.",
+      "acceptance": "Deterministic reward-hit tests with missing/present counters and accumulated balances; then production/claim/save/reload together. Current bounded audit simulation observed both failure modes.",
+      "evidence": [
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/tasks/MobGrinderRunnable.java",
+          "line": 76,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/tasks/MobGrinderRunnable.java#L76"
+        },
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/tasks/MobGrinderRunnable.java",
+          "line": 77,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/tasks/MobGrinderRunnable.java#L77"
+        },
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/data/MakeCustomBlocks.java",
+          "line": 51,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/data/MakeCustomBlocks.java#L51"
+        }
+      ]
+    },
+    {
+      "id": "D10",
+      "priority": "P1",
+      "title": "Migrate custom-block identities to include the world",
+      "status": "Reproduced: BLOCK-WORLD-KEY",
+      "impact": "AbilityData.getUUID uses only XYZ. Blocks at the same coordinates in different worlds share the global data-map key and file name, allowing cross-world overwrites.",
+      "repair": "Back up files, introduce a world-aware identity, and migrate map keys, filenames, lookups and references together. Use stored location/world data to migrate recoverable files and retain collisions for review; overwritten records may require backups.",
+      "acceptance": "Two or more worlds with identical XYZ, owner/ability/key/XP independence, old-format migration, conflicts, restart and deletion of only the intended block.",
+      "evidence": [
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/ability/AbilityData.java",
+          "line": 47,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/ability/AbilityData.java#L47"
+        },
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/data/SaveAllGrinderCustomBlocks.java",
+          "line": 27,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/data/SaveAllGrinderCustomBlocks.java#L27"
+        }
+      ]
+    },
+    {
+      "id": "D11",
+      "priority": "P1",
+      "title": "Remove grinder state races and unsafe async access",
+      "status": "Confirmed by inspection; races not stress-tested",
+      "impact": "The grinder runnable and bulk save are scheduled asynchronously while GUI actions and gameplay mutate the same ability data, crate-key maps and active-grinder HashMap. A saving flag is not synchronization.",
+      "repair": "Give gameplay state a defined owner thread and save immutable snapshots; keep Bukkit/world operations on supported threads. Coordinate shutdown and avoid dropping the remainder of a save on concurrent modification.",
+      "acceptance": "Concurrent activation, reward hit, redemption and save; exact XP/key conservation and no concurrent modification under load.",
+      "evidence": [
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/CoreSkulls.java",
+          "line": 134,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/CoreSkulls.java#L134"
+        },
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/CoreSkulls.java",
+          "line": 136,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/CoreSkulls.java#L136"
+        },
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/struct/MobGrinderManager.java",
+          "line": 29,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/struct/MobGrinderManager.java#L29"
+        }
+      ]
+    },
+    {
+      "id": "D12",
+      "priority": "P1",
+      "title": "Make custom-block loading tolerant and recoverable",
+      "status": "Confirmed by inspection; corrupt-file/missing-world scenarios not run",
+      "impact": "Unknown ability names, invalid UUID/location data or unavailable worlds can throw and stop the load loop. Material mismatch deletes the saved file instead of preserving recoverable evidence.",
+      "repair": "Validate each record independently, defer unavailable worlds, quarantine invalid/mismatched records with clear diagnostics and retain originals. Confirm the intended block-removal policy before changing it.",
+      "acceptance": "One malformed file among valid records, missing world, mismatched block, invalid enum/UUID, restoration from quarantine and startup retry.",
+      "evidence": [
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/data/LoadCustomBlocks.java",
+          "line": 35,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/data/LoadCustomBlocks.java#L35"
+        },
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/data/LoadCustomBlocks.java",
+          "line": 40,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/data/LoadCustomBlocks.java#L40"
+        },
+        {
+          "path": "CustomBlocks/src/main/java/com/conaxgames/customskulls/data/LoadCustomBlocks.java",
+          "line": 44,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/CustomBlocks/src/main/java/com/conaxgames/customskulls/data/LoadCustomBlocks.java#L44"
+        }
+      ]
+    },
+    {
+      "id": "D13",
+      "priority": "P1",
+      "title": "Initialize and migrate the kit SQL server identity",
+      "status": "Confirmed by inspection; no application assignment to serverName found",
+      "impact": "Kits declares serverName but never loads the existing server_name configuration into it. Tier inserts format a null value as the literal string null, while reads bind SQL NULL to server_name = ?, which does not match those rows. The previous LuckPerms context/persistence tests use a different server-context path and do not validate this SQL tier identity.",
+      "repair": "Initialize/validate the configured identity before workers, reads or writes. Inspect existing null/literal-null rows and migrate only with an explicit server mapping and backups; do not merge multiple servers blindly.",
+      "acceptance": "Fresh configuration, existing server names, SQL NULL/literal-null legacy rows, two distinct servers, tier write/reload and permission-context independence.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/CosmicGlobalKits.java",
+          "line": 33,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/CosmicGlobalKits.java#L33"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/utils/GlobalCooldowns.java",
+          "line": 45,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/utils/GlobalCooldowns.java#L45"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/struct/GlobalKitUser.java",
+          "line": 62,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/struct/GlobalKitUser.java#L62"
+        }
+      ]
+    },
+    {
+      "id": "D14",
+      "priority": "P1",
+      "title": "Keep kit profile-load failures distinguishable from successful loading",
+      "status": "Confirmed by inspection; full claim-after-outage scenario not reproduced",
+      "impact": "GlobalKitUser catches SQL failures and still clears loadingData and invokes completion. CommandGKit then allows a profile with absent/partial tiers and cooldown data past its loading guard. Whether that enables repeated claims needs a real failure-flow test.",
+      "repair": "Use explicit loading/success/error states, fail kit claims closed until a successful profile load, retry safely and validate the current player session before callbacks. Preserve loaded data on refresh failure.",
+      "acceptance": "Fail each SELECT during login/reload, reconnect and retry; no default-tier overwrite, premature claim or lost cooldown; a successful retry restores the correct profile.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/struct/GlobalKitUser.java",
+          "line": 95,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/struct/GlobalKitUser.java#L95"
+        },
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/commands/CommandGKit.java",
+          "line": 52,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/commands/CommandGKit.java#L52"
+        }
+      ]
+    },
+    {
+      "id": "E01",
+      "priority": "P1",
+      "title": "Return auction escrow items when confirmation cannot pay the fee",
+      "status": "Reproduced: AUCTION-CONFIRM",
+      "impact": "The confirm handler removes auctionConfirm/auctionPrice metadata before checking the current fee balance. If funds became insufficient, it closes the menu without selling or returning the escrowed item; the close handler no longer sees the metadata.",
+      "repair": "Keep escrow ownership until listing completion or item return is confirmed. Centralize cancellation/return so fee changes, close, death, disconnect and failure paths cannot lose or duplicate the item.",
+      "acceptance": "Open confirmation, reduce balance, confirm and close; exactly one original item must remain with the player/claimable recovery store and no listing/fee must be created.",
+      "evidence": [
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/controller/ConfirmMenu.java",
+          "line": 96,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/controller/ConfirmMenu.java#L96"
+        },
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/controller/ConfirmMenu.java",
+          "line": 100,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/controller/ConfirmMenu.java#L100"
+        }
+      ]
+    },
+    {
+      "id": "E02",
+      "priority": "P1",
+      "title": "Make auction purchases, bids, refunds and listing fees checked transactions",
+      "status": "Confirmed by inspection; provider-failure financial flows not executed",
+      "impact": "Purchase/bid/buyout paths ignore Vault responses while transferring items, crediting sellers, refunding previous bidders or changing auction state. A preflight balance check does not guarantee a later withdrawal or payout succeeds.",
+      "repair": "Use checked escrow/settlement states, durable recovery and idempotency for all money/item transitions. Stop on failed debit; retain owed payouts and refunds safely. Preserve listing, bid, fee and item-ID behavior.",
+      "acceptance": "Inject each withdrawal/deposit/refund failure, duplicate clicks, offline parties and crashes between stages; verify conservation of money/items.",
+      "evidence": [
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/controller/Controller.java",
+          "line": 73,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/controller/Controller.java#L73"
+        },
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/data/AuctionBid.java",
+          "line": 114,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/data/AuctionBid.java#L114"
+        },
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/data/AuctionBid.java",
+          "line": 136,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/data/AuctionBid.java#L136"
+        }
+      ]
+    },
+    {
+      "id": "E03",
+      "priority": "P1",
+      "title": "Repair auction SQL completion, statement cleanup and shutdown batches",
+      "status": "Confirmed by inspection; failure/restart not executed",
+      "impact": "Async SQL failures only log while memory/item changes may already be committed. Statement close is not reliably in finally, batch statements are left open, and the stopping-server branch of asyncExecuteBatch calls execute instead of executeBatch.",
+      "repair": "Own connections/statements per operation, acknowledge database results, serialize durable state transitions and execute/drain batches correctly on shutdown. Reconcile pending transactions on restart.",
+      "acceptance": "SQL outage, partial batch failure, repeated shutdown, connection/resource tracking, restart reconciliation and no resurrected sold listings.",
+      "evidence": [
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/data/DataHandler.java",
+          "line": 370,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/data/DataHandler.java#L370"
+        },
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/data/DataHandler.java",
+          "line": 240,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/data/DataHandler.java#L240"
+        },
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/data/Database.java",
+          "line": 19,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/data/Database.java#L19"
+        }
+      ]
+    },
+    {
+      "id": "E04",
+      "priority": "P1",
+      "title": "Make coinflip debits, winnings and refunds recoverable",
+      "status": "Confirmed by inspection; failure-injection match not run",
+      "impact": "Creation/accept/cancel/quit paths ignore payment responses. givePrize marks gavePrize and updates records before checking payout success; a declined deposit is merely logged as unsuccessful after completion is committed.",
+      "repair": "Debit only into verified escrow, record a pending payout/refund, and mark completion after confirmed settlement. Recover ambiguous operations without replaying payouts.",
+      "acceptance": "Failed creator/joiner debit, failed winner/refund deposit, disconnect, cancel, reload and crash at each boundary; keep original wager/tax/reward rules.",
+      "evidence": [
+        {
+          "path": "Core/src/main/java/net/astropvp/core/cosmiccoinflip/struct/CoinFlipMatch.java",
+          "line": 235,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/cosmiccoinflip/struct/CoinFlipMatch.java#L235"
+        },
+        {
+          "path": "Core/src/main/java/net/astropvp/core/cosmiccoinflip/struct/CoinFlipMatch.java",
+          "line": 251,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/cosmiccoinflip/struct/CoinFlipMatch.java#L251"
+        },
+        {
+          "path": "Core/src/main/java/net/astropvp/core/cosmiccoinflip/commands/CommandCoinFlip.java",
+          "line": 104,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/cosmiccoinflip/commands/CommandCoinFlip.java#L104"
+        }
+      ]
+    },
+    {
+      "id": "E05",
+      "priority": "P1",
+      "title": "Expose checked economy operations without breaking legacy callers",
+      "status": "Confirmed by inspection; affected integrations need functional tests",
+      "impact": "EconomyUtils deposit/withdraw helpers discard Vault responses. Callers such as Collector.sellWorth clear the owed amount regardless of whether payment succeeds. Gambling callers similarly cannot determine success through the void API.",
+      "repair": "Add compatible checked helpers/settlement results while retaining old binary signatures for bundled plugins, then migrate critical callers to preserve pending balances on failure.",
+      "acceptance": "Declining/erroring economy providers with collector worth, crash/mines/tower and other native callers; no cleared debt or free reward after failure.",
+      "evidence": [
+        {
+          "path": "Utils/src/main/java/com/cosmicpvp/cosmicutils/utils/EconomyUtils.java",
+          "line": 30,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Utils/src/main/java/com/cosmicpvp/cosmicutils/utils/EconomyUtils.java#L30"
+        },
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/collector/Collector.java",
+          "line": 170,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/collector/Collector.java#L170"
+        }
+      ]
+    },
+    {
+      "id": "E06",
+      "priority": "P1",
+      "title": "Use authoritative crash-game state for cashout",
+      "status": "Unsafe handler confirmed by inspection; ordinary-client exploitability not demonstrated",
+      "impact": "CrashListener trusts the GUI title/display-name text for the payout multiplier, checks it against the future final-crash value, and lacks robust inventory/session/item validation. Money decisions should not depend on formatted display text.",
+      "repair": "Bind clicks to the owned top inventory and round/player session; use the server's current multiplier and checked settlement. Validate finite values and handle null/foreign items and cancelled events.",
+      "acceptance": "Foreign same-title inventory, stale round, null/renamed item, locale formatting, early/late cashout, duplicate click and declined payout, with server-authoritative amounts.",
+      "evidence": [
+        {
+          "path": "AstroGamble/src/main/java/net/astropvp/gambling/crash/listeners/CrashListener.java",
+          "line": 48,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroGamble/src/main/java/net/astropvp/gambling/crash/listeners/CrashListener.java#L48"
+        },
+        {
+          "path": "AstroGamble/src/main/java/net/astropvp/gambling/crash/listeners/CrashListener.java",
+          "line": 49,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroGamble/src/main/java/net/astropvp/gambling/crash/listeners/CrashListener.java#L49"
+        }
+      ]
+    },
+    {
+      "id": "L01",
+      "priority": "P1",
+      "title": "Finish missing-world/region handling across gameplay modules",
+      "status": "Runtime failures recorded; remaining dereferences confirmed by inspection",
+      "impact": "Arcade, AstroSpaceGrinding, SpaceRecode, Ruins, Dungeon and parkour cleanup still dereference absent worlds/regions. Earlier guards only covered tournament/outpost flight tasks. SpaceRecode shutdown can throw before its later saves.",
+      "repair": "Validate required worlds/regions before registering features, disable only unavailable features with diagnostics, and keep cleanup/saving safe. Review upstream missing-map commits e299e2394, fc233f964, 2938abc54 and 9861b6383 per path; do not replace original maps with empty fixtures.",
+      "acceptance": "Each world/region absent, present, unloaded and restored; no repeated task errors, skipped unrelated saves, lost entry items or wrong-world teleports.",
+      "evidence": [
+        {
+          "path": "Arcade/src/main/java/net/crankedpvp/arcade/utils/ChunkUtils.java",
+          "line": 51,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Arcade/src/main/java/net/crankedpvp/arcade/utils/ChunkUtils.java#L51"
+        },
+        {
+          "path": "AstroSpaceGrinding/src/main/java/me/astropvp/astrospacegrinding/AstroSpaceGrindingPlugin.java",
+          "line": 43,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroSpaceGrinding/src/main/java/me/astropvp/astrospacegrinding/AstroSpaceGrindingPlugin.java#L43"
+        },
+        {
+          "path": "SpaceRecode/src/main/kotlin/net/astropvp/space/SpacePlugin.kt",
+          "line": 85,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/SpaceRecode/src/main/kotlin/net/astropvp/space/SpacePlugin.kt#L85"
+        },
+        {
+          "path": "AstroEvents/src/main/java/net/astropvp/astroevents/game/games/ParkourMiniGame.java",
+          "line": 243,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroEvents/src/main/java/net/astropvp/astroevents/game/games/ParkourMiniGame.java#L243"
+        },
+        {
+          "path": "Dungeon/src/main/java/com/compilex/CosmicDungeons/CosmicDungeonsPlugin.java",
+          "line": 353,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Dungeon/src/main/java/com/compilex/CosmicDungeons/CosmicDungeonsPlugin.java#L353"
+        }
+      ]
+    },
+    {
+      "id": "L02",
+      "priority": "P1",
+      "title": "Make failed-startup and repeated shutdown safe",
+      "status": "Runtime failures recorded plus source confirmation",
+      "impact": "Core/Auction/Dungeons and other cleanup paths dereference partially initialized managers after failed enable. These extra exceptions can obscure the original failure and skip later saves/refunds.",
+      "repair": "Track initialization explicitly, cancel only owned started tasks, close initialized resources safely and make shutdown idempotent. Keep the original cause visible instead of masking mandatory integrations.",
+      "acceptance": "Fail startup at each stage, disable twice, normal stop and plugin reload; prove no secondary cleanup exception and correct flushing of initialized state.",
+      "evidence": [
+        {
+          "path": "Core/src/main/java/net/astropvp/core/AstroCore.java",
+          "line": 281,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/AstroCore.java#L281"
+        },
+        {
+          "path": "AuctionHouse/src/main/java/me/recolance/auction/data/Database.java",
+          "line": 40,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AuctionHouse/src/main/java/me/recolance/auction/data/Database.java#L40"
+        }
+      ]
+    },
+    {
+      "id": "N01",
+      "priority": "P1",
+      "title": "Make Tebex bulk reset bounded, asynchronous and structured",
+      "status": "Confirmed by inspection; no live vendor call made",
+      "impact": "ResetGiftcards starts synchronous HTTP work from its command handler with no explicit connect/read timeouts, splits raw JSON strings to select gift cards, and logs response contents. Store-affecting operations need reliable parsing and reconciliation.",
+      "repair": "After S01, use structured JSON/status validation, timeouts, bounded async work, dry-run selection, redacted logging and explicit per-card outcomes. Keep Bukkit-only work on the server thread and test destructive behavior only in an authorized sandbox.",
+      "acceptance": "Recorded/redacted API fixtures for malformed/error/empty/paginated responses, 429/timeouts, exact threshold selection and per-ID failures; no live gift cards changed during testing.",
+      "evidence": [
+        {
+          "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java",
+          "line": 35,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java#L35"
+        },
+        {
+          "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java",
+          "line": 107,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java#L107"
+        }
+      ]
+    },
+    {
+      "id": "A01",
+      "priority": "P2",
+      "title": "Validate command sender types and numeric inputs",
+      "status": "Confirmed by inspection; individual command matrix not executed",
+      "impact": "Several admin commands parse raw ints/doubles or cast senders to Player without friendly validation. Examples include collector give, giftcard creation and coinflip console handling. Non-finite amounts and out-of-range stack quantities need rejection where reachable.",
+      "repair": "Validate sender, online target, numeric range/finite value and stack count before mutation; use existing permission gates. Do not change authority or enable disabled commands to make them work.",
+      "acceptance": "Console/player, missing/offline target, nonnumeric/overflow/negative/zero/NaN/infinite input and aliases; prove no item/money side effect on invalid input.",
+      "evidence": [
+        {
+          "path": "AstroCollectors/src/main/java/me/venir/astrocollectors/commands/CollectorGiveCommand.java",
+          "line": 19,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroCollectors/src/main/java/me/venir/astrocollectors/commands/CollectorGiveCommand.java#L19"
+        },
+        {
+          "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/CreateGiftcardCommand.java",
+          "line": 17,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/CreateGiftcardCommand.java#L17"
+        },
+        {
+          "path": "Core/src/main/java/net/astropvp/core/cosmiccoinflip/commands/CommandCoinFlip.java",
+          "line": 138,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/cosmiccoinflip/commands/CommandCoinFlip.java#L138"
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "priority": "P2",
+      "title": "Use UUID value equality for the gift limit",
+      "status": "Confirmed by inspection and active caller; reload scenario not executed",
+      "impact": "AstroPlayer compares gift sender UUID objects with ==. Equal UUID values restored as separate objects can bypass the five-gift-per-sender limit.",
+      "repair": "Use value equality and preserve existing gifts/limit semantics; audit similar UUID comparisons, including dormant jackpot keys and Arcade hiding.",
+      "acceptance": "Five saved gifts, reload into distinct UUID objects, sender reconnect and sixth-gift attempt; no reset or duplicate loss.",
+      "evidence": [
+        {
+          "path": "Core/src/main/java/net/astropvp/core/struct/AstroPlayer.java",
+          "line": 60,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/struct/AstroPlayer.java#L60"
+        },
+        {
+          "path": "Core/src/main/java/net/astropvp/core/commands/GiftCommand.java",
+          "line": 57,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/commands/GiftCommand.java#L57"
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "priority": "P2",
+      "title": "Redact failure logging and keep error context",
+      "status": "Confirmed by inspection",
+      "impact": "Kit SQL workers log full failed queries, and giftcard reset logs raw vendor response fragments. Logs can expose player data or store information beyond the context needed for diagnosis.",
+      "repair": "Log operation IDs/type, safe status and redacted exceptions; keep private diagnostic detail behind controlled settings. Never include credential values in reports.",
+      "acceptance": "Failure fixtures containing synthetic sensitive fields must not appear verbatim in logs while error correlation remains usable.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryThread.java",
+          "line": 43,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryThread.java#L43"
+        },
+        {
+          "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java",
+          "line": 54,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java#L54"
+        }
+      ]
+    },
+    {
+      "id": "DOC01",
+      "priority": "P2",
+      "title": "Separate historical recovery notes from current status",
+      "status": "Confirmed documentation inconsistency",
+      "impact": "Imported AstroBAH notes retain historical statements that source is unchanged/missing or reconstruction not used, while this branch contains a reconstructed implementation. Banners help but headlines can still mislead setup and compatibility decisions.",
+      "repair": "Archive historical reports with their dates/refs, make one current manifest authoritative, and link the reconstruction/source limitations clearly. Preserve historical evidence and backups.",
+      "acceptance": "Fresh reader can identify exactly which plugins are built/staged, which behavior differs, current results and what original BAH material is still absent.",
+      "evidence": [
+        {
+          "path": "AstroBAH/MISSING-SOURCE.md",
+          "line": 5,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/AstroBAH/MISSING-SOURCE.md#L5"
+        }
+      ]
+    },
+    {
+      "id": "B01",
+      "priority": "BLOCK",
+      "title": "Restore an authorized FactionsKore IP/licensing route",
+      "status": "Observed runtime/network blocker",
+      "impact": "The bundled plugin fails its external-IP lookup and disables; Core then fails in a mandatory FactionsKore integration. This does not establish that the owner's license is invalid.",
+      "repair": "Use legitimate vendor authorization and an allowed IP/licensing route for the isolated machine. Required hosts observed include checkip.amazonaws.com, license.elytrondev.co and licensing.mckore.com. Do not bypass licensing or replace mandatory behavior with stubs.",
+      "acceptance": "Plugin authorization succeeds legitimately, Core enables, and dependent reward/chat/money flows are tested. Secure values belong in environment settings, not chat.",
+      "evidence": []
+    },
+    {
+      "id": "B02",
+      "priority": "BLOCK",
+      "title": "Supply compatible Multiverse-Core and resolve its dependency chain",
+      "status": "Observed UnknownDependency failures",
+      "impact": "AstroSpawners and AstroCustomBlocks fail on Multiverse-Core; dependent collectors, CustomSkullBlocks and space-grinding plugins then fail. CrankedUtils metadata was already repaired and is not a remaining blocker.",
+      "repair": "Acquire a trusted Minecraft 1.8-compatible Multiverse build and required world configuration; keep actual required dependencies. Check load ordering and APIs against bundled forks.",
+      "acceptance": "All five previously blocked plugin names load with real providers and original worlds, then run gameplay/data tests. Do D05/D10 migration safeguards before loading real data.",
+      "evidence": []
+    },
+    {
+      "id": "B03",
+      "priority": "BLOCK",
+      "title": "Restore original maps, regions, NPCs and runtime configuration",
+      "status": "Missing resources; empty fixtures used only for selected initialization",
+      "impact": "Original gameplay requires arcade, ruins, events, space/Mars, outpost and dungeon maps plus region definitions/locations. The isolated runner creates tiny empty worlds/one region; those cannot verify the real game.",
+      "repair": "Obtain original resources or document deliberate replacements with migration review. Validate referenced worlds, dungeon enum world names, WorldGuard regions and feature locations on startup.",
+      "acceptance": "Correct portals/arenas/checkpoints/outposts/claims and rewards in the intended maps with real clients. Literal lookups are inventoried separately; variable/config/enum names also need review.",
+      "evidence": []
+    },
+    {
+      "id": "B04",
+      "priority": "BLOCK",
+      "title": "Complete native Factions, Trials and PlayerVaultsX builds",
+      "status": "Prior full reactor failed; selected build explicitly excludes these",
+      "impact": "Five excluded reactor entries include Factions aggregator/Main/Legacy plus Trials and PlayerVaultsX. The runtime uses an unchanged bundled Factions jar, so source-Factions compatibility fixes have not been validated by that runtime.",
+      "repair": "Recover/version-pin legitimate legacy APIs/dependencies and build each module. Compare source behavior against the current bundled provider and avoid unverified replacements.",
+      "acceptance": "Clean builds, API linkage, together-server tests, claims/permissions/data and vault/trial workflows. Do not count exclusions as passing/skipped tests.",
+      "evidence": []
+    },
+    {
+      "id": "B05",
+      "priority": "BLOCK",
+      "title": "Complete unavailable source/reference material",
+      "status": "Access checked during this audit",
+      "impact": "Astro-codex is accessible but advertises zero refs/commits. sss is populated at e437ebe555d66cc869d8ece8e39b60445f46e994. The original 2024 AstroBAH implementation is still incomplete in the original archive; current BAH is reconstructed.",
+      "repair": "Populate/recover the Codex implementation and original missing BAH source or matching compiled artifact if available; preserve refs/history and review before integration.",
+      "acceptance": "Compare actual source/behavior and data contracts. Until then, do not claim comparison with a nonexistent Codex version or exact 2024 BAH equivalence.",
+      "evidence": []
+    },
+    {
+      "id": "Q01",
+      "priority": "COND",
+      "title": "Repair the latent custom SQL batch API before it is used",
+      "status": "Reproduced: KIT-BATCH; no application-source addQuery caller",
+      "impact": "SQLQueryCustomThread removes entries before executeBatch succeeds. The defect is real but current source has no gameplay enqueue caller for that API, so it is not counted as active batch-data loss in normal gameplay.",
+      "repair": "If retaining this API, acknowledge batch members only after settlement and handle partial/ambiguous failures idempotently. Otherwise deprecate it with compatibility review.",
+      "acceptance": "Partial batch failure/retry/restart plus external-call compatibility; no statement disappears before a confirmed durable outcome.",
+      "evidence": [
+        {
+          "path": "Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryCustomThread.java",
+          "line": 38,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Kits/src/main/java/me/cosmicpvp/CosmicGlobalKits/database/SQLQueryCustomThread.java#L38"
+        }
+      ]
+    },
+    {
+      "id": "Q02",
+      "priority": "COND",
+      "title": "Repair jackpot internals only if this dormant feature is restored",
+      "status": "Three defects reproduced; manager/command/listener/timer disabled in current Core",
+      "impact": "Allowed ticket counts can overflow int multiplication before becoming double; offline winner payout dereferences a null online Player after resetting the draw; PlayerInfo equality compares UUID references. Winner selection also allocates one entry per ticket, creating an untested scalability risk.",
+      "repair": "Keep the original inactive state while auditing. Before an approved restoration, use safe arithmetic and weighted selection, correct UUID equality, offline-aware checked payout and a durable draw/settlement state machine.",
+      "acceptance": "Boundary ticket quantities, offline winner, provider failure, restart, equal distinct UUID values and large pool probabilities/memory. These are not listed as currently enabled jackpot failures.",
+      "evidence": [
+        {
+          "path": "Core/src/main/java/net/astropvp/core/AstroCore.java",
+          "line": 199,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/AstroCore.java#L199"
+        },
+        {
+          "path": "Core/src/main/java/net/astropvp/core/cosmicjackpot/struct/Jackpot.java",
+          "line": 44,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/cosmicjackpot/struct/Jackpot.java#L44"
+        },
+        {
+          "path": "Core/src/main/java/net/astropvp/core/cosmicjackpot/struct/JackpotManager.java",
+          "line": 123,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/cosmicjackpot/struct/JackpotManager.java#L123"
+        },
+        {
+          "path": "Core/src/main/java/net/astropvp/core/cosmicjackpot/struct/PlayerInfo.java",
+          "line": 25,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Core/src/main/java/net/astropvp/core/cosmicjackpot/struct/PlayerInfo.java#L25"
+        }
+      ]
+    },
+    {
+      "id": "Q03",
+      "priority": "COND",
+      "title": "Review legacy name-bound admin policy before changing it",
+      "status": "Policy issue; not an unauthenticated privilege grant",
+      "impact": "Some privileged giftcard/admin paths require both OP and specific legacy names. Replacing names can expand access, while retaining them may prevent the current owner using a command. Existing safe UUID auto-op defaults are not a newly found backdoor.",
+      "repair": "Document intended authority per command; use configured UUID/permission policy with safe defaults only after that decision. Preserve original gameplay restrictions until verified.",
+      "acceptance": "Normal/admin/OP/console identities, renamed accounts, trusted-proxy UUID behavior and explicit denial after revocation.",
+      "evidence": [
+        {
+          "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/CreateGiftcardCommand.java",
+          "line": 18,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/CreateGiftcardCommand.java#L18"
+        }
+      ]
+    },
+    {
+      "id": "Q04",
+      "priority": "COND",
+      "title": "Treat the new upstream mask-menu change as a feature decision",
+      "status": "New upstream commit inspected; no merge performed",
+      "impact": "COPY integration advanced to 48dcfd7ad; f1b2fc102 adds permission-based mask item retrieval from a menu that is preview-only in the original/current destination. This changes item/permission behavior rather than merely repairing a crash.",
+      "repair": "Decide whether that feature is wanted, compare with the original /mask give authority and delivery, then test ordinary/admin/OP/full-inventory cases before adopting it. Do not copy it solely because it is newer.",
+      "acceptance": "Original preview remains safe for normal players; authorized retrieval creates exactly one intended mask without changing unrelated permissions.",
+      "evidence": [
+        {
+          "path": "Masks/src/main/java/me/ifamasssxd/cosmicmasks/menu/MaskHelpMenu.java",
+          "line": 35,
+          "url": "https://github.com/ronylevixx123god-create/astro-pvp-compared-by-cload-and-codex/blob/ce8b7cbb33ee92131d4a921fcf5bc9e994207692/Masks/src/main/java/me/ifamasssxd/cosmicmasks/menu/MaskHelpMenu.java#L35"
+        }
+      ]
+    },
+    {
+      "id": "T01",
+      "priority": "TEST",
+      "title": "Run a clean full stack with real isolated database configuration",
+      "status": "Open release-validation gate",
+      "impact": "Latest focused server runs still have 109 startup/task error lines. Some intentionally omit DB configuration, so Auction/Contest/Kits failures there are setup failures, not proof those databases cannot work; earlier real-MariaDB checks enabled relevant services.",
+      "repair": "Configure every database-dependent plugin against a dedicated isolated database, resolve mandatory dependencies and map prerequisites, and classify each remaining error/root cause.",
+      "acceptance": "Every required plugin enabled, representative real requests, clean shutdown/restart, no unexpected recurring errors; external telemetry/update-check failures assessed separately from gameplay failures.",
+      "evidence": []
+    },
+    {
+      "id": "T02",
+      "priority": "TEST",
+      "title": "Retest end-to-end rewards and consumption",
+      "status": "Prior slot reward probe failed; not rerun by this audit",
+      "impact": "The controlled reward probe delivered zero prizes when LootFilter depended on unavailable Core. Slot ticket insertion/consumption and full original reward distributions have not been verified.",
+      "repair": "After Core is operational, run controlled loot fixtures through the real slot/reward path, then verify original tables/weights, permissions, item consumption, full-inventory delivery and persistence.",
+      "acceptance": "Exactly one required consumption/award per action, no duplication on retry/reconnect/reload, and original reward semantics supported by measured tests.",
+      "evidence": []
+    },
+    {
+      "id": "T03",
+      "priority": "TEST",
+      "title": "Exercise full financial failure and restart scenarios",
+      "status": "Mostly untested beyond selected unit/probe checks",
+      "impact": "AuctionHouse, coinflip, reconstructed BAH, collectors and gambling need real economy/SQL failure, rollback and restart tests. BAH has 19 earlier native tests and journaling, but full real bidding/refund/claim/crash roundtrips were not run here.",
+      "repair": "Use dedicated accounts/data and deterministic failure providers. Verify original rules while measuring money/item conservation and idempotent recovery.",
+      "acceptance": "Failed/ambiguous debit, payout and refund; offline players; duplicate clicks; graceful and abrupt restart; recovery of every pending claim without double payment.",
+      "evidence": []
+    },
+    {
+      "id": "T04",
+      "priority": "TEST",
+      "title": "Complete permissions/commands/inventory-action coverage",
+      "status": "Selected slot/trailer/Discord/UUID checks exist; full matrix untested",
+      "impact": "Build success and selected probes do not cover every original command, alias, operator/admin boundary or inventory manipulation mode.",
+      "repair": "Create a command/permission matrix from original files; test normal/admin/OP/console plus aliases, shift/double/number-key clicks, drag, disconnect and cancelled events.",
+      "acceptance": "No unauthorized item/money/admin action, and all intended original commands remain available under the correct identity/permission.",
+      "evidence": []
+    },
+    {
+      "id": "T05",
+      "priority": "TEST",
+      "title": "Verify real map gameplay and official-client compatibility",
+      "status": "Untested release gate",
+      "impact": "Empty fixtures and synthetic EntityPlayers do not validate combat, packet handshake completion, armor effects, dungeon/claim/arena rules or real-client behavior.",
+      "repair": "Test installed maps and full plugin stack with appropriate clients; include logout/death/teleport, faction roles/allies/enemies, enchantments and restart.",
+      "acceptance": "Original commands, gameplay, rewards and permissions observed end-to-end. WineSpigot remains untested; Banana 1.8.8 is the tested isolated server.",
+      "evidence": []
+    },
+    {
+      "id": "T06",
+      "priority": "TEST",
+      "title": "Validate data migration, backups and ownership limits",
+      "status": "Untested production migration/crash recovery gate",
+      "impact": "Original datasets may contain cross-world key collisions, duplicate SQL tiers, legacy numeric fields and missing-world records. Current envoy ownership is in-memory and cannot identify old orphaned entities or a replacement chest of the same material.",
+      "repair": "Use copied original datasets, preserve backups and quarantine ambiguous records. Plan world-aware key migration, SQL duplicate resolution and reload/crash behavior before production use.",
+      "acceptance": "No original record disappears, no global resets, no foreign entity/block removal, and reversible documented recovery for ambiguous cases.",
+      "evidence": []
+    },
+    {
+      "id": "T07",
+      "priority": "TEST",
+      "title": "Test external integrations through authorized sandbox fixtures",
+      "status": "Live Discord/YouTube/Tebex services untested",
+      "impact": "Network/credential failures and vendor-side semantics cannot be certified from source alone. Secret rotation must precede any billing integration test.",
+      "repair": "Use mocked/redacted responses first and authorized sandbox credentials only through secure settings; separate read and write permissions, timeouts and rate limits.",
+      "acceptance": "Rewards/roles/giftcards granted only after validated service results, retries do not duplicate effects, and no live user/store action occurs during isolated validation.",
+      "evidence": []
+    },
+    {
+      "id": "T08",
+      "priority": "TEST",
+      "title": "Publish reproducible dependency and deployment provenance",
+      "status": "Partial existing recovery scripts/manifests; complete supply-chain/API review untested",
+      "impact": "The build relies on version-specific bundled legacy jars and recovered APIs. Duplicate source modules/plugin names require deliberate artifact selection; native source builds and actual staged providers can differ.",
+      "repair": "Record artifact hashes/origins/licenses/API versions, preserve TLS/signature checks, pin supported Java/server/plugin combinations and produce a one-plugin-name/one-jar deployment manifest. Audit binary/history secrets privately.",
+      "acceptance": "Fresh environment reproduces the selected build and server staging without replacing protected original behavior; excluded modules and untested binaries remain explicit.",
+      "evidence": []
+    }
+  ],
+  "credential_locations": [
+    {
+      "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java",
+      "line": 24,
+      "kind": "literal Tebex credential"
+    },
+    {
+      "path": "GiftcardShop/src/main/java/net/astropvp/giftcardshop/commands/ResetGiftcards.java",
+      "line": 38,
+      "kind": "literal Tebex credential"
+    }
+  ],
+  "reproductions": {
+    "scope": "Fault observations only; REPRODUCED means an existing defect was observed, not fixed.",
+    "runtime_dependency_snapshot": "20261019T043610Z-f61bf272",
+    "observations": [
+      {
+        "id": "KIT-QUEUE",
+        "status": "REPRODUCED",
+        "detail": "Failed update was removed from the queue; no retry entry remains"
+      },
+      {
+        "id": "KIT-BATCH",
+        "status": "REPRODUCED",
+        "detail": "Batch failure left an empty queue; addQuery has no application-source caller, so this is a latent path"
+      },
+      {
+        "id": "COLLECTOR-WORLD",
+        "status": "REPRODUCED",
+        "detail": "Valid saved entry for an unavailable world vanished after load and save of a temporary file"
+      },
+      {
+        "id": "COLLECTOR-LOOTBOX",
+        "status": "REPRODUCED",
+        "detail": "Saved lootboxes=7 restored as 0; TNT=5 survived; external hooks were mocked"
+      },
+      {
+        "id": "GRINDER-KEYS",
+        "status": "REPRODUCED",
+        "detail": "Actual task hit a null COSMIC counter after 28 iterations; with COSMIC=0 present, SOLAR dropped from 41 to 1"
+      },
+      {
+        "id": "BLOCK-WORLD-KEY",
+        "status": "REPRODUCED",
+        "detail": "Same XYZ in different worlds generated the same data-map/file key"
+      },
+      {
+        "id": "AUCTION-CONFIRM",
+        "status": "REPRODUCED",
+        "detail": "Insufficient-fee confirmation removed escrow metadata; close handler returned no item to inventory or world"
+      },
+      {
+        "id": "DORMANT-JACKPOT-OVERFLOW",
+        "status": "REPRODUCED",
+        "detail": "Actual purchase method passed a negative cost to the mocked economy: -2.147477296E9"
+      },
+      {
+        "id": "DORMANT-JACKPOT-OFFLINE",
+        "status": "REPRODUCED",
+        "detail": "Offline winner caused NullPointerException after replacement of the current draw"
+      },
+      {
+        "id": "DORMANT-JACKPOT-KEY",
+        "status": "REPRODUCED",
+        "detail": "PlayerInfo with equal-valued separate UUID objects compares unequal"
+      },
+      {
+        "id": "KIT-THREADS",
+        "status": "REPRODUCED",
+        "detail": "Both worker implementations remained alive after interruption; test daemon threads end with this JVM"
+      }
+    ],
+    "blocked_or_not_reproduced": 0
+  },
+  "application_fixes_applied_in_this_audit": false
+}

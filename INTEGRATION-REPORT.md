@@ -1,5 +1,7 @@
 # Combined Astro integration — 2026-10-19
 
+The current prioritized repair and verification backlog is in [DEEP-AUDIT.md](DEEP-AUDIT.md), with source evidence and isolated fault observations.
+
 Further protection for envoy decorations and changed crate blocks is recorded in [ENVOY-OWNERSHIP-REPORT.md](ENVOY-OWNERSHIP-REPORT.md).
 
 The remaining optional ProxyPatch paths are covered by [OPTIONAL-PROXY-REPORT.md](OPTIONAL-PROXY-REPORT.md).
